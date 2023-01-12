@@ -1,0 +1,17 @@
+.hero {
+    padding-top: 100px;
+    padding-left: 50px;
+    .hero-title {
+        font-family: 'Poppins';
+    }
+    .hero-title-accent {
+        color: black;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: yellow;
+    }
+    .hero-text {
+        padding-left: 5px;
+        padding-top: 20px;
+        font-size: large;
+    }
+}
