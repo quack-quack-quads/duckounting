@@ -1,0 +1,39 @@
+$logosize : 40px;
+.Navbar{
+    position : fixed;
+    width: 100%;
+    height: fit-content;
+    padding-top : 20px;
+    .navcol2{
+        display : flex;
+        justify-content: end;
+    }
+    .logo{
+        height: $logosize;
+        width: auto;
+        margin-bottom: 6px;
+    }
+    .logospan{
+        margin-left: 10px;
+        margin-right: 20px;
+    }
+    .logotext{
+        display: inline;
+        font-family: 'Poppins';
+        font-weight: 700;
+        background: linear-gradient(270deg, rgba(255,234,26,1) 25%, rgba(255,255,255,1) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .infobutton{
+        margin-bottom: 6px;
+        background-color: yellow;
+        border-radius: 0;
+        font-weight: 700;
+    }
+    .infobutton:hover{
+        border : 3px solid white;
+        background-color: rgba(255,234,26,0);
+        color : white;
+    }
+}
