@@ -3,6 +3,15 @@ pragma solidity ^0.8.7;
 
 contract InvoicePlatform {
     // State variables
+    bool internal locked;
+
+    modifier noReentrant() {
+        require(!locked, "No reentrancy allowed");
+        locked = true;
+        _;
+        locked = false;
+    }
+
     struct Person {
         string PAN;
         string name;
@@ -18,6 +27,7 @@ contract InvoicePlatform {
     }
 
     struct Invoice {
+        uint256 id;
         string sellerPAN;
         string buyerPAN;
         uint32 amountMonthly;
@@ -27,17 +37,29 @@ contract InvoicePlatform {
         string url;
     }
 
-    mapping(string => Invoice[]) internal invoiceRecords;
+    enum PersonType {
+        SELLER,
+        BUYER
+    }
+
+    mapping(string => Invoice[]) internal buyerInvoices;
+    mapping(string => Invoice[]) internal sellerInvoices;
 
     constructor() {}
 
     function getInvoices(
-        string memory PAN
+        string memory PAN,
+        uint8 personType
     ) public view returns (Invoice[] memory) {
-        return invoiceRecords[PAN];
+        if (uint8(PersonType.SELLER) == personType) {
+            return sellerInvoices[PAN];
+        } else {
+            return buyerInvoices[PAN];
+        }
     }
 
     function addInvoice(
+        uint256 id,
         string memory sellerPAN,
         string memory buyerPAN,
         uint32 amountMonthly,
@@ -47,6 +69,7 @@ contract InvoicePlatform {
         string memory url
     ) public {
         Invoice memory invoice = Invoice(
+            id,
             sellerPAN,
             buyerPAN,
             amountMonthly,
@@ -55,6 +78,23 @@ contract InvoicePlatform {
             monthsToPay,
             url
         );
-        invoiceRecords[buyerPAN].push(invoice);
+        sellerInvoices[sellerPAN].push(invoice);
+        buyerInvoices[buyerPAN].push(invoice);
+    }
+
+    function pay(
+        address sellerAddress,
+        string memory buyerPan,
+        string memory sellerPan,
+        uint256 id
+    ) public noReentrant() {
+        Invoice[] memory invoices = sellerInvoices[sellerPan];
+        Invoice memory invoiceFound;
+        for (uint256 i = 0; i < invoices.length; i++) {
+            if (invoices[i].id == id) {
+                invoiceFound = invoices[i];
+                break;
+            }
+        }
     }
 }
