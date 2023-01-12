@@ -94,7 +94,6 @@ contract InvoicePlatform is ReentrancyGuard {
     }
 
     function _safePay(
-        uint256 _id,
         uint256 _invoiceIndex,
         address _sellerAddress,
         string memory _sellerPan
@@ -126,18 +125,56 @@ contract InvoicePlatform is ReentrancyGuard {
         string memory _sellerPan,
         uint256 _id
     ) public payable nonReentrant {
-        Invoice[] memory invoices = sellerInvoices[_sellerPan];
-        Invoice memory invoiceFound;
-        uint256 invoiceIndex = 0;
-        for (invoiceIndex; invoiceIndex < invoices.length; invoiceIndex++) {
-            if (invoices[invoiceIndex].id == _id) {
-                invoiceFound = invoices[invoiceIndex];
+        Invoice[] memory sellerInvoiceList = sellerInvoices[_sellerPan];
+        Invoice[] memory buyerInvoiceList = buyerInvoices[_buyerPan];
+        uint256 sellerInvoiceIndex = 0;
+        uint256 buyerInvoiceIndex = 0;
+
+        for (
+            sellerInvoiceIndex;
+            sellerInvoiceIndex < sellerInvoiceList.length;
+            sellerInvoiceIndex++
+        ) {
+            if (sellerInvoiceList[sellerInvoiceIndex].id == _id) {
                 break;
             }
         }
-        if ((bytes(invoiceFound.sellerPAN)).length > 0) {
-            if (uint8(PaymentMode.ONETIME_ETH) == invoiceFound.paymentMode) {
-                _safePay(_id, invoiceIndex, _sellerAddress, _sellerPan);
+
+        for (
+            buyerInvoiceIndex;
+            buyerInvoiceIndex < buyerInvoiceList.length;
+            buyerInvoiceIndex++
+        ) {
+            if (buyerInvoiceList[buyerInvoiceIndex].id == _id) {
+                break;
+            }
+        }
+
+        if (sellerInvoiceIndex == buyerInvoiceList.length) {
+            if (
+                uint8(PaymentMode.ONETIME_ETH) ==
+                sellerInvoiceList[sellerInvoiceIndex].paymentMode
+            ) {
+                _safePay(sellerInvoiceIndex, _sellerAddress, _sellerPan);
+                sellerInvoices[_sellerPan][sellerInvoiceIndex].status = true;
+            } else if (
+                uint8(PaymentMode.RECURRING_ETH) ==
+                sellerInvoiceList[sellerInvoiceIndex].paymentMode
+            ) {
+                _safePay(sellerInvoiceIndex, _sellerAddress, _sellerPan);
+                sellerInvoices[_sellerPan][sellerInvoiceIndex].monthsToPay -= 1;
+                if (
+                    sellerInvoices[_sellerPan][sellerInvoiceIndex]
+                        .monthsToPay == 0
+                ) {
+                    sellerInvoices[_sellerPan][sellerInvoiceIndex]
+                        .status = true;
+                }
+            } else if (
+                uint8(PaymentMode.OFFLINE_CASH) ==
+                sellerInvoiceList[sellerInvoiceIndex].paymentMode
+            ) {
+                sellerInvoices[_sellerPan][sellerInvoiceIndex].status = true;
             }
         } else {
             // invoice not exists
