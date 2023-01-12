@@ -32,8 +32,32 @@ $logosize : 40px;
         font-weight: 700;
     }
     .infobutton:hover{
-        border : 3px solid white;
+        border : 3px solid yellow;
         background-color: rgba(255,234,26,0);
-        color : white;
+        color : yellow;
+    }
+    .sc-ftvSup{
+        color : black;
+    }
+    .dropdown-menu{
+        background-color: rgba(255,234,26,0);
+    }
+    .dropdown-item{
+        margin : 10px ;
+        background-color: yellow ;
+    }
+    .header{
+        background-color: white;
+
+    }
+    .logodrop{
+        height: $logosize;
+        width: auto;
+        margin-bottom: 6px;
+        margin-left : 10px;
+    }
+    .droplogo{
+        font-size: 20px;
+        margin-left : 15px;
     }
 }
