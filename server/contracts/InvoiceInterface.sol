@@ -22,7 +22,7 @@ interface InvoiceInterface {
         uint32 monthsToPay;
         bool status;
         uint256 id;
-        address reciepient;
+        address recipient;
         string sellerPAN;
         string buyerPAN;
         string date;

@@ -36,7 +36,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         uint32 _amountMonthly,
         uint32 _monthsToPay,
         bool _status,
-        address reciepient,
+        address recipient,
         string memory _sellerPAN,
         string memory _buyerPAN,
         string memory _date,
@@ -50,7 +50,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
             _monthsToPay,
             _status,
             _id,
-            reciepient,
+            recipient,
             _sellerPAN,
             _buyerPAN,
             _date,
@@ -120,7 +120,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         }
 
         // TODO: only buyer should be able to pay & change the records
-        if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].reciepient) {
+        if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].recipient) {
             revert WrongBuyer();
         }
 

@@ -33,12 +33,13 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should create an invoice", async () => {
             let invoiceIdCountBefore = await invoicePlatform.getInvoiceIdCount();
             assert.equal(invoiceIdCountBefore, 0, "invoiceIdCount should be 0")
-
+            const userAddress = await user.getAddress();
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
                 12, // monthsToPay
                 false, // status
+                userAddress, // receipent
                 "sellerPAN", // sellerPAN
                 "buyerPAN", // buyerPAN
                 "date", // date
@@ -59,6 +60,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(sellerInvoice.amountMonthly, 1000, "amountMonthly should be 1000")
             assert.equal(sellerInvoice.monthsToPay, 12, "monthsToPay should be 12")
             assert.equal(sellerInvoice.status, false, "status should be false")
+            assert.equal(sellerInvoice.recipient, userAddress, "recipient address should match")
             assert.equal(sellerInvoice.sellerPAN, "sellerPAN", "sellerPAN should be sellerPAN")
             assert.equal(sellerInvoice.buyerPAN, "buyerPAN", "buyerPAN should be buyerPAN")
             assert.equal(sellerInvoice.date, "date", "date should be date")
@@ -75,6 +77,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(buyerInvoice.amountMonthly, 1000, "amountMonthly should be 1000")
             assert.equal(buyerInvoice.monthsToPay, 12, "monthsToPay should be 12")
             assert.equal(buyerInvoice.status, false, "status should be false")
+            assert.equal(buyerInvoice.recipient, userAddress, "recipient address should match")
             assert.equal(buyerInvoice.sellerPAN, "sellerPAN", "sellerPAN should be sellerPAN")
             assert.equal(buyerInvoice.buyerPAN, "buyerPAN", "buyerPAN should be buyerPAN")
             assert.equal(buyerInvoice.date, "date", "date should be date")
@@ -84,11 +87,13 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
     describe("pay", () => {
         it("should pay an invoice for a recurring invoice", async () => {
+            const userAddress = await user.getAddress();
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
                 4, // monthsToPay
                 false, // status
+                userAddress, // receipent
                 "sellerPAN", // sellerPAN
                 "buyerPAN", // buyerPAN
                 "date", // date
@@ -178,11 +183,13 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
 
         it("should pay an invoice for a onetime invoice", async() => {
+            const userAddress = await user.getAddress();
             let args = [
                 0, // paymentMode
                 1000, // amountMonthly
                 1, // monthsToPay
                 false, // status
+                userAddress, // recipient
                 "sellerPAN", // sellerPAN
                 "buyerPAN", // buyerPAN
                 "date", // date
@@ -226,11 +233,13 @@ const { developmentChains } = require("../../helper-hardhat-config")
         })
 
         it("should confirm an invoice for a offline cash invoice", async () => {
+            const userAddress = await user.getAddress();
             let args = [
                 2, // paymentMode
                 1000, // amountMonthly
                 0, // monthsToPay
                 true, // status
+                userAddress, // recipient
                 "sellerPAN", // sellerPAN
                 "buyerPAN", // buyerPAN
                 "date", // date
