@@ -2,7 +2,9 @@
     padding-top: 100px;
     padding-left: 50px;
     .hero-title {
-        font-family: 'Poppins';
+        font-family: 'Barlow Condensed';
+        font-size: 9vw;
+        line-height:85%;
     }
     .hero-title-accent {
         color: black;
@@ -10,8 +12,9 @@
         -webkit-text-stroke-color: yellow;
     }
     .hero-text {
-        padding-left: 5px;
-        padding-top: 20px;
-        font-size: large;
+        padding-left: 15px;
+        padding-right: 50px;
+        padding-top: 5vw;
+        font-size: 2vw;
     }
 }
