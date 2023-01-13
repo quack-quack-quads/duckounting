@@ -9,10 +9,19 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 error RefundFailed();
 error NotEnoughETHSend();
 error InvoiceNotExist();
+error TransactionNotValid();
+error WrongBuyer();
 
 contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
     // State variables
     uint256 internal invoiceIdCount;
+
+    modifier validTransaction(string memory sellerPan, string memory buyerPan) {
+        if (bytes(sellerPan).length == 0 || bytes(buyerPan).length == 0) {
+            revert TransactionNotValid();
+        }
+        _;
+    }
 
     mapping(string => Invoice[]) internal buyerInvoices;
     mapping(string => Invoice[]) internal sellerInvoices;
@@ -31,7 +40,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         string memory _buyerPAN,
         string memory _date,
         string memory _url
-    ) public {
+    ) public validTransaction(_sellerPAN, _buyerPAN) {
         // TODO: check if seller and buyer exists
         uint256 _id = invoiceIdCount;
         Invoice memory invoice = Invoice(
@@ -81,7 +90,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         string memory _buyerPan,
         string memory _sellerPan,
         uint256 _id
-    ) public payable nonReentrant {
+    ) public payable nonReentrant validTransaction(_sellerPan, _buyerPan) {
         // TODO: check if seller and buyer exists
         Invoice[] memory sellerInvoiceList = sellerInvoices[_sellerPan];
         Invoice[] memory buyerInvoiceList = buyerInvoices[_buyerPan];
@@ -109,6 +118,10 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         }
 
         // TODO: only buyer should be able to pay & change the records
+        if (keccak256(bytes(_buyerPan)) != keccak256(bytes(sellerInvoiceList[sellerInvoiceIndex].buyerPAN))) {
+            revert WrongBuyer();
+        }
+
         if (sellerInvoiceIndex == sellerInvoiceList.length) {
             // invoice not exists
             revert InvoiceNotExist();
@@ -130,10 +143,13 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
                 sellerInvoices[_sellerPan][sellerInvoiceIndex].monthsToPay -= 1;
                 buyerInvoices[_buyerPan][buyerInvoiceIndex].monthsToPay -= 1;
                 if (
-                    sellerInvoices[_sellerPan][sellerInvoiceIndex].monthsToPay == 0 &&
+                    sellerInvoices[_sellerPan][sellerInvoiceIndex]
+                        .monthsToPay ==
+                    0 &&
                     buyerInvoices[_buyerPan][buyerInvoiceIndex].monthsToPay == 0
                 ) {
-                    sellerInvoices[_sellerPan][sellerInvoiceIndex].status = true;
+                    sellerInvoices[_sellerPan][sellerInvoiceIndex]
+                        .status = true;
                     buyerInvoices[_buyerPan][buyerInvoiceIndex].status = true;
                 }
             } else if (
@@ -176,7 +192,9 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         }
     }
 
-    function getPendingWithdrawals(address _address) public view returns (uint256) {
+    function getPendingWithdrawals(
+        address _address
+    ) public view returns (uint256) {
         return pendingWithdrawals[_address];
     }
 }
