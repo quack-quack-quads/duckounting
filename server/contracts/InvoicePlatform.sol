@@ -4,6 +4,7 @@ pragma solidity ^0.8.7;
 // imports
 import "./InvoiceInterface.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "hardhat/console.sol";
 
 // errors
 error RefundFailed();
@@ -120,14 +121,15 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         }
 
         // TODO: only buyer should be able to pay & change the records
-        if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].recipient) {
-            revert WrongBuyer();
-        }
 
         if (sellerInvoiceIndex == sellerInvoiceList.length) {
             // invoice not exists
             revert InvoiceNotExist();
         } else {
+            if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].recipient) {
+                revert WrongBuyer();
+            }
+
             if (
                 uint8(PaymentMode.ONETIME_ETH) ==
                 sellerInvoiceList[sellerInvoiceIndex].paymentMode

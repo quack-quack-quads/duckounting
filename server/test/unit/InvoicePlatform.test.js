@@ -110,7 +110,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "buyerPAN", // buyerPAN
                 "sellerPAN", // sellerPAN
                 100 // invoiceId
-            ]
+            ]       
             await expect(invoicePlatform.pay(...args)).to.be.revertedWith("InvoiceNotExist")
             
             // expect the transaction to fail since not enough funds are sent
@@ -120,10 +120,15 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // sellerPAN
                 0 // invoiceId
             ]
-            await expect(invoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETHSend")
+
+            // should fail if anyone other than user pays
+            await expect(invoicePlatform.pay(...args)).to.be.revertedWith("WrongBuyer");
+
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+            await expect(userConnectedInvoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETHSend")
 
             // now the transaction should pass when the correct amount of funds are sent
-            await invoicePlatform.pay(...args, {
+            await userConnectedInvoicePlatform.pay(...args, {
                 value: ethers.utils.parseEther("1000")
             })
 
@@ -132,7 +137,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // sellerPAN
                 0 // personType
             ]
-            const sellerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const sellerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const sellerInvoiceBefore = sellerInvoicesBefore[0]
             assert.equal(sellerInvoiceBefore.monthsToPay, 3, "monthsToPay should be 3") // since we paid for 1 month
             assert.equal(sellerInvoiceBefore.status, false, "status should be false") // since not all months are paid
@@ -142,7 +147,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "buyerPAN", // buyerPAN
                 1 // personType
             ]
-            const buyerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const buyerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const buyerInvoiceBefore = buyerInvoicesBefore[0]
             assert.equal(buyerInvoiceBefore.monthsToPay, 3, "monthsToPay should be 3") // since we paid for 1 month
             assert.equal(buyerInvoiceBefore.status, false, "status should be false") // since not all months are paid
@@ -155,7 +160,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             ]
             // let's pay for the remaining months
             for (let index = 0; index < 3; index++) {
-                await invoicePlatform.pay(...args, {
+                await userConnectedInvoicePlatform.pay(...args, {
                     value: ethers.utils.parseEther("1000")
                 })
             }
@@ -165,7 +170,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // sellerPAN
                 0 // personType
             ]
-            const sellerInvoicesAfter = await invoicePlatform.getInvoices(...args);
+            const sellerInvoicesAfter = await userConnectedInvoicePlatform.getInvoices(...args);
             const sellerInvoiceAfter = sellerInvoicesAfter[0]
             assert.equal(sellerInvoiceAfter.monthsToPay, 0, "monthsToPay should be 0") // since we paid for all months
             assert.equal(sellerInvoiceAfter.status, true, "status should be true") // since all months are paid
@@ -175,7 +180,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "buyerPAN", // buyerPAN
                 1 // personType
             ]
-            const buyerInvoicesAfter = await invoicePlatform.getInvoices(...args);
+            const buyerInvoicesAfter = await userConnectedInvoicePlatform.getInvoices(...args);
             const buyerInvoiceAfter = buyerInvoicesAfter[0]
             assert.equal(buyerInvoiceAfter.monthsToPay, 0, "monthsToPay should be 0") // since we paid for all months
             assert.equal(buyerInvoiceAfter.status, true, "status should be true") // since all months are paid
@@ -207,7 +212,8 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // sellerPAN
                 0 // invoiceId
             ]
-            await invoicePlatform.pay(...args, {
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+            await userConnectedInvoicePlatform.pay(...args, {
                 value: ethers.utils.parseEther("1000")
             })
 
@@ -216,7 +222,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // sellerPAN
                 0 // personType
             ]
-            const sellerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const sellerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const sellerInvoiceBefore = sellerInvoicesBefore[0]
             assert.equal(sellerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid for 1 month
             assert.equal(sellerInvoiceBefore.status, true, "status should be true") // since all months are paid
@@ -226,7 +232,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "buyerPAN", // buyerPAN
                 1 // personType
             ]
-            const buyerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const buyerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const buyerInvoiceBefore = buyerInvoicesBefore[0]
             assert.equal(buyerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid for 1 month
             assert.equal(buyerInvoiceBefore.status, true, "status should be true") // since all months are paid
@@ -257,14 +263,15 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 0 // invoiceId
             ]
             // since payment is already done - offline, we don't transfer any payments
-            await invoicePlatform.pay(...args);
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+            await userConnectedInvoicePlatform.pay(...args);
 
             // check if the invoice is paid properly for the seller
             args = [
                 "sellerPAN", // sellerPAN
                 0 // personType
             ]
-            const sellerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const sellerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const sellerInvoiceBefore = sellerInvoicesBefore[0]
             assert.equal(sellerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid already
             assert.equal(sellerInvoiceBefore.status, true, "status should be true") // since all months are paid
@@ -274,7 +281,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "buyerPAN", // buyerPAN
                 1 // personType
             ]
-            const buyerInvoicesBefore = await invoicePlatform.getInvoices(...args);
+            const buyerInvoicesBefore = await userConnectedInvoicePlatform.getInvoices(...args);
             const buyerInvoiceBefore = buyerInvoicesBefore[0]
             assert.equal(buyerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid already
             assert.equal(buyerInvoiceBefore.status, true, "status should be true") // since all months are paid
