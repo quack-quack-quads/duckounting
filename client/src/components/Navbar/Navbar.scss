@@ -61,3 +61,33 @@ $logosize : 40px;
         margin-left : 15px;
     }
 }
+.loginModal{
+    border-radius: 4%;
+    .loginTitle{
+        padding: 20px;
+        background-color: yellow;
+        font-family: 'Poppins';
+        font-weight: 600;
+    }
+    .loginBody{
+        padding : 20px;
+        color : white;
+        background-color: black;
+        border : 3px solid white;
+    }
+    .space{
+        height: 10px;
+    }
+    .modbuttons{
+        display: inline;
+        width : 30%;
+        color : white;
+    }
+    .modbuttons:hover,
+    .modbuttons:active{
+        color : yellow;
+    }
+    .btnrow{
+        justify-content: end;
+    }
+}
