@@ -166,7 +166,7 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         }
     }
 
-    function withdrawMoney() public nonReentrant {
+    function withdraw() public nonReentrant {
         uint256 amount = pendingWithdrawals[msg.sender];
         if (amount > 0) {
             pendingWithdrawals[msg.sender] = 0;

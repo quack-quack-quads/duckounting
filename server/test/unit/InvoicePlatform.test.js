@@ -11,6 +11,8 @@ const { developmentChains } = require("../../helper-hardhat-config")
         accounts = await ethers.getSigners();
         deployer = accounts[0];
         user =  accounts[1];
+        deployerAddress = await deployer.getAddress();
+        userAddress = await user.getAddress();
 
         // deploy all contract - using scripts in the deploy folder
         await deployments.fixture("all")
@@ -33,7 +35,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should create an invoice", async () => {
             let invoiceIdCountBefore = await invoicePlatform.getInvoiceIdCount();
             assert.equal(invoiceIdCountBefore, 0, "invoiceIdCount should be 0")
-            const userAddress = await user.getAddress();
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
@@ -87,7 +88,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
     describe("pay", () => {
         it("should pay an invoice for a recurring invoice", async () => {
-            const userAddress = await user.getAddress();
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
@@ -102,7 +102,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
             await invoicePlatform.addInvoice(...args);
 
             // since we know that the invoice is properly created, we can directly call the pay function
-            const deployerAddress = await deployer.getAddress();
 
             // expect the transaction to fail since the invoice with the given id does not exist
             args = [
@@ -188,7 +187,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
 
         it("should pay an invoice for a onetime invoice", async() => {
-            const userAddress = await user.getAddress();
             let args = [
                 0, // paymentMode
                 1000, // amountMonthly
@@ -201,8 +199,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "url" // url
             ]
             await invoicePlatform.addInvoice(...args);
-
-            const deployerAddress = await deployer.getAddress();
 
             // we can skip the basic not exists test as they are the same for any mode
             // now the transaction should pass when the correct amount of funds are sent
@@ -239,7 +235,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
         })
 
         it("should confirm an invoice for a offline cash invoice", async () => {
-            const userAddress = await user.getAddress();
             let args = [
                 2, // paymentMode
                 1000, // amountMonthly
@@ -254,8 +249,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
             await invoicePlatform.addInvoice(...args);
             
-            const deployerAddress = await deployer.getAddress();
-
             args = [
                 deployerAddress, // sellerAddress
                 "buyerPAN", // buyerPAN
@@ -286,7 +279,50 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(buyerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid already
             assert.equal(buyerInvoiceBefore.status, true, "status should be true") // since all months are paid
         })
+    })
 
+    describe("withdraw",() => {
+        it.only("should allow seller to withdraw funds", async () => {
+            let args = [
+                1, // paymentMode
+                1000, // amountMonthly
+                12, // monthsToPay
+                false, // status
+                userAddress, // receipent
+                "sellerPAN", // sellerPAN
+                "buyerPAN", // buyerPAN
+                "date", // date
+                "url" // url
+            ]
+            await invoicePlatform.addInvoice(...args);
 
+            // we can skip the basic not exists test as they are the same for any mode
+            const withDrawAmountBefore = await invoicePlatform.getPendingWithdrawals(deployerAddress);
+            assert.equal(withDrawAmountBefore, 0, "withdraw amount should be 0")
+
+            args = [
+                deployerAddress, // sellerAddress
+                "buyerPAN", // buyerPAN
+                "sellerPAN", // sellerPAN
+                0 // invoiceId
+            ]
+
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+            await userConnectedInvoicePlatform.pay(...args, {
+                value: ethers.utils.parseEther("1000")
+            });
+
+            // check if the invoice is paid properly for the seller
+            const withDrawAmountAfter = await invoicePlatform.getPendingWithdrawals(deployerAddress);
+            assert.equal(withDrawAmountAfter.toString(), "1000", "withdraw amount should be 1000")
+
+            // withdraw the funds
+            const deployerBalanceBefore = await ethers.provider.getBalance(deployerAddress);
+            const withdrawTx = await invoicePlatform.withdraw();
+            const receipt = await withdrawTx.wait();
+            const gasCost = receipt.gasUsed.mul(receipt.effectiveGasPrice);
+            const deployerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
+            assert.equal(deployerBalanceAfter.sub(deployerBalanceBefore).add(gasCost).toString(), "1000", "deployer balance should be 1000")
+        })
     })
 })
