@@ -5,7 +5,7 @@ import { Modal } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 
 const Navbar = () => {
-    const [showLogin, setShowLogin] = useState(true);
+    const [showLogin, setShowLogin] = useState(false);
     const [pan, setPan] = useState("");
     const [name, setName] = useState("");
 
@@ -21,8 +21,8 @@ const Navbar = () => {
     }
 
     const submitHandler = () => {
-        console.log(pan);
-        console.log(name);
+        localStorage.setItem("pan", pan);
+        localStorage.setItem("name", name);
         hideLogin();
     }
 
@@ -68,7 +68,7 @@ const Navbar = () => {
                     <button className="btn modbuttons" onClick={hideLogin}>
                         Skip
                     </button>
-                    <button className="btn modbuttons">
+                    <button className="btn modbuttons" onClick={submitHandler}>
                         Save Locally
                     </button>
                 </div>
