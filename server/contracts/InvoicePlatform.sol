@@ -5,6 +5,7 @@ pragma solidity ^0.8.7;
 import "./InvoiceInterface.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hardhat/console.sol";
+import "./InvoiceNFT.sol";
 
 // errors
 error RefundFailed();
@@ -14,7 +15,7 @@ error TransactionNotValid();
 error WrongBuyer();
 error PersonAlreadyExists();
 
-contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
+contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
     // State variables
     uint256 internal invoiceIdCount;
 
@@ -37,8 +38,22 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
     mapping(address => uint256) internal pendingWithdrawals;
     mapping(string => Person) internal persons;
 
-    constructor() {
+    constructor(
+        string memory _commonURI,
+        string memory _mediumURI,
+        string memory _rareURI
+    ) InvoiceNFT(_commonURI, _mediumURI, _rareURI) {
         invoiceIdCount = 0;
+    }
+
+    // ! overriding the tokenURI function of ERC721 to return the metadata URI
+    function tokenURI(
+        uint256 tokenId
+    ) public view virtual override returns (string memory) {
+        if (!_exists(tokenId)) {
+            revert InvoiceNotExist();
+        }
+        // since we're using dynamic metadata, we need to return the tokenURI based on the rating of the seller
     }
 
     function registerPerson(string memory _pan, string memory _name) public {

@@ -6,7 +6,11 @@ module.exports = async({getNamedAccounts, deployments}) => {
     const {deploy, log} = deployments;
     const {deployer} = await getNamedAccounts();
 
-    const args = [];
+    const args = [
+        "commonURI",
+        "mediumURI",
+        "rareURI",
+    ];
     const waitBlockConfirmations = developmentChains.includes(network.name) || 1;
     log("-----------------------------------------------------------------")
 
