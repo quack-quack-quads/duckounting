@@ -108,7 +108,6 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].recipient) {
                 revert WrongBuyer();
             }
-
             if (
                 uint8(PaymentMode.ONETIME_ETH) ==
                 sellerInvoiceList[sellerInvoiceIndex].paymentMode
@@ -141,17 +140,6 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             ) {
                 sellerInvoices[_sellerPan][sellerInvoiceIndex].status = true;
                 buyerInvoices[_buyerPan][buyerInvoiceIndex].status = true;
-            }
-        }
-    }
-
-    function withdraw() public nonReentrant {
-        uint256 amount = pendingWithdrawals[msg.sender];
-        if (amount > 0) {
-            pendingWithdrawals[msg.sender] = 0;
-            (bool success, ) = payable(msg.sender).call{value: amount}("");
-            if (!success) {
-                pendingWithdrawals[msg.sender] = amount;
             }
         }
     }

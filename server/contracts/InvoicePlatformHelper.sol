@@ -13,7 +13,6 @@ contract InvoicePlatformHelper is InvoiceInterface {
 
     mapping(string => Invoice[]) internal buyerInvoices; // buyerPAN => Invoice[]
     mapping(string => Invoice[]) internal sellerInvoices; // sellerPAN => Invoice[]
-    mapping(address => uint256) internal pendingWithdrawals; // address => amount owed
     mapping(string => Person) internal persons; // pan => Person
     mapping(uint256 => string) internal tokenIdToPan; // tokenId => pan
 
@@ -66,12 +65,12 @@ contract InvoicePlatformHelper is InvoiceInterface {
         ) {
             revert NotEnoughETH();
         } else {
-            (bool success, ) = payable(msg.sender).call{value: msg.value}("");
+            (bool success, ) = payable(_sellerAddress).call{value: msg.value}(
+                ""
+            );
             if (!success) {
                 revert RefundFailed();
             }
-            // now we update blockchain data
-            pendingWithdrawals[_sellerAddress] += msg.value;
         }
     }
 
@@ -97,11 +96,5 @@ contract InvoicePlatformHelper is InvoiceInterface {
             revert InvalidTx();
         }
         return persons[PAN];
-    }
-
-    function getPendingWithdrawals(
-        address _address
-    ) public view returns (uint256) {
-        return pendingWithdrawals[_address];
     }
 }

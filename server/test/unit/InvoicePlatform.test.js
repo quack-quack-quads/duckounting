@@ -279,14 +279,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(buyerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid already
             assert.equal(buyerInvoiceBefore.status, true, "status should be true") // since all months are paid
         })
-    })
-
-    describe("withdraw",() => {
-        it("should allow seller to withdraw funds", async () => {
+        it("should pay and funds received at seller", async() => {
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
-                12, // monthsToPay
+                4, // monthsToPay
                 false, // status
                 userAddress, // receipent
                 "sellerPAN", // sellerPAN
@@ -294,35 +291,26 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "date", // date
                 "url" // url
             ]
-            await invoicePlatform.addInvoice(...args);
+            await invoicePlatform.addInvoice(...args);  
 
-            // we can skip the basic not exists test as they are the same for any mode
-            const withDrawAmountBefore = await invoicePlatform.getPendingWithdrawals(deployerAddress);
-            assert.equal(withDrawAmountBefore, 0, "withdraw amount should be 0")
+            const sellerBalanceBefore = await ethers.provider.getBalance(deployerAddress);
 
+            // pay to the seller
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
             args = [
                 deployerAddress, // sellerAddress
                 "buyerPAN", // buyerPAN
                 "sellerPAN", // sellerPAN
-                0 // invoiceId
-            ]
-
-            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+                0 // invoiceId   
+            ] 
             await userConnectedInvoicePlatform.pay(...args, {
                 value: ethers.utils.parseEther("1000")
-            });
+            })
 
-            // check if the invoice is paid properly for the seller
-            const withDrawAmountAfter = await invoicePlatform.getPendingWithdrawals(deployerAddress);
-            assert.equal(withDrawAmountAfter.toString(), "1000", "withdraw amount should be 1000")
+            const sellerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
 
-            // withdraw the funds
-            const deployerBalanceBefore = await ethers.provider.getBalance(deployerAddress);
-            const withdrawTx = await invoicePlatform.withdraw();
-            const receipt = await withdrawTx.wait();
-            const gasCost = receipt.gasUsed.mul(receipt.effectiveGasPrice);
-            const deployerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
-            assert.equal(deployerBalanceAfter.sub(deployerBalanceBefore).add(gasCost).toString(), "1000", "deployer balance should be 1000")
+            // check if the seller received the funds
+            assert.equal(sellerBalanceAfter.sub(sellerBalanceBefore).toString(), ethers.utils.parseEther("1000").toString(), "seller should have received 1000 ethers")
         })
     })
 
