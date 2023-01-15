@@ -35,7 +35,7 @@ module.exports = async({getNamedAccounts, deployments}) => {
 
     // verify contracts on etherscan
     if(!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY){
-        await verify(nftMarketplace.address, args)
+        await verify(invoicePlatform.address, args)
     }
     log("-----------------------------------------------------------------")
 }
@@ -51,4 +51,4 @@ const handleImageUris = async() => {
 
 } 
 
-module.exports.tags = ["all", "platform"]
+module.exports.tags = ["all", "platform", "main"]
