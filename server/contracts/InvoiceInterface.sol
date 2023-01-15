@@ -3,17 +3,10 @@ pragma solidity ^0.8.7;
 
 interface InvoiceInterface {
     struct Person {
-        string PAN;
+        address addr;
+        uint8 rating;   
+        uint16 percentSuccess;
         string name;
-        string email;
-        string phone;
-        Review[] reviews;
-    }
-
-    struct Review {
-        string review;
-        uint32 rating;
-        string PAN;
     }
 
     struct Invoice {

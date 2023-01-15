@@ -4,22 +4,33 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@mui/material": "^5.11.4",
     "@mui/styled-engine-sc": "^5.11.0",
     "@openzeppelin/contracts": "^4.8.0",
     "hardhat": "^2.12.6",
     "styled-components": "^5.3.6"
+=======
+    "hardhat": "^2.12.6",
+    "remove": "^0.1.5"
+>>>>>>> 51f7690c7e4b439a31df733117cbe5c56532a2e3
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers",
     "@nomiclabs/hardhat-etherscan": "^3.1.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.8.1",
+    "@pinata/sdk": "^2.1.0",
+    "base64-sol": "^1.1.0",
     "chai": "^4.3.7",
     "dotenv": "^16.0.3",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.2",
+    "fs": "^0.0.1-security",
+    "hardhat-contract-sizer": "^2.7.0",
     "hardhat-deploy": "^0.11.22",
     "hardhat-gas-reporter": "^1.0.9",
+    "path": "^0.12.7",
     "solidity-coverage": "^0.8.2"
   }
 }
