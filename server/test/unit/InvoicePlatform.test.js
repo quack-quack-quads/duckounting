@@ -35,7 +35,22 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should create an invoice", async () => {
             let invoiceIdCountBefore = await invoicePlatform.getInvoiceIdCount();
             assert.equal(invoiceIdCountBefore, 0, "invoiceIdCount should be 0")
+
+            // should fail if sellerPAN or buyerPAN is empty
             let args = [
+                1, // paymentMode
+                1000, // amountMonthly
+                12, // monthsToPay
+                false, // status
+                userAddress, // receipent
+                "", // sellerPAN
+                "buyerPAN", // buyerPAN
+                "date", // date
+                "url" // url
+            ]
+            await expect(invoicePlatform.addInvoice(...args)).to.be.revertedWith("InvalidTx")
+
+            args = [
                 1, // paymentMode
                 1000, // amountMonthly
                 12, // monthsToPay
@@ -365,6 +380,65 @@ const { developmentChains } = require("../../helper-hardhat-config")
             await invoicePlatform.addRating(...args);
             const person = await invoicePlatform.getPerson("sellerPAN");
             assert.equal(person.rating, 4, "rating should be 4")
+        })
+    })
+
+    describe("getImageURI", () => {
+        it("should get the image URI", async() => {
+            let imageUris = [
+                'ipfs://QmZVusy75ueem2C7dwcv2htVziDFuXZ2rmp3qn7mrpbQxF',
+                'ipfs://QmeBgDNBktQ4kBSEtcxuc8Dg4PVVJAcGpVPBKnLpDP1sDQ',
+                'ipfs://QmWcwZud5HxJD1u2SuVuVijDHUPBbxBBkje46YW3o6QWiB'
+            ]
+            // should fail if rating is not between 0 and 5
+            await expect(invoicePlatform._getImageURI(6)).to.be.revertedWith("InvalidRating")
+
+            // console.log(await invoicePlatform._getImageURI(1))
+
+            // check if the image URI is correct
+            for (let i = 0; i <= 2; i++) {
+                let imageURI = await invoicePlatform._getImageURI(i);
+                assert.equal(imageURI, imageUris[0], "imageURI should be correct")
+            }
+            for (let i = 3; i <= 4; i++) {
+                let imageURI = await invoicePlatform._getImageURI(i);
+                assert.equal(imageURI, imageUris[1], "imageURI should be correct")
+            }
+            let imageUri = await invoicePlatform._getImageURI(5);
+            assert.equal(imageUri, imageUris[2], "imageURI should be correct")
+        })
+    })
+
+    describe("mintNft", () => {
+        it("should mint an NFT when a person registers", async() => {
+            await invoicePlatform.registerPerson("sellerPAN", "sellerName");
+
+            // should fail if asked a NFT that is not minted
+            await expect(invoicePlatform.tokenURI(0)).to.be.revertedWith("NftNotExist")
+
+            // check if the NFT is minted properly by getting the tokenURI
+            let tokendatabase64 = await invoicePlatform.tokenURI(1); 
+            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal(token.name, "InvoiceNFT", "name should be InvoiceNFT")
+            assert.equal(token.description, "An NFT that changes based on the rating that a seller has.", "description should be correct")
+            assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
+        })
+        it("should change it's imageURI when rating is changed", async() => {
+            await invoicePlatform.registerPerson("sellerPAN", "sellerName");
+            // initial rating is 5
+            let tokendatabase64 = await invoicePlatform.tokenURI(1);
+            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
+
+            await invoicePlatform.addRating("sellerPAN", 3);
+
+            // check if the NFT is minted properly by getting the tokenURI
+            tokendatabase64 = await invoicePlatform.tokenURI(1); 
+            token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal((token.attributes.at(0)).value, "4", "rating should be 4")
         })
     })
 })

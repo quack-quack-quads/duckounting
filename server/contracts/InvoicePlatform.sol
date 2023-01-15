@@ -5,12 +5,14 @@ pragma solidity ^0.8.7;
 import "./InvoiceNFT.sol";
 import "./InvoicePlatformHelper.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "base64-sol/base64.sol";
 
 // errors
 error InvoiceNotExist();
 error WrongBuyer();
 error PersonAlreadyExists();
+error NftNotExist();
 
 contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
     constructor(
@@ -26,7 +28,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
         uint256 tokenId
     ) public view virtual override returns (string memory) {
         if (!_exists(tokenId)) {
-            revert InvoiceNotExist();
+            revert NftNotExist();
         }
         // since we're using dynamic metadata, we need to return the tokenURI based on the rating of the seller
         Person storage seller = persons[tokenIdToPan[tokenId]];
@@ -43,7 +45,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
                                 name(),
                                 '", "description":"An NFT that changes based on the rating that a seller has.", ',
                                 '"attributes": [{"trait_type": "rating", "value":"',
-                                rating,
+                                Strings.toString(rating),
                                 '"}],',
                                 '"image":"',
                                 imageURI,
@@ -67,6 +69,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
         });
         // mint the NFT for him
         s_tokenCounter++;
+        tokenIdToPan[s_tokenCounter] = _pan;
         _safeMint(msg.sender, s_tokenCounter);
     }
 

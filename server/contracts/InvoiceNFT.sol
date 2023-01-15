@@ -3,7 +3,7 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-error InvaidRating();
+error InvalidRating();
 
 contract InvoiceNFT is ERC721 {
     uint256 internal s_tokenCounter;
@@ -33,9 +33,9 @@ contract InvoiceNFT is ERC721 {
         return "data:application/json;base64,";
     }
 
-    function _getImageURI(uint8 rating) internal view returns (string memory) {
+    function _getImageURI(uint8 rating) public view returns (string memory) {
         if (rating > 5 || rating < 0) {
-            revert InvaidRating();
+            revert InvalidRating();
         }
         if (rating == 5) {
             return s_rareImageURI;
