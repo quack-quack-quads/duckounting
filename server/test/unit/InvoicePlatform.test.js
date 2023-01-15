@@ -282,7 +282,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
     })
 
     describe("withdraw",() => {
-        it.only("should allow seller to withdraw funds", async () => {
+        it("should allow seller to withdraw funds", async () => {
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
@@ -323,6 +323,60 @@ const { developmentChains } = require("../../helper-hardhat-config")
             const gasCost = receipt.gasUsed.mul(receipt.effectiveGasPrice);
             const deployerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
             assert.equal(deployerBalanceAfter.sub(deployerBalanceBefore).add(gasCost).toString(), "1000", "deployer balance should be 1000")
+        })
+    })
+
+    describe('registerPerson', () => {
+        it("should register a person", async() => {
+            let args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // check if the person is registered properly
+            const person = await invoicePlatform.getPerson("sellerPAN");
+            assert.equal(person.name, "sellerName", "name should be sellerName")
+            assert.equal(person.percentSuccess, 100, "percentSuccess should be 100")
+            assert.equal(person.rating, 5, "rating should be 5")
+            assert.equal(person.addr, deployerAddress, "addr should be deployerAddress")
+        })
+        it("should not register a person if already registered", async() => {
+            let args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // try to register again
+            await expect(invoicePlatform.registerPerson(...args)).to.be.revertedWith("PersonAlreadyExists")
+        })
+    })
+
+    describe("giveRating", () => {
+        it("should give a rating to a person", async() => {
+            // should fail if person is not registered
+            let args = [
+                "sellerPAN", // pan
+                3 // rating
+            ]
+            await expect(invoicePlatform.addRating(...args)).to.be.revertedWith("TransactionNotValid")
+
+            // register that seller
+            args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // give rating
+            args = [
+                "sellerPAN", // pan
+                3 // rating
+            ]
+            await invoicePlatform.addRating(...args);
+            const person = await invoicePlatform.getPerson("sellerPAN");
+            assert.equal(person.rating, 4, "rating should be 4")
         })
     })
 })

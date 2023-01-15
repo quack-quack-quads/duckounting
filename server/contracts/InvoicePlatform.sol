@@ -12,6 +12,7 @@ error NotEnoughETHSend();
 error InvoiceNotExist();
 error TransactionNotValid();
 error WrongBuyer();
+error PersonAlreadyExists();
 
 contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
     // State variables
@@ -24,12 +25,32 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         _;
     }
 
+    modifier validPerson(string memory pan) {
+        if (bytes(persons[pan].name).length == 0) {
+            revert TransactionNotValid();
+        }
+        _;
+    }
+
     mapping(string => Invoice[]) internal buyerInvoices;
     mapping(string => Invoice[]) internal sellerInvoices;
     mapping(address => uint256) internal pendingWithdrawals;
+    mapping(string => Person) internal persons;
 
     constructor() {
         invoiceIdCount = 0;
+    }
+
+    function registerPerson(string memory _pan, string memory _name) public {
+        if (bytes(persons[_pan].name).length != 0) {
+            revert PersonAlreadyExists();
+        }
+        persons[_pan] = Person({
+            addr: msg.sender,
+            rating: 5,
+            percentSuccess: 100,
+            name: _name
+        });
     }
 
     function addInvoice(
@@ -43,7 +64,6 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         string memory _date,
         string memory _url
     ) public validTransaction(_sellerPAN, _buyerPAN) {
-        // TODO: check if seller and buyer exists
         uint256 _id = invoiceIdCount;
         Invoice memory invoice = Invoice(
             _paymentMode,
@@ -60,6 +80,15 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         sellerInvoices[_sellerPAN].push(invoice);
         buyerInvoices[_buyerPAN].push(invoice);
         invoiceIdCount++;
+    }
+
+    // TODO - only allow valid buyer to call this function
+    function addRating(
+        string memory _sellerPAN,
+        uint8 _rating
+    ) public validPerson(_sellerPAN) {
+        Person storage seller = persons[_sellerPAN];
+        seller.rating = (_rating + seller.rating) / 2;
     }
 
     function _safePay(
@@ -94,7 +123,6 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
         string memory _sellerPan,
         uint256 _id
     ) public payable nonReentrant validTransaction(_sellerPan, _buyerPan) {
-        // TODO: check if seller and buyer exists
         Invoice[] memory sellerInvoiceList = sellerInvoices[_sellerPan];
         Invoice[] memory buyerInvoiceList = buyerInvoices[_buyerPan];
         uint256 sellerInvoiceIndex = 0;
@@ -119,8 +147,6 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
                 break;
             }
         }
-
-        // TODO: only buyer should be able to pay & change the records
 
         if (sellerInvoiceIndex == sellerInvoiceList.length) {
             // invoice not exists
@@ -194,6 +220,12 @@ contract InvoicePlatform is ReentrancyGuard, InvoiceInterface {
             Invoice[] memory buyerInvoiceList = buyerInvoices[PAN];
             return buyerInvoiceList;
         }
+    }
+
+    function getPerson(
+        string memory PAN
+    ) public view validPerson(PAN) returns (Person memory) {
+        return persons[PAN];
     }
 
     function getPendingWithdrawals(
