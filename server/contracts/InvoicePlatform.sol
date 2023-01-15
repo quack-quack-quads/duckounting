@@ -42,9 +42,9 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
                                 '{"name":"',
                                 name(),
                                 '", "description":"An NFT that changes based on the rating that a seller has.", ',
-                                '"attributes": [{"trait_type": "rating", "value":',
+                                '"attributes": [{"trait_type": "rating", "value":"',
                                 rating,
-                                "}],",
+                                '"}],',
                                 '"image":"',
                                 imageURI,
                                 '"}'
