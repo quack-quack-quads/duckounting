@@ -124,7 +124,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             await expect(invoicePlatform.pay(...args)).to.be.revertedWith("WrongBuyer");
 
             const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
-            await expect(userConnectedInvoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETHSend")
+            await expect(userConnectedInvoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETH")
 
             // now the transaction should pass when the correct amount of funds are sent
             await userConnectedInvoicePlatform.pay(...args, {
@@ -360,7 +360,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "sellerPAN", // pan
                 3 // rating
             ]
-            await expect(invoicePlatform.addRating(...args)).to.be.revertedWith("TransactionNotValid")
+            await expect(invoicePlatform.addRating(...args)).to.be.revertedWith("InvalidTx")
 
             // register that seller
             args = [

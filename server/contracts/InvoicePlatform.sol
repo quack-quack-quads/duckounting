@@ -2,44 +2,17 @@
 pragma solidity ^0.8.7;
 
 // imports
-import "./InvoiceInterface.sol";
 import "./InvoiceNFT.sol";
+import "./InvoicePlatformHelper.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "hardhat/console.sol";
 import "base64-sol/base64.sol";
 
 // errors
-error RefundFailed();
-error NotEnoughETHSend();
 error InvoiceNotExist();
-error TransactionNotValid();
 error WrongBuyer();
 error PersonAlreadyExists();
 
-contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
-    // State variables
-    uint256 internal invoiceIdCount;
-
-    modifier validTransaction(string memory sellerPan, string memory buyerPan) {
-        if (bytes(sellerPan).length == 0 || bytes(buyerPan).length == 0) {
-            revert TransactionNotValid();
-        }
-        _;
-    }
-
-    modifier validPerson(string memory pan) {
-        if (bytes(persons[pan].name).length == 0) {
-            revert TransactionNotValid();
-        }
-        _;
-    }
-
-    mapping(string => Invoice[]) internal buyerInvoices;
-    mapping(string => Invoice[]) internal sellerInvoices;
-    mapping(address => uint256) internal pendingWithdrawals;
-    mapping(string => Person) internal persons;
-    mapping(uint256 => string) internal tokenIdToPan;
-
+contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
     constructor(
         string memory _commonURI,
         string memory _mediumURI,
@@ -92,70 +65,9 @@ contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
             percentSuccess: 100,
             name: _name
         });
-    }
-
-    function addInvoice(
-        uint8 _paymentMode,
-        uint32 _amountMonthly,
-        uint32 _monthsToPay,
-        bool _status,
-        address recipient,
-        string memory _sellerPAN,
-        string memory _buyerPAN,
-        string memory _date,
-        string memory _url
-    ) public validTransaction(_sellerPAN, _buyerPAN) {
-        uint256 _id = invoiceIdCount;
-        Invoice memory invoice = Invoice(
-            _paymentMode,
-            _amountMonthly,
-            _monthsToPay,
-            _status,
-            _id,
-            recipient,
-            _sellerPAN,
-            _buyerPAN,
-            _date,
-            _url
-        );
-        sellerInvoices[_sellerPAN].push(invoice);
-        buyerInvoices[_buyerPAN].push(invoice);
-        invoiceIdCount++;
-    }
-
-    // TODO - only allow valid buyer to call this function
-    function addRating(
-        string memory _sellerPAN,
-        uint8 _rating
-    ) public validPerson(_sellerPAN) {
-        Person storage seller = persons[_sellerPAN];
-        seller.rating = (_rating + seller.rating) / 2;
-    }
-
-    function _safePay(
-        uint256 _invoiceIndex,
-        address _sellerAddress,
-        string memory _sellerPan
-    ) internal {
-        if (
-            msg.value >= sellerInvoices[_sellerPan][_invoiceIndex].amountMonthly
-        ) {
-            uint256 refundAmount = msg.value -
-                sellerInvoices[_sellerPan][_invoiceIndex].amountMonthly;
-            if (refundAmount != 0) {
-                (bool success, ) = payable(msg.sender).call{
-                    value: refundAmount
-                }("");
-                if (!success) {
-                    revert RefundFailed();
-                }
-            }
-            // now we update blockchain data
-            pendingWithdrawals[_sellerAddress] += msg.value - refundAmount;
-        } else {
-            // paid less
-            revert NotEnoughETHSend();
-        }
+        // mint the NFT for him
+        s_tokenCounter++;
+        _safeMint(msg.sender, s_tokenCounter);
     }
 
     function pay(
@@ -163,7 +75,7 @@ contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
         string memory _buyerPan,
         string memory _sellerPan,
         uint256 _id
-    ) public payable nonReentrant validTransaction(_sellerPan, _buyerPan) {
+    ) public payable nonReentrant {
         Invoice[] memory sellerInvoiceList = sellerInvoices[_sellerPan];
         Invoice[] memory buyerInvoiceList = buyerInvoices[_buyerPan];
         uint256 sellerInvoiceIndex = 0;
@@ -242,36 +154,5 @@ contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
                 pendingWithdrawals[msg.sender] = amount;
             }
         }
-    }
-
-    // getters
-    function getInvoiceIdCount() public view returns (uint256) {
-        return invoiceIdCount;
-    }
-
-    // returns a list of invoices - given a PAN and personType
-    function getInvoices(
-        string memory PAN,
-        uint8 personType
-    ) public view returns (Invoice[] memory) {
-        if (uint8(PersonType.SELLER) == personType) {
-            Invoice[] memory sellerInvoiceList = sellerInvoices[PAN];
-            return sellerInvoiceList;
-        } else {
-            Invoice[] memory buyerInvoiceList = buyerInvoices[PAN];
-            return buyerInvoiceList;
-        }
-    }
-
-    function getPerson(
-        string memory PAN
-    ) public view validPerson(PAN) returns (Person memory) {
-        return persons[PAN];
-    }
-
-    function getPendingWithdrawals(
-        address _address
-    ) public view returns (uint256) {
-        return pendingWithdrawals[_address];
     }
 }

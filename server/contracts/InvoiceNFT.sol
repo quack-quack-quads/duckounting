@@ -2,12 +2,11 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 error InvaidRating();
 
-contract InvoiceNFT is ERC721, Ownable {
-    uint256 private s_tokenCounter;
+contract InvoiceNFT is ERC721 {
+    uint256 internal s_tokenCounter;
     string private s_commonImageURI;
     string private s_mediumImageURI;
     string private s_rareImageURI;
