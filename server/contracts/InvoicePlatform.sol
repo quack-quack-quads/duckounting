@@ -3,9 +3,10 @@ pragma solidity ^0.8.7;
 
 // imports
 import "./InvoiceInterface.sol";
+import "./InvoiceNFT.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hardhat/console.sol";
-import "./InvoiceNFT.sol";
+import "base64-sol/base64.sol";
 
 // errors
 error RefundFailed();
@@ -37,6 +38,7 @@ contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
     mapping(string => Invoice[]) internal sellerInvoices;
     mapping(address => uint256) internal pendingWithdrawals;
     mapping(string => Person) internal persons;
+    mapping(uint256 => string) internal tokenIdToPan;
 
     constructor(
         string memory _commonURI,
@@ -54,6 +56,30 @@ contract InvoicePlatform is InvoiceNFT, InvoiceInterface, ReentrancyGuard {
             revert InvoiceNotExist();
         }
         // since we're using dynamic metadata, we need to return the tokenURI based on the rating of the seller
+        Person storage seller = persons[tokenIdToPan[tokenId]];
+        uint8 rating = seller.rating;
+        string memory imageURI = _getImageURI(rating);
+        return
+            string(
+                abi.encodePacked(
+                    _baseURI(),
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{"name":"',
+                                name(),
+                                '", "description":"An NFT that changes based on the rating that a seller has.", ',
+                                '"attributes": [{"trait_type": "rating", "value":',
+                                rating,
+                                "}],",
+                                '"image":"',
+                                imageURI,
+                                '"}'
+                            )
+                        )
+                    )
+                )
+            );
     }
 
     function registerPerson(string memory _pan, string memory _name) public {

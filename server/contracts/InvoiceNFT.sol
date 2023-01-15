@@ -4,6 +4,8 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+error InvaidRating();
+
 contract InvoiceNFT is ERC721, Ownable {
     uint256 private s_tokenCounter;
     string private s_commonImageURI;
@@ -32,4 +34,15 @@ contract InvoiceNFT is ERC721, Ownable {
         return "data:application/json;base64,";
     }
 
+    function _getImageURI(uint8 rating) internal view returns (string memory) {
+        if (rating > 5 || rating < 0) {
+            revert InvaidRating();
+        }
+        if (rating == 5) {
+            return s_rareImageURI;
+        } else if (rating >= 3) {
+            return s_mediumImageURI;
+        }
+        return s_commonImageURI;
+    }
 }
