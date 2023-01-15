@@ -14,6 +14,7 @@ import {
 }
 from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
+import CreateInvoice from './components/CreateInvoive/CreateInvoice';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,6 +23,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="createInvoice" element={<CreateInvoice />} />
       </Routes>
     </BrowserRouter>
   </MoralisProvider>

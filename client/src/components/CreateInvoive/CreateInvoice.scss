@@ -1,0 +1,71 @@
+.Invoice {
+    padding-top: 12vh;
+    height: 100vh;
+    width: 100vw;
+    
+    background-image: url("https://img.freepik.com/premium-photo/abstract-background-with-golden-waves-black-background-template-vector-abstract-background-with-golden-waves-black-background-template-corporate-design-banner-website_113524-336.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    .invoice-container {
+        display: flex;
+
+        // border: 2px solid yellow;
+
+        height: 85vh;
+        width: 80vw;
+
+        @media only screen and (max-width: 500px) {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        @media only screen and (max-width: 770px) {
+            height: 100%;
+            
+            overflow-y: scroll;
+        }
+
+        align-items: center;
+        justify-content: space-between;
+        padding: 50px;
+
+        background: rgba(117, 114, 114, 0.18);
+
+        backdrop-filter: blur(7.5px);
+
+        box-shadow: 0 8px 32px 0 rgba(4, 4, 4, 0.18);
+
+        border-radius: 10px;
+        border: 1 px solid rgba(4,4,4,0.18);
+        z-index: -1;
+
+        .inside-invoice {
+            // border: 2px solid yellow;
+            padding-top: 0%;
+            .invoice-header {
+                color: rgba(255, 255, 255, 0.589);
+                justify-content: center;
+            }
+        }
+
+        .invoice-row {
+            margin-bottom: 3rem;
+            @media only screen and (max-width: 770px) {
+                margin-bottom: 0;
+                margin-top: 4rem;
+            }
+        }
+
+        .invoice-submit {
+            color: rgba(255, 255, 255, 0.558);
+        }
+
+        // border: 2px solid yellow;
+    }
+
+    .invoice-form {
+        color: white;
+    }
+
+
+}
