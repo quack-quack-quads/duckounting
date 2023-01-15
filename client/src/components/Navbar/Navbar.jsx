@@ -51,19 +51,19 @@ const Navbar = () => {
                 </div>
             </div>
             <div className="col-4 navcol2">
-                <ConnectButton setShowLogin={setShowLogin}/>   
+                <ConnectButton setShowLogin={setShowLogin} />
             </div>
         </div>
 
         {/* login modal */}
-        <Modal show={showLogin} onHide={hideLogin} className = 'loginModal'>
+        <Modal show={showLogin} onHide={hideLogin} className='loginModal'>
             <Modal.Title className="loginTitle">We need some deets...</Modal.Title>
-            <Modal.Body className ="loginBody">
+            <Modal.Body className="loginBody">
                 <label htmlFor="nameinp">Name</label>
-                <input type="text" className="form-control" id="nameinp" placeholder="Ducky Duckington" onChange = {handleName}/>
+                <input type="text" className="form-control" id="nameinp" placeholder="Ducky Duckington" onChange={handleName} />
                 <div className="space"></div>
                 <label htmlFor="paninp">PAN Number</label>
-                <input type="text" className="form-control" id="paninp" placeholder="DUCKS9669D" onChange={handlePan}/>
+                <input type="text" className="form-control" id="paninp" placeholder="DUCKS9669D" onChange={handlePan} />
                 <div className="row btnrow">
                     <button className="btn modbuttons" onClick={hideLogin}>
                         Skip
