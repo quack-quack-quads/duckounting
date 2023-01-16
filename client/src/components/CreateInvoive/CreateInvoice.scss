@@ -68,8 +68,19 @@
         .invoice-date {
             color: rgba(255, 255, 255, 0.558);;
         }
-        
 
+        .image-but {
+            padding-top: 0;
+            height: 100%;
+            border: 2px solid yellow;
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        .upload-but {
+            display: none;
+        
+        }
         @media only screen and (max-width : 990px ) and (min-width : 900px) {
             .invoice-url {
                 width: 100%;
