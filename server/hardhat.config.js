@@ -14,11 +14,12 @@ module.exports = {
     },
     localhost: {
       url: "http://127.0.0.1:8545",
+      chainId: 31337,
     },
     goerli: {
       url: process.env.ALCHEMY_TESTNET_LINK_GOERLI,
       accounts: [process.env.METAMASK_PRIVATE_KEY_FOR_TESTNET],
-      chaindId: 5,
+      chainId: 5,
       blockConfirmations: 5
     }
   },
