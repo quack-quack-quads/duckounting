@@ -48,6 +48,12 @@
             }
         }
 
+        @media only screen and (max-width: 600px) {
+            .inside-invoice {
+                margin-top: 13rem;
+            }
+        }
+
         .invoice-row {
             margin-bottom: 3rem;
             @media only screen and (max-width: 770px) {
@@ -59,12 +65,23 @@
         .invoice-submit {
             color: rgba(255, 255, 255, 0.558);
         }
+        .invoice-date {
+            color: rgba(255, 255, 255, 0.558);;
+        }
+        
+
+        @media only screen and (max-width : 990px ) and (min-width : 900px) {
+            .invoice-url {
+                width: 100%;
+            }
+        }
+        
 
         // border: 2px solid yellow;
     }
 
     .invoice-form {
-        color: white;
+        color: rgba(255, 255, 255, 0.558);
     }
 
 
