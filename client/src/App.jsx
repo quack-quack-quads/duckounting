@@ -1,10 +1,11 @@
 import './App.scss';
 import Hero from './components/Hero/Hero';
+import InvoiceDisplay from './components/InvoiceDisplay/InvoiceDisplay';
 
 function App() {
   return (
     <div className="App">
-      <Hero />
+      <InvoiceDisplay/>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 
 const Navbar = () => {
+    
     const [showLogin, setShowLogin] = useState(false);
     const [pan, setPan] = useState("");
     const [name, setName] = useState("");
@@ -56,7 +57,7 @@ const Navbar = () => {
         </div>
 
         {/* login modal */}
-        <Modal show={showLogin} onHide={hideLogin} className = 'loginModal'>
+        <Modal show={false} onHide={hideLogin} className = 'loginModal'>
             <Modal.Title className="loginTitle">We need some deets...</Modal.Title>
             <Modal.Body className ="loginBody">
                 <label htmlFor="nameinp">Name</label>
