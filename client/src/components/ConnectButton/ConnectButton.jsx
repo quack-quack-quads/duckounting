@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import './ConnectButton.scss'
 const ConnectButton = ({setShowLogin}) => {
 
-    const { enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3, isWeb3EnableLoading } = useMoralis();
+    const { enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3 } = useMoralis();
     useEffect(() => {
         if(isWeb3Enabled) return;
         if(typeof window !== "undefined"){
