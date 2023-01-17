@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 
 const Navbar = () => {
+    
     const [showLogin, setShowLogin] = useState(false);
     const [pan, setPan] = useState("");
     const [name, setName] = useState("");

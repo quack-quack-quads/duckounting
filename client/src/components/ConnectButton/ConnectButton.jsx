@@ -44,7 +44,9 @@ const ConnectButton = ({setShowLogin}) => {
             {
                 account ? <div className="btn-address">{account}</div> :
                 <button color="yellow" className="connect"
-                    onClick={connectToWallet}>Connect</button>
+                    // onClick={connectToWallet}
+                >Connect
+                </button>
             }
         </>
     )
