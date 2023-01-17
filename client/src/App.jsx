@@ -1,24 +1,28 @@
 import './App.scss';
 import Hero from './components/Hero/Hero';
 import InvoiceDisplay from './components/InvoiceDisplay/InvoiceDisplay';
+import PendingTransaction from './components/PendingTransactions/PendingTransaction';
 
 function App() {
-  return (
-    <div className="App">
-      <Hero/>
-      <InvoiceDisplay
-        transactionType = "PAID ON CHAIN"
-        invoiceId = "0x384 jh3j4 343ke erer4 3949k jdkfj"
-        date = "10 January 2023"
-        buyerPan = "DUCKS6969D"
-        sellerPan = "NOOBT8008S"
-        walletAddress = "0x9bA fc495 84jk4 k5j45 8u45n klsd2"
-        amt = "7000"
-        months = "3"
-        proof = "https://thumbs.dreamstime.com/b/invoice-16921374.jpg"
-      />
-    </div>
-  );
+
+    const list = [{ sellerPan: 'seller1', buyerPan: 'buyer1', invoiceId : 'id11',
+                    date:'date', walletAddress:'walletAdd', amt:'709', months:'3', proof:"https://thumbs.dreamstime.com/b/invoice-16921374.jpg" }, 
+                    { sellerPan: 'seller2', buyerPan: 'buyer2', invoiceId : 'id12',
+                    date:'date', walletAddress:'walletAdd', amt:'1000', months:'1', proof:"https://thumbs.dreamstime.com/b/invoice-16921374.jpg" }]
+
+    // for (var i = 0; i < 100; i++) {
+    //     list.push(list[0]);
+    // }
+
+    return (
+        <div className="App">
+            <Hero />
+            
+
+            <PendingTransaction listing={list} />
+
+        </div>
+    );
 }
 
 export default App;

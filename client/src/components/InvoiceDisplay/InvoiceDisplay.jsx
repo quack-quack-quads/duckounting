@@ -77,7 +77,7 @@ const InvoiceDisplay = (props) => {
             <div className="seller">
                 <span className='buyerlabel'>SELLER PAN</span>
                 <br />
-                <span className='buyerinfo'>{props.buyerPan}</span>
+                <span className='buyerinfo'>{props.sellerPan}</span>
             </div>
             <div className="typerow">
                 <div className="amt">

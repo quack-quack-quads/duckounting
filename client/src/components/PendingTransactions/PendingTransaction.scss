@@ -1,0 +1,42 @@
+$bck-clr : #0b0b0b;
+.pending-txn  {
+    background-color: $bck-clr;
+    height: 75vh;
+    width: 100%;
+    padding: 2%;
+    border: 2px solid rgb(236, 236, 235);
+    margin-left: 2rem;
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+    // fonts
+    font-size: xx-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+    .underline {
+        height: 0.1vh;
+        width: 75%;
+        background-color: white;
+        margin-left: 3rem;
+    }
+
+    .pending-txn-table {
+        height: 93%;
+        // border: 2px solid yellow;
+    }
+
+    ::-webkit-scrollbar {
+        background-color: black;
+        width: 0rem;
+        // scrollbar-width: thin;
+    }
+
+    .table-head {
+        font-size: x-large;
+    }
+
+    .georgia {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+}
