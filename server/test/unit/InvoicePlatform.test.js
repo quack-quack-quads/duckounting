@@ -35,7 +35,22 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should create an invoice", async () => {
             let invoiceIdCountBefore = await invoicePlatform.getInvoiceIdCount();
             assert.equal(invoiceIdCountBefore, 0, "invoiceIdCount should be 0")
+
+            // should fail if sellerPAN or buyerPAN is empty
             let args = [
+                1, // paymentMode
+                1000, // amountMonthly
+                12, // monthsToPay
+                false, // status
+                userAddress, // receipent
+                "", // sellerPAN
+                "buyerPAN", // buyerPAN
+                "date", // date
+                "url" // url
+            ]
+            await expect(invoicePlatform.addInvoice(...args)).to.be.revertedWith("InvalidTx")
+
+            args = [
                 1, // paymentMode
                 1000, // amountMonthly
                 12, // monthsToPay
@@ -124,7 +139,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             await expect(invoicePlatform.pay(...args)).to.be.revertedWith("WrongBuyer");
 
             const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
-            await expect(userConnectedInvoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETHSend")
+            await expect(userConnectedInvoicePlatform.pay(...args)).to.be.revertedWith("NotEnoughETH")
 
             // now the transaction should pass when the correct amount of funds are sent
             await userConnectedInvoicePlatform.pay(...args, {
@@ -279,14 +294,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(buyerInvoiceBefore.monthsToPay, 0, "monthsToPay should be 0") // since we paid already
             assert.equal(buyerInvoiceBefore.status, true, "status should be true") // since all months are paid
         })
-    })
-
-    describe("withdraw",() => {
-        it.only("should allow seller to withdraw funds", async () => {
+        it("should pay and funds received at seller", async() => {
             let args = [
                 1, // paymentMode
                 1000, // amountMonthly
-                12, // monthsToPay
+                4, // monthsToPay
                 false, // status
                 userAddress, // receipent
                 "sellerPAN", // sellerPAN
@@ -294,35 +306,139 @@ const { developmentChains } = require("../../helper-hardhat-config")
                 "date", // date
                 "url" // url
             ]
-            await invoicePlatform.addInvoice(...args);
+            await invoicePlatform.addInvoice(...args);  
 
-            // we can skip the basic not exists test as they are the same for any mode
-            const withDrawAmountBefore = await invoicePlatform.getPendingWithdrawals(deployerAddress);
-            assert.equal(withDrawAmountBefore, 0, "withdraw amount should be 0")
+            const sellerBalanceBefore = await ethers.provider.getBalance(deployerAddress);
 
+            // pay to the seller
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
             args = [
                 deployerAddress, // sellerAddress
                 "buyerPAN", // buyerPAN
                 "sellerPAN", // sellerPAN
-                0 // invoiceId
-            ]
-
-            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+                0 // invoiceId   
+            ] 
             await userConnectedInvoicePlatform.pay(...args, {
                 value: ethers.utils.parseEther("1000")
-            });
+            })
 
-            // check if the invoice is paid properly for the seller
-            const withDrawAmountAfter = await invoicePlatform.getPendingWithdrawals(deployerAddress);
-            assert.equal(withDrawAmountAfter.toString(), "1000", "withdraw amount should be 1000")
+            const sellerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
 
-            // withdraw the funds
-            const deployerBalanceBefore = await ethers.provider.getBalance(deployerAddress);
-            const withdrawTx = await invoicePlatform.withdraw();
-            const receipt = await withdrawTx.wait();
-            const gasCost = receipt.gasUsed.mul(receipt.effectiveGasPrice);
-            const deployerBalanceAfter = await ethers.provider.getBalance(deployerAddress);
-            assert.equal(deployerBalanceAfter.sub(deployerBalanceBefore).add(gasCost).toString(), "1000", "deployer balance should be 1000")
+            // check if the seller received the funds
+            assert.equal(sellerBalanceAfter.sub(sellerBalanceBefore).toString(), ethers.utils.parseEther("1000").toString(), "seller should have received 1000 ethers")
+        })
+    })
+
+    describe('registerPerson', () => {
+        it("should register a person", async() => {
+            let args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // check if the person is registered properly
+            const person = await invoicePlatform.getPerson("sellerPAN");
+            assert.equal(person.name, "sellerName", "name should be sellerName")
+            assert.equal(person.percentSuccess, 100, "percentSuccess should be 100")
+            assert.equal(person.rating, 5, "rating should be 5")
+            assert.equal(person.addr, deployerAddress, "addr should be deployerAddress")
+        })
+        it("should not register a person if already registered", async() => {
+            let args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // try to register again
+            await expect(invoicePlatform.registerPerson(...args)).to.be.revertedWith("PersonAlreadyExists")
+        })
+    })
+
+    describe("giveRating", () => {
+        it("should give a rating to a person", async() => {
+            // should fail if person is not registered
+            let args = [
+                "sellerPAN", // pan
+                3 // rating
+            ]
+            await expect(invoicePlatform.addRating(...args)).to.be.revertedWith("InvalidTx")
+
+            // register that seller
+            args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // give rating
+            args = [
+                "sellerPAN", // pan
+                3 // rating
+            ]
+            await invoicePlatform.addRating(...args);
+            const person = await invoicePlatform.getPerson("sellerPAN");
+            assert.equal(person.rating, 4, "rating should be 4")
+        })
+    })
+
+    describe("getImageURI", () => {
+        it("should get the image URI", async() => {
+            let imageUris = [
+                'ipfs://QmZVusy75ueem2C7dwcv2htVziDFuXZ2rmp3qn7mrpbQxF',
+                'ipfs://QmeBgDNBktQ4kBSEtcxuc8Dg4PVVJAcGpVPBKnLpDP1sDQ',
+                'ipfs://QmWcwZud5HxJD1u2SuVuVijDHUPBbxBBkje46YW3o6QWiB'
+            ]
+            // should fail if rating is not between 0 and 5
+            await expect(invoicePlatform._getImageURI(6)).to.be.revertedWith("InvalidRating")
+
+            // console.log(await invoicePlatform._getImageURI(1))
+
+            // check if the image URI is correct
+            for (let i = 0; i <= 2; i++) {
+                let imageURI = await invoicePlatform._getImageURI(i);
+                assert.equal(imageURI, imageUris[0], "imageURI should be correct")
+            }
+            for (let i = 3; i <= 4; i++) {
+                let imageURI = await invoicePlatform._getImageURI(i);
+                assert.equal(imageURI, imageUris[1], "imageURI should be correct")
+            }
+            let imageUri = await invoicePlatform._getImageURI(5);
+            assert.equal(imageUri, imageUris[2], "imageURI should be correct")
+        })
+    })
+
+    describe("mintNft", () => {
+        it("should mint an NFT when a person registers", async() => {
+            await invoicePlatform.registerPerson("sellerPAN", "sellerName");
+
+            // should fail if asked a NFT that is not minted
+            await expect(invoicePlatform.tokenURI(0)).to.be.revertedWith("NftNotExist")
+
+            // check if the NFT is minted properly by getting the tokenURI
+            let tokendatabase64 = await invoicePlatform.tokenURI(1); 
+            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal(token.name, "InvoiceNFT", "name should be InvoiceNFT")
+            assert.equal(token.description, "An NFT that changes based on the rating that a seller has.", "description should be correct")
+            assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
+        })
+        it("should change it's imageURI when rating is changed", async() => {
+            await invoicePlatform.registerPerson("sellerPAN", "sellerName");
+            // initial rating is 5
+            let tokendatabase64 = await invoicePlatform.tokenURI(1);
+            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
+
+            await invoicePlatform.addRating("sellerPAN", 3);
+
+            // check if the NFT is minted properly by getting the tokenURI
+            tokendatabase64 = await invoicePlatform.tokenURI(1); 
+            token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
+            assert.equal((token.attributes.at(0)).value, "4", "rating should be 4")
         })
     })
 })

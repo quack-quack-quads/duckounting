@@ -1,9 +1,191 @@
+$logosize : 40px;
 .InvoiceDisplay{
-    background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(68,68,68,1) 100%);
-    margin-top : 5vh;
+    // background: rgb(0,0,0);
+    background: linear-gradient(45deg, rgba(0,0,0,1) 18%, rgba(64,64,64,1) 100%); 
+    // background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(54,54,54,1) 100%);
+    margin : 0vh 5vw 5vh 5vw;
+    border-radius: 3vw;
+    border : 4px double white;
+    max-width: 800px;
+    padding-bottom: 5vh;
     .logo{
-        width: 100px;
+        width: 100%;
         height: auto;
-        margin: 3vw;
+        margin : 3vh 0 0 3vw;
+    }
+    .datecol{
+        // display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .typerow{
+        display: flex;
+        justify-content: center;
+        .typetext,
+        .date,
+        .idtext,
+        .idlabel,
+        .buyer,
+        .seller,
+        .amt,
+        .number,
+        .paid,
+        .pending,
+        .helpertext{
+            margin-top: 2vh;
+            padding : 2vh 2vw;
+            background:  #f6df02;
+            color : black;
+            font-family: 'Sofia Sans';
+            font-weight: 600;
+            width : fit-content;
+            text-align: center;
+            border-radius: 10px;
+            font-size: 15px;
+            box-shadow: -7px 7px 13px 0px rgba(0,0,0,0.75);
+        }
+        .typetext{
+            margin-top: 5vh;
+        }
+        .date{
+            background-color: white;
+            font-size: 14px;
+        }
+        .idtext{
+            background-color: black;
+            color : white;
+            font-stretch: extra-expanded;
+            letter-spacing: 0.1rem;
+            box-shadow: none;
+            border-radius: 0;
+            border : 2px solid white;
+            border-left : none;
+            overflow-wrap : break-word;
+            width: 60%;
+        }
+        .idlabel{
+            border-radius: 0;
+            border : 2px solid white;
+            border-right : none;
+            width : 30%
+        }
+        .labelIcon{
+            margin-right : 3px;
+        }
+        .buyer,.seller{
+            width : 45%;
+            box-shadow : none;
+        }
+        .buyer{
+            border-radius: 10px 0px 0px 10px;
+        }
+        .seller{
+            border-radius: 0 10px 10px 0;
+            background-color : white;
+        }
+        .buyerlabel{
+            font-size: 13px;
+        }
+        .buyerinfo{
+            font-size: 17px;
+            font-weight: bold;
+        }
+        // .buyer:hover,
+        // .seller:hover{
+        //     background-color: black;
+        //     color : white;
+        //     border-radius: 10px;
+        //     transform : scale(1.1);
+        //     border : 3px solid yellow;
+        // }
+        // .seller:hover{
+        //     border : 3px solid white;
+        // }
+        .amt,
+        .number{
+            background-color: white;
+            margin-top: 7vh;
+            width : 40%;
+            font-size: 25px;
+        }
+        .amt{
+            margin-right: 7vw;
+        }
+        .amtlabel{
+            font-size: 20px;
+            font-weight: 600;
+            color : #383434;
+        }
+        .line{
+            margin-top: 2vh;
+            background-color: white;
+            height: 3px;
+            width: 90%;
+        }
+        .total{
+            color : white;
+            font-size: 25px;
+            font-weight: 600;
+            padding-left: 4vw;
+        }
+        .due{
+            font-size: 16px;
+            color : #aaaaaa;
+        }
+        .paid,
+        .pending{
+            font-size: 25px;
+            color : white;
+            border-radius: 10px 0 0 10px;
+        }
+        .paid{
+            background-color: rgb(89, 170, 89);
+        }
+        .pending{
+            background-color: rgb(250, 77, 77);
+        }
+        .helpertext{
+            background-color: white;
+            border-radius: 0 10px 10px 0;
+            box-shadow: none;
+        }
+    }
+    .imgrow{
+        padding-top : 5vh;
+        .proofimg{
+            width: 100%;
+            height: auto;
+            padding-left : 4vw;
+            border-radius: 10px 0 0 10px;
+        }
+        .optioncol{
+            // display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: #656565;
+            color : black;
+            border-radius: 0 20px 20px 0;
+            margin-left : 0;
+            font-size: 19px;
+            font-family: 'Poppins';
+            font-weight: 500;
+            .toprow{
+                margin-top: 40%;
+            }
+            @media(max-width : 767px) {
+                font-size: 12px;
+            }
+        }
+        .optioncol:hover{
+            background-color: yellow;
+            color : black;
+            cursor: pointer;
+        }
+        .logo{
+            height: $logosize;
+            width: auto;
+            margin-bottom: 6px;
+        }
     }
 }
