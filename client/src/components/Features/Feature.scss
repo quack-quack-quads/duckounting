@@ -1,0 +1,35 @@
+.feature-card {
+    background-color: rgb(45, 45, 40);
+}
+@media only screen and (min-width: 772px) {
+    .feature-card {
+        height: 70vh;
+    }
+}
+
+.card-outer {
+    margin-top: 0.1vw;
+    margin-bottom: 0.1vw;
+    border-radius: 8px;
+//     background: rgb(255,191,0);
+//     background: linear-gradient(320deg, rgba(255,191,0,1) 0%, rgba(255,235,3,1) 100%);
+    background: #34CCCB;
+}
+
+.card-outer:hover .card-inner {
+    transition: transform 1s;
+    transform: translate(-10px, -10px);
+  }
+
+.static-img {
+    padding-top: 50px;
+    padding-left: 90px;
+    padding-right: 90px;
+    padding-bottom: 30px;
+}
+
+.card-body {
+    padding-left: 5vh;
+    padding-right: 4vh;
+
+}

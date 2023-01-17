@@ -1,0 +1,19 @@
+.features {
+    padding: 50px;
+    .line {
+        height: 5px;
+        padding-bottom: 2vw;
+  background: linear-gradient(
+    to bottom,
+    transparent 2px,
+    gray 2px,
+    gray 3px,
+    transparent 3px
+  );
+    }
+    .features-heading {
+        font-size: 2.5vw;
+        font-weight: bold;
+        margin-bottom: 1.5vw;
+    }
+}

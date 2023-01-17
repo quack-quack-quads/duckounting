@@ -1,10 +1,10 @@
 import './App.scss';
-import Hero from './components/Hero/Hero';
+import LandingPage from './pages/LandingPage'
 
 function App() {
   return (
     <div className="App">
-      <Hero />
+      <LandingPage />
     </div>
   );
 }
