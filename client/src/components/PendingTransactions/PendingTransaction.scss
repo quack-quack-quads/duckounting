@@ -14,6 +14,14 @@ $bck-clr : #0b0b0b;
     font-size: xx-large;
     font-family: Georgia, 'Times New Roman', Times, serif;
 
+    @media only screen and (max-width: 772px) {
+        width: 80%;
+    }
+
+    @media only screen and (min-width: 772px) and (max-width: 992px) {
+        width: 70%;
+    }
+
     .underline {
         height: 0.1vh;
         width: 75%;
