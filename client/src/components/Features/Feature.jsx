@@ -3,9 +3,8 @@ import im from '../../assets/images/ducklogo.png'
 import './Feature.scss'
 
 const Feature = (props) => {
-    return(<div className={`${props.className}`}>
-        <div className="card-outer">
-
+    return(<div className={`${props.className} card-skeleton d-flex`}>
+        <div className="card-outer d-flex">
         <Card className="feature-card card-inner">
             <div className="row">
                 {props.img_pos=="top" && <img src={props.static_img} className="static-img col-12 col-md-6 col-lg-12"/>}
