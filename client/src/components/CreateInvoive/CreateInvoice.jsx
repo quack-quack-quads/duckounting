@@ -1,5 +1,10 @@
+import { useWeb3Contract, useMoralis } from "react-moralis";
+import {ethers} from "ethers";
+import {abi,contractAddress} from "../../constants/index";
 import { useState, useEffect } from "react";
 import "./CreateInvoice.scss";
+import sendFileToIpfs, { sendFileToIPFS } from "../../utils/uploadFileToIPFS"
+
 
 import {
     IconButton, Box, Input, FilledInput, OutlinedInput, InputLabel, InputAdornment,
@@ -26,45 +31,64 @@ const darkTheme = createTheme({
 
 
 const CreateInvoice = () => {
+    const {chainId:chainIdHex, isWeb3Enabled, isLoading, isFetching} = useMoralis();
+    const chainId = parseInt(chainIdHex);
+    const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
 
-
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [value, setValue] = useState(null);
-    const [name, setname] = useState("");
+    const [date, setDate] = useState(null);
+    const [name, setname] = useState(window.localStorage.name || "");  // name
     const [paymentMode, setPaymentMode] = useState(null);
     const [monthPayDis, setmonthPayDis] = useState(false);
-    const [monthPayVal, setmonthPayVal] = useState("");
+    const [monthsToPay, setMonthsToPay] = useState("");
+    const [amountMonthly,setamount] = useState(0);
+    const [buyeraddress, setbuyeraddress] = useState("");
+    const [buyerPan, setbuyerPan] = useState("");
+    const [sellerPan, setSellerPan] = useState(window.localStorage.pan || "");
+    const [status, setStatus] = useState(false)
+    const [fileImg, setFileImg] = useState(null);
+    const [url,seturl] = useState("");
+
+
     const [paidDis, setpaidDis] = useState(false);
     const [unpaidDis, setunpaidDis] = useState(false);
-    const [amount,setamount] = useState(0);
+
+    const handleBuyerAddressChange = (event) => {
+        setbuyeraddress(event.target.value);
+    }
+    const handleBuyerPanChange = (event) => {
+        setbuyerPan(event.target.value);
+    }
+    const handleSellerPanChange = (event) => {
+        setSellerPan(event.target.value);
+    }
 
     const handleNameChange = (event) => {
-        console.log(event.target.value);
         setname(event.target.value);
     }
 
     const handleMonthChange = (event) => {
-        setmonthPayVal(event.target.value);
+        setMonthsToPay(event.target.value);
+    }
+    const handleUrlChange = (event) => {
+        setFileImg(event.target.files[0]);
     }
 
     const handlePaymentModeChange = (event) => {
         setPaymentMode(event.target.value);
-        console.log(event.target.value);
-        if (event.target.value === 1) {
-            setmonthPayVal(1);
+        if (event.target.value === 0) {
+            setMonthsToPay(1);
             setmonthPayDis(true);
             setpaidDis(true);
             setunpaidDis(true);
         }
-        else if (event.target.value == 2) {
-            setmonthPayVal("");
+        else if (event.target.value == 1) {
+            setMonthsToPay("");
             setmonthPayDis(false);
             setpaidDis(true);
             setunpaidDis(true);
         }
-        else if (event.target.value === 3) {
-            setmonthPayVal(0);
+        else if (event.target.value === 2) {
+            setMonthsToPay(0);
             setmonthPayDis(true);
             setunpaidDis(true);
             setpaidDis(true);
@@ -74,6 +98,38 @@ const CreateInvoice = () => {
     const handleAmountChange = (event) => {
         setamount(event.target.value);
     }
+
+    const handleSuccess = () => {
+        alert("Hey done adding the contract")
+    }
+
+    // ! contract interaction functions
+    const {runContractFunction: addInvoice} = useWeb3Contract({
+        abi: abi[chainId],
+        contractAddress: invoicePlatformAddress,
+        functionName: "addInvoice",
+        params: {
+            _paymentMode: paymentMode,
+            _amountMonthly: amountMonthly,
+            _monthsToPay: monthsToPay,
+            _status: status,
+            recipient: buyeraddress,
+            _sellerPAN: sellerPan,
+            _buyerPAN:buyerPan,
+            _date: date,
+            _url: url
+        }
+    })
+
+    const handleSubmit = async() => {
+        setStatus(paymentMode === 2);
+        seturl(await sendFileToIPFS(fileImg));
+        await addInvoice({
+            onSuccess: handleSuccess,
+            onError: (err) => console.log(err)
+        });
+    } 
+
 
     return (
 
@@ -119,21 +175,21 @@ const CreateInvoice = () => {
                                             className="w-100"
 
                                         >
-                                            <MenuItem value={1}>ETH</MenuItem>
-                                            <MenuItem value={2}>ETH in Installments</MenuItem>
-                                            <MenuItem value={3}>Cash (offline)</MenuItem>
+                                            <MenuItem value={0}>Onetime in ETH</MenuItem>
+                                            <MenuItem value={1}>ETH in Installments</MenuItem>
+                                            <MenuItem value={2}>Cash (offline)</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
 
                                 <Grid item xs={12} sm={6} md={4} lg={3}>
                                     <FormControl fullWidth sx={{ m: 1 }} variant="outlined" >
-                                        <InputLabel htmlFor="outlined-adornment-password" shrink={monthPayDis || monthPayVal.length !== 0}>Months to Pay</InputLabel>
+                                        <InputLabel htmlFor="outlined-adornment-password" shrink={monthPayDis || monthsToPay.length !== 0}>Months to Pay</InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-password"
                                             type='text'
                                             label="Months to Pay"
-                                            value={monthPayVal}
+                                            value={monthsToPay}
                                             disabled={monthPayDis}
                                             onChange={handleMonthChange}
                                         />
@@ -144,7 +200,7 @@ const CreateInvoice = () => {
                                     <Button variant="outlined" className="invoice-form upl-but" size="large" endIcon={<UploadFile />}>
                                         <label htmlFor="upload">
                                             Upload Picture
-                                            <Input type="file"  id="upload" className="upload-but">Upload Picture</Input>
+                                            <Input type="file"  id="upload" className="upload-but" onChange={handleUrlChange}>Upload Picture</Input>
                                         </label>
                                     </Button>
                                 </Grid>
@@ -153,16 +209,16 @@ const CreateInvoice = () => {
                                     <FormControl fullWidth sx={{ m: 1 }}>
                                         <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                                         <OutlinedInput
-                                            error={/\D/.test(amount)}
+                                            error={/\D/.test(amountMonthly)}
                                             
                                             id="outlined-adornment-amount"
                                             startAdornment={<InputAdornment position="start">Ξ</InputAdornment>}
                                             label="Amount"
-                                            value={amount}
+                                            value={amountMonthly}
                                             onChange={handleAmountChange}
                                             
                                         />
-                                        {/\D/.test(amount) && (
+                                        {/\D/.test(amountMonthly) && (
                                             <FormHelperText error id="accountId-error">
                                                 Please enter numbers only
                                             </FormHelperText>
@@ -176,6 +232,8 @@ const CreateInvoice = () => {
                                         <OutlinedInput
                                             id="outlined-adornment-amount"
                                             label="Seller Pan"
+                                            value={sellerPan}
+                                            onChange={handleSellerPanChange}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -186,6 +244,8 @@ const CreateInvoice = () => {
                                         <OutlinedInput
                                             id="outlined-adornment-amount"
                                             label="Seller Pan"
+                                            value={buyerPan}
+                                            onChange={handleBuyerPanChange}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -195,11 +255,14 @@ const CreateInvoice = () => {
                                     <FormControl fullWidth>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
-                                                label="Date of Payment"
-                                                value={value}
+                                                 label="Date of Payment"
+                                                value={date}
                                                 className="mt-2 ml-1"
-                                                onChange={(newValue) => {
-                                                    setValue(newValue);
+                                                onChange={(newDate) => {
+                                                    var date_ = (newDate.$d).toString();
+                                                    date_ = date_.split(" ")
+                                                    date_ = `${date_[1]} ${date_[2]} ${date_[3]}`
+                                                    setDate(date_);
                                                 }}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
@@ -213,6 +276,8 @@ const CreateInvoice = () => {
                                         <OutlinedInput
                                             id="outlined-adornment-amount"
                                             label="Seller Pan"
+                                            value={buyeraddress}
+                                            onChange={handleBuyerAddressChange}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -227,15 +292,15 @@ const CreateInvoice = () => {
                                             name="row-radio-buttons-group"
 
                                         >
-                                            <FormControlLabel value="male" checked={paymentMode === 3 } disabled={paidDis} className="invoice-form" control={<Radio />} label="Paid" />
-                                            <FormControlLabel value="other" checked={paymentMode === 2 || paymentMode == 1} disabled={unpaidDis} className="invoice-form" control={<Radio />} label="Unpaid" />
+                                            <FormControlLabel value="male" checked={paymentMode === 2 } disabled={paidDis} className="invoice-form" control={<Radio />} label="Paid" />
+                                            <FormControlLabel value="other" checked={paymentMode === 1 || paymentMode == 0} disabled={unpaidDis} className="invoice-form" control={<Radio />} label="Unpaid" />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
 
                                 <Grid item xs={12} sm={12} lg={12}>
                                     <div className="row">
-                                        <Button variant="text" color="black" className="invoice-submit" size="large">Submit</Button>
+                                        <Button variant="text" color="black" className="invoice-submit" size="large" onClick={handleSubmit}>Submit</Button>
                                     </div>
                                 </Grid>
 

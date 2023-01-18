@@ -1,11 +1,11 @@
 const {ethers, network} = require("hardhat");
 const fs = require('fs');
-const FRONT_END_ADDRESSES_FILE = "../client/constants/contractAddresses.json";
-const FRONT_END_ABI_FILE = "../client/constants/abi.json";
+const FRONT_END_ADDRESSES_FILE = "../client/src/constants/contractAddresses.json";
+const FRONT_END_ABI_FILE = "../client/src/constants/abi.json";
 
 module.exports = async () => {
     console.log("Inside update-frontend.js",process.env.UPDATE_FRONT_END);
-    if(process.env.UPDATE_FRONT_END)
+    if(process.env.UPDATE_FRONT_END == "true")
     {
         console.log("Updating front end...")
         await updateContractAddress();

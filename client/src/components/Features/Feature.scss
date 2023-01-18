@@ -1,19 +1,17 @@
 .feature-card {
     background-color: rgb(45, 45, 40);
 }
-@media only screen and (min-width: 772px) {
-    .feature-card {
-        height: 70vh;
-    }
+
+.card-skeleton {
+    padding: 1%;
 }
 
 .card-outer {
-    margin-top: 0.1vw;
-    margin-bottom: 0.1vw;
+    margin-top: 1%;
+    margin-bottom: 1%;
     border-radius: 8px;
-//     background: rgb(255,191,0);
-//     background: linear-gradient(320deg, rgba(255,191,0,1) 0%, rgba(255,235,3,1) 100%);
     background: #34CCCB;
+    margin-right: 4%;
 }
 
 .card-outer:hover .card-inner {
