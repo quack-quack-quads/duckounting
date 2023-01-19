@@ -15,7 +15,7 @@ import {
 from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
-import DuckBoard from './screens/DuckBoard'
+import DuckBoard from './screens/DuckBoard/DuckBoard'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
