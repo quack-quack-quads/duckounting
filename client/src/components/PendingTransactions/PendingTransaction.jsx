@@ -86,7 +86,7 @@ const PendingTransaction = (props) => {
     }
 
     return (
-        <div className="container">
+        <div className="container invoice-whole-container">
             <div className="row">
                 <div className="container col-lg-4 col-12">
                     <div className="pending-txn">
