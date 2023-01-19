@@ -99,6 +99,22 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(buyerInvoice.date, "date", "date should be date")
             assert.equal(buyerInvoice.url, "url", "url should be url")
         })
+        it("should emit event AddInvoice", async () => {
+            let args = [
+                1, // paymentMode
+                1000, // amountMonthly
+                12, // monthsToPay
+                false, // status
+                userAddress, // receipent
+                "sellerPAN", // sellerPAN
+                "buyerPAN", // buyerPAN
+                "date", // date
+                "url" // url
+            ]
+            const addInvoiceTx = await invoicePlatform.addInvoice(...args);
+            const addInvoiceReceipt = await addInvoiceTx.wait();
+            expect(addInvoiceReceipt.events[0].event).to.equal("AddInvoice")
+        })
     })
 
     describe("pay", () => {
@@ -327,6 +343,36 @@ const { developmentChains } = require("../../helper-hardhat-config")
             // check if the seller received the funds
             assert.equal(sellerBalanceAfter.sub(sellerBalanceBefore).toString(), ethers.utils.parseEther("1000").toString(), "seller should have received 1000 ethers")
         })
+        it("should emit Paid event",async () => {
+            let args = [
+                1, // paymentMode
+                1000, // amountMonthly
+                4, // monthsToPay
+                false, // status
+                userAddress, // receipent
+                "sellerPAN", // sellerPAN
+                "buyerPAN", // buyerPAN
+                "date", // date
+                "url" // url
+            ]
+            await invoicePlatform.addInvoice(...args);  
+
+            // pay to the seller
+            const userConnectedInvoicePlatform = await invoicePlatformContract.connect(user);
+            args = [
+                deployerAddress, // sellerAddress
+                "buyerPAN", // buyerPAN
+                "sellerPAN", // sellerPAN
+                0 // invoiceId   
+            ] 
+            const paidTx = await userConnectedInvoicePlatform.pay(...args, {
+                value: ethers.utils.parseEther("1000")
+            })
+            const paidReceipt = await paidTx.wait();
+            expect(paidReceipt.events[0].event).to.equal("Paid");
+            expect(paidReceipt.events[0].args.sellerPan).to.equal("sellerPAN");
+            expect(paidReceipt.events[0].args.buyerPan).to.equal("buyerPAN");
+        })
     })
 
     describe('registerPerson', () => {
@@ -354,6 +400,19 @@ const { developmentChains } = require("../../helper-hardhat-config")
             // try to register again
             await expect(invoicePlatform.registerPerson(...args)).to.be.revertedWith("PersonAlreadyExists")
         })
+        it("should emit RegisterPerson event", async() => {
+            // RegisterPerson(string pan, string name);
+            let args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            const registerPersonTx = await invoicePlatform.registerPerson(...args);
+            const registerPersonReceipt = await registerPersonTx.wait();
+            expect (registerPersonReceipt.events[1].event).to.equal("RegisterPerson")
+            expect (registerPersonReceipt.events[1].args.pan).to.equal("sellerPAN")
+            expect (registerPersonReceipt.events[1].args.name).to.equal("sellerName")   
+            
+        })
     })
 
     describe("giveRating", () => {
@@ -380,6 +439,24 @@ const { developmentChains } = require("../../helper-hardhat-config")
             await invoicePlatform.addRating(...args);
             const person = await invoicePlatform.getPerson("sellerPAN");
             assert.equal(person.rating, 4, "rating should be 4")
+        })
+        it("should emit AddRating event", async() => {
+            // register that seller
+            args = [
+                "sellerPAN", // pan
+                "sellerName" // name
+            ]
+            await invoicePlatform.registerPerson(...args);
+
+            // give rating
+            args = [
+                "sellerPAN", // pan
+                3 // rating
+            ]
+            const addRatingTx = await invoicePlatform.addRating(...args);
+            const addRatingReceipt = await addRatingTx.wait();
+            expect(addRatingReceipt.events[0].event).to.equal("AddRating")
+            
         })
     })
 
