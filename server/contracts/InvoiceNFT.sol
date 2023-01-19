@@ -12,7 +12,6 @@ contract InvoiceNFT is ERC721 {
     string private s_rareImageURI;
 
     // events
-    event CreatedNFT(uint256 indexed tokenId, int256 highValue);
 
     constructor(
         string memory _commonURI,
