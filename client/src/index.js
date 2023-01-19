@@ -15,6 +15,7 @@ import {
 from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
+import DuckBoard from './screens/DuckBoard'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +25,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="createInvoice" element={<CreateInvoice />} />
+        <Route path="/duckboard" element={<DuckBoard/>} />
       </Routes>
     </BrowserRouter>
   </MoralisProvider>
