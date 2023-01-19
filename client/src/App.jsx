@@ -10,9 +10,9 @@ function App() {
                     { sellerPan: 'seller2', buyerPan: 'buyer2', invoiceId : 'id12',
                     date:'date', walletAddress:'walletAdd', amt:'1000', months:'1', proof:"https://thumbs.dreamstime.com/b/invoice-16921374.jpg" }]
 
-    // for (var i = 0; i < 100; i++) {
-    //     list.push(list[0]);
-    // }
+    for (var i = 0; i < 100; i++) {
+        list.push(list[0]);
+    }
 
     return (
         <div className="App">

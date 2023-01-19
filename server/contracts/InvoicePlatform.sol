@@ -15,6 +15,10 @@ error PersonAlreadyExists();
 error NftNotExist();
 
 contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
+    // events
+    event RegisterPerson(string pan, string name);
+    event Paid(string sellerPan, string buyerPan);
+
     constructor(
         string memory _commonURI,
         string memory _mediumURI,
@@ -71,6 +75,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
         s_tokenCounter++;
         tokenIdToPan[s_tokenCounter] = _pan;
         _safeMint(msg.sender, s_tokenCounter);
+        emit RegisterPerson(_pan, _name);
     }
 
     function pay(
@@ -144,6 +149,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
                 sellerInvoices[_sellerPan][sellerInvoiceIndex].status = true;
                 buyerInvoices[_buyerPan][buyerInvoiceIndex].status = true;
             }
+            emit Paid(_sellerPan, _buyerPan);
         }
     }
 }
