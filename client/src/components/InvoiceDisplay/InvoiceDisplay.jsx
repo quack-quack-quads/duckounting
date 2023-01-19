@@ -32,21 +32,12 @@ const InvoiceDisplay = (props) => {
             </>
     }
     return <div className="InvoiceDisplay">
-        <div className="row">
-            <div className="col-5 col-sm-4 col-md-3">
-                <img src={stamp} alt="" className="logo" />
+        <div className="row typerow">
+            <div className="typetext">
+                {props.transactionType}
             </div>
-            <div className="col-7 col-sm-8 col-md-9 datecol">
-                <div className="row typerow">
-                    <div className="typetext">
-                        {props.transactionType}
-                    </div>
-                </div>
-                <div className="row typerow">
-                    <div className="date">
-                        {props.date}
-                    </div>
-                </div>
+            <div className="date">
+                {props.date}
             </div>
         </div>
         <div className="row typerow">
@@ -103,23 +94,19 @@ const InvoiceDisplay = (props) => {
             </div>
         </div>
         <div className="row imgrow">
-            <div className="col-8 col-md-7">
-                <div className="row">
-                    <div className="col-8">
+            <div className="col-12 col-md-7">
+                <div className="row proofrow">
+                    <div className="proofdiv">
                         <img src={props.proof} alt="" className="proofimg" />
-                    </div>
-                    <div className="col-4 optioncol">
-                        <div className="row typerow toprow">
-                            <BsImage />
-                        </div>
-                        <div className="row typerow">
-                            View image
+                        <div className="viewimage">
+                            View proof
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="col-4 col-md-5 d-flex justify-content-center align-items-center">
-                <img src={Ducklogo} alt="" className="logo" />
+            <div className="col-12 col-md-5 d-flex justify-content-center align-items-center">
+                <img src={stamp} alt="" className="logo" />
+
             </div>
         </div>
     </div>

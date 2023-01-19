@@ -11,6 +11,10 @@ contract InvoicePlatformHelper is InvoiceInterface {
     // State variables
     uint256 internal invoiceIdCount;
 
+    // events
+    event AddInvoice();
+    event AddRating();
+
     mapping(string => Invoice[]) internal buyerInvoices; // buyerPAN => Invoice[]
     mapping(string => Invoice[]) internal sellerInvoices; // sellerPAN => Invoice[]
     mapping(string => Person) internal persons; // pan => Person
@@ -45,6 +49,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
         sellerInvoices[_sellerPAN].push(invoice);
         buyerInvoices[_buyerPAN].push(invoice);
         invoiceIdCount++;
+        emit AddInvoice();
     }
 
     // TODO - only allow valid buyer to call this function
@@ -53,6 +58,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
             revert InvalidTx();
         }
         persons[_sellerPAN].rating = (_rating + persons[_sellerPAN].rating) / 2;
+        emit AddRating();
     }
 
     function _safePay(
