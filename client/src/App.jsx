@@ -26,9 +26,8 @@ function App() {
                 sellerPan = "DKFJKD343J"
                 amt = "5869"
                 months ="4"
-                proof = "ipfs://QmS9SRVbPytFDwcnaWdd9hB3VnjgTFuyFErfC3qNq2TiYW"
+                proof = "QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
             />
-
             <PendingTransaction listing={list} />
 
         </div>

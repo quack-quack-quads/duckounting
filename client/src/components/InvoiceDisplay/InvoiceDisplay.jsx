@@ -5,10 +5,15 @@ import { AiOutlineNumber } from 'react-icons/ai'
 import { FaFileInvoice } from 'react-icons/fa'
 import Ducklogo from '../../assets/images/ducklogo.png'
 import { IpfsImage } from 'react-ipfs-image';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
 
-
-import { BsImage } from 'react-icons/bs'
 const InvoiceDisplay = (props) => {
+    const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
+    const [fullscreen, setFullscreen] = useState(true);
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
     var amtDue = parseFloat(props.amt) * parseFloat(props.months);
     const delta = 1e-6;
     var transactionWidget;
@@ -33,6 +38,8 @@ const InvoiceDisplay = (props) => {
                 </div>
             </>
     }
+
+
     return <div className="InvoiceDisplay">
         <div className="row typerow">
             <div className="typetext">
@@ -99,12 +106,9 @@ const InvoiceDisplay = (props) => {
             <div className="col-12 col-md-7">
                 <div className="row proofrow">
                     <div className="proofdiv">
-                        <IpfsImage hash={props.proof} 
-                        alt="" className="proofimg"
+                        <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='proofimg' 
+                        onClick={handleShow}
                         />
-                        <div className="viewimage">
-                            View proof
-                        </div>
                     </div>
                 </div>
             </div>
@@ -113,6 +117,24 @@ const InvoiceDisplay = (props) => {
 
             </div>
         </div>
+        <Modal
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={show}
+        onHide={() => setShow(false)}
+        >
+        <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+            </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='modalBody'>
+            <div className="d-flex justify-content-center ipfs-img-container">
+                <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' />
+            </div>
+        </Modal.Body>   
+        </Modal>
     </div>
 }
 

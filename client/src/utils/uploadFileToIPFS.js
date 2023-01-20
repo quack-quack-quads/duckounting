@@ -18,7 +18,7 @@ export const sendFileToIPFS = async (fileImg) => {
                 },
             });
 
-            const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+            const ImgHash = `${resFile.data.IpfsHash}`;
             console.log("image uploaded to ipfs:",ImgHash); 
             return(ImgHash);
         } catch (error) {

@@ -171,7 +171,7 @@ const CreateInvoice = () => {
             pending: "Please wait while image is uploaded to IPFS...",
             success: "Image uploaded!", 
             error: 'An error occured while uploading image!'
-        }))
+        })) 
         console.log("this is url", url)
         await addInvoice({
             onSuccess: handleSuccess,
