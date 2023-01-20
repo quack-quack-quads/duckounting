@@ -9,7 +9,32 @@ const TransactionHistoryTableHeader = (props) => {
   const [isBuyer, setIsBuyer] = useState(false);
 
   const [sortOrder, setSortOrder] = useState(["date", "dec"]);
-  const [filterState, setFilterState] = useState([false, false]);
+  const [filterState, setFilterState] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const filterMap = {
+    buyer: 0,
+    seller: 1,
+    paid: 2,
+    pending: 3,
+    eth_one_time: 4,
+    eth_recurring: 5,
+    cash: 6,
+  };
+  const filterClickHandler = (event) => {
+    setFilterState((prevState) => {
+      var newList = [...prevState];
+      newList[filterMap[event.target.id]] =
+        !newList[filterMap[event.target.id]];
+      return newList;
+    });
+  };
   const sortClickHandler = (id) => {
     setSortOrder((prevOrder) => {
       if (prevOrder[0] == id) {
@@ -21,14 +46,6 @@ const TransactionHistoryTableHeader = (props) => {
       } else {
         return [id, "dec"];
       }
-    });
-  };
-  const filterClickHandler = (event) => {
-    setFilterState((prevState) => {
-      const id = event.target.id;
-      prevState[id] = !prevState[id];
-      console.log(prevState);
-      return prevState;
     });
   };
   return (
@@ -47,7 +64,7 @@ const TransactionHistoryTableHeader = (props) => {
       </div>
       <div className="col-8 offset-2 col-md-4 offset-md-1">
         <h4 className="text-center">Sort by</h4>
-        <div className="row row-cols-1 row-cols-sm-2 mb-1">
+        <div className="row row-cols-1 mb-1">
           <SortButton
             clickHandler={sortClickHandler}
             id="date"
@@ -64,32 +81,86 @@ const TransactionHistoryTableHeader = (props) => {
           </SortButton>
         </div>
       </div>
-      <div className="col-8 offset-2 col-md-4 offset-md-2 d-flex flex-column align-items-center">
+      <div className="col-8 offset-2 col-md-4 offset-md-2 d-flex flex-column align-items-center mb-1">
         <h4 className="text-center">Filter</h4>
-        <div className="btn-filter-container d-flex flex-column flex-sm-row">
-          <button
-            id="buyer"
-            className={`btn-filter ${filterState[0] ? "btn-selected" : ""}`}
-            onClick={() => {
-              setFilterState((prevState) => {
-                return [!prevState[0], prevState[1]];
-              });
-              console.log(filterState);
-              console.log(filterState["buyer"] ? "btn-selected" : "");
-            }}
-          >
-            Buyer
-          </button>
-          <div className="flex-line"></div>
-          <button
-            id="seller"
-            className={`btn-filter ${
-              filterState["seller"] ? "btn-selected" : ""
-            }`}
-            onClick={filterClickHandler}
-          >
-            Seller
-          </button>
+        <div className="d-flex flex-row flex-sm-column align-items-center">
+          <div className="btn-filter-container d-flex flex-column flex-sm-row">
+            <button
+              id="buyer"
+              className={`btn-filter ${
+                filterState[0] ? "btn-selected-first" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              Buyer
+            </button>
+            <div className="flex-line-1"></div>
+            <div className="flex-line-2"></div>
+            <button
+              id="seller"
+              className={`btn-filter ${
+                filterState[1] ? "btn-selected-last" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              Seller
+            </button>
+          </div>
+
+          <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
+            <button
+              id="paid"
+              className={`btn-filter ${
+                filterState[2] ? "btn-selected-first" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              Paid
+            </button>
+            <div className="flex-line-1"></div>
+            <div className="flex-line-2"></div>
+            <button
+              id="pending"
+              className={`btn-filter ${
+                filterState[3] ? "btn-selected-last" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              Pending
+            </button>
+          </div>
+
+          <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
+            <button
+              id="eth_one_time"
+              className={`btn-filter ${
+                filterState[4] ? "btn-selected-first" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              ETH One Time
+            </button>
+            <div className="flex-line-1"></div>
+            <div className="flex-line-2"></div>
+            <button
+              id="eth_recurring"
+              className={`btn-filter ${filterState[5] ? "btn-selected" : ""}`}
+              onClick={filterClickHandler}
+            >
+              ETH Recurring
+            </button>
+            <div className="flex-line-1"></div>
+            <div className="flex-line-2"></div>
+            <button
+              id="cash"
+              className={`btn-filter ${
+                filterState[6] ? "btn-selected-last" : ""
+              }`}
+              onClick={filterClickHandler}
+            >
+              Cash (Offline)
+            </button>
+          </div>
         </div>
       </div>
     </div>
