@@ -4,6 +4,8 @@ import { AiOutlineWallet } from 'react-icons/ai'
 import { AiOutlineNumber } from 'react-icons/ai'
 import { FaFileInvoice } from 'react-icons/fa'
 import Ducklogo from '../../assets/images/ducklogo.png'
+import { IpfsImage } from 'react-ipfs-image';
+
 
 import { BsImage } from 'react-icons/bs'
 const InvoiceDisplay = (props) => {
@@ -97,7 +99,9 @@ const InvoiceDisplay = (props) => {
             <div className="col-12 col-md-7">
                 <div className="row proofrow">
                     <div className="proofdiv">
-                        <img src={props.proof} alt="" className="proofimg" />
+                        <IpfsImage hash={props.proof} 
+                        alt="" className="proofimg"
+                        />
                         <div className="viewimage">
                             View proof
                         </div>
