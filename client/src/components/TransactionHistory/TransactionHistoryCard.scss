@@ -1,6 +1,6 @@
 // $BG_COLOR: rgb(179, 173, 173);
 $TEXT_COLOR: white;
-$HEADER_COLOR: rgb(37, 35, 35);
+$HEADER_COLOR: rgba(37, 35, 35, 0.682);
 $HEADER_SECONDARY: yellow;
 @mixin glass-look {
     background: rgba(117, 114, 114, 0.18);
@@ -82,7 +82,7 @@ $HEADER_SECONDARY: yellow;
     }
     .btn-filter-container {
         border: 1px solid $HEADER_SECONDARY;
-        border-radius: 10px;
+        border-radius: 12px;
     }
     .btn-filter {
         background:none;
@@ -90,15 +90,37 @@ $HEADER_SECONDARY: yellow;
         color: $HEADER_SECONDARY;
         padding: 10px;
     }
-    .btn-selected {
+    .btn-selected-first{
+        background-color: $HEADER_SECONDARY;
+        color: $HEADER_COLOR;
+        border-radius: 10px 0px 0px 10px;
+    }
+    .btn-selected{
         background-color: $HEADER_SECONDARY;
         color: $HEADER_COLOR;
     }
-    .flex-line{
+    .btn-selected-last{
+        background-color: $HEADER_SECONDARY;
+        color: $HEADER_COLOR;
+        border-radius: 0px 10px 10px 0px;
+    }
+    .flex-line-1{
         border: 0.5px solid $HEADER_SECONDARY;
     }
-    @media(max-width : 678px) and (min-width : 67px){
-        // do-something
+    .flex-line-2{
+        border: 0.5px solid $HEADER_COLOR;
+    }
+    @media(max-width : 575px) and (min-width : 0px){
+        .btn-selected-first{
+            background-color: $HEADER_SECONDARY;
+            color: $HEADER_COLOR;
+            border-radius: 10px 10px 0px 0px;
+        }
+        .btn-selected-last{
+            background-color: $HEADER_SECONDARY;
+            color: $HEADER_COLOR;
+            border-radius: 0px 0px 10px 10px;
+        }
     }
 }
 

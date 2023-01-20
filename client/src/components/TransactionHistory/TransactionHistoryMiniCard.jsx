@@ -19,8 +19,8 @@ const TransactionHistoryMiniCard = (props) => {
         </div>
         <div className="col-9 text-box row row-cols-2">
           <h4 className="invoice-id col">{props.invoiceID}</h4>
-          {props.status == "done" && (
-            <h4 className="status col badge rounded-pill bg-success">Done</h4>
+          {props.status == "paid" && (
+            <h4 className="status col badge rounded-pill bg-success">Paid</h4>
           )}
           {props.status == "pending" && (
             <h4 className="status col badge rounded-pill bg-danger">Pending</h4>

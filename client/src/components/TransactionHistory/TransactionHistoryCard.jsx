@@ -18,8 +18,8 @@ const TransactionHistoryCard = (props) => {
         <div className="col-10 row row-cols-4 text-box">
           <h4 className="invoice-id col-6">{props.invoiceID}</h4>
           <h4 className="date col">{props.date}</h4>
-          {props.status == "done" && (
-            <h4 className="status col badge rounded-pill bg-success">Done</h4>
+          {props.status == "paid" && (
+            <h4 className="status col badge rounded-pill bg-success">Paid</h4>
           )}
           {props.status == "pending" && (
             <h4 className="status col badge rounded-pill bg-danger">Pending</h4>
