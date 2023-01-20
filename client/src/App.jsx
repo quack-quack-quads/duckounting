@@ -26,7 +26,7 @@ function App() {
                 sellerPan = "DKFJKD343J"
                 amt = "5869"
                 months ="4"
-                proof = "https://img.freepik.com/free-vector/minimal-yellow-invoice-template-vector-design_1017-12070.jpg?w=2000"
+                proof = "ipfs://QmS9SRVbPytFDwcnaWdd9hB3VnjgTFuyFErfC3qNq2TiYW"
             />
 
             <PendingTransaction listing={list} />

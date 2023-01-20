@@ -164,13 +164,14 @@ const CreateInvoice = () => {
         // toast("Submitting!");
         setStatus(paymentMode === 2);
         // const imageHsh = sendFileToIPFS(fileImg);
-        const uurl = await toast.promise(sendFileToIPFS(fileImg), {
+        // const uurl = 
+        // console.log(uurl);
+        // seturl(uurl);
+        seturl(await toast.promise(sendFileToIPFS(fileImg), {
             pending: "Please wait while image is uploaded to IPFS...",
             success: "Image uploaded!", 
             error: 'An error occured while uploading image!'
-        })
-        console.log(uurl);
-        seturl(uurl);
+        }))
         console.log("this is url", url)
         await addInvoice({
             onSuccess: handleSuccess,
