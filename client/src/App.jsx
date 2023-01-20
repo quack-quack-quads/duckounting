@@ -18,7 +18,6 @@ function App() {
         <div className="App">
             <Hero />
             
-
             <PendingTransaction listing={list} />
 
         </div>
