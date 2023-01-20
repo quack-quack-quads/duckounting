@@ -1,16 +1,19 @@
-$logosize : 40px;
+$logosize : 120px;
+$yellow : #efd00b;
+$grey : #090909;
 .InvoiceDisplay{
-    // background: rgb(0,0,0);
-    background: linear-gradient(45deg, rgba(0,0,0,1) 18%, rgba(64,64,64,1) 100%); 
-    // background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(54,54,54,1) 100%);
+// background: linear-gradient(315deg, rgba(0,0,0,1) 49%, rgba(64,64,64,1) 100%);
+    background-color: $grey;
     margin : 0vh 5vw 5vh 5vw;
-    border-radius: 3vw;
-    border : 4px double white;
+    border-radius: 0;
+    border : 10px double $yellow;
     max-width: 800px;
     padding-bottom: 5vh;
+    padding-left : 5vw;
+    padding-right: 5vw;
     .logo{
-        width: 100%;
-        height: auto;
+        width: $logosize !important;
+        height: auto !important;
         margin : 3vh 0 0 3vw;
     }
     .datecol{
@@ -34,22 +37,25 @@ $logosize : 40px;
         .helpertext{
             margin-top: 2vh;
             padding : 2vh 2vw;
-            background:  #f6df02;
+            background:  $yellow;
             color : black;
             font-family: 'Sofia Sans';
             font-weight: 600;
             width : fit-content;
             text-align: center;
-            border-radius: 10px;
+            border-radius: 0;
             font-size: 15px;
-            box-shadow: -7px 7px 13px 0px rgba(0,0,0,0.75);
+            box-shadow: none;
+            // -7px 7px 13px 0px rgba(0,0,0,0.75);
         }
         .typetext{
             margin-top: 5vh;
         }
         .date{
-            background-color: white;
+            background-color: $grey;
+            margin-top: 5vh;
             font-size: 14px;
+            color : white;
         }
         .idtext{
             background-color: black;
@@ -75,16 +81,12 @@ $logosize : 40px;
         .buyer,.seller{
             width : 45%;
             box-shadow : none;
-        }
-        .buyer{
-            border-radius: 10px 0px 0px 10px;
-        }
-        .seller{
-            border-radius: 0 10px 10px 0;
-            background-color : white;
+            background-color: $grey;
+            color : white;
         }
         .buyerlabel{
             font-size: 13px;
+            color : $yellow;
         }
         .buyerinfo{
             font-size: 17px;
@@ -103,26 +105,29 @@ $logosize : 40px;
         // }
         .amt,
         .number{
-            background-color: white;
+            background-color: $grey;
+            color : white;
             margin-top: 7vh;
             width : 40%;
             font-size: 25px;
         }
         .amt{
-            margin-right: 7vw;
+            margin-right: 0vw;
         }
         .amtlabel{
             font-size: 20px;
             font-weight: 600;
-            color : #383434;
+            color : $yellow;
         }
         .line{
             margin-top: 2vh;
-            background-color: white;
+            background-color: $yellow;
             height: 3px;
             width: 90%;
         }
         .total{
+            margin-top: 3vh;
+            margin-bottom: 3vh;
             color : white;
             font-size: 25px;
             font-weight: 600;
@@ -136,7 +141,6 @@ $logosize : 40px;
         .pending{
             font-size: 25px;
             color : white;
-            border-radius: 10px 0 0 10px;
         }
         .paid{
             background-color: rgb(89, 170, 89);
@@ -146,46 +150,50 @@ $logosize : 40px;
         }
         .helpertext{
             background-color: white;
-            border-radius: 0 10px 10px 0;
             box-shadow: none;
         }
     }
     .imgrow{
         padding-top : 5vh;
-        .proofimg{
-            width: 100%;
-            height: auto;
-            padding-left : 4vw;
-            border-radius: 10px 0 0 10px;
-        }
-        .optioncol{
-            // display: flex;
-            text-align: center;
+        .proofrow{
+            display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #656565;
-            color : black;
-            border-radius: 0 20px 20px 0;
-            margin-left : 0;
-            font-size: 19px;
-            font-family: 'Poppins';
-            font-weight: 500;
-            .toprow{
-                margin-top: 40%;
-            }
-            @media(max-width : 767px) {
-                font-size: 12px;
-            }
         }
-        .optioncol:hover{
-            background-color: yellow;
-            color : black;
-            cursor: pointer;
+        .proofimg{
+            width: 300px ;
+            height: 200px;
+            object-fit: fill;
+            padding-left : 4vw;
+            border-radius: 10px 0 0 10px;
+            display: block;
         }
+        .viewimage{
+            width: 300px;
+            text-align: center;
+            display: none;
+        }
+        .proofdiv:hover,
+        .proofdiv:active{
+            .proofimage{
+                border : 3px solid $yellow;
+            }
+            .viewimage{
+                background-color: white;
+                color : black;
+                display : block;
+            }
+        }   
         .logo{
             height: $logosize;
             width: auto;
             margin-bottom: 6px;
+        }
+    }
+    .col-12{
+        .proofrow{
+            width: 90%;
+            margin-left: 2%;
         }
     }
 }

@@ -10,14 +10,25 @@ function App() {
                     { sellerPan: 'seller2', buyerPan: 'buyer2', invoiceId : 'id12',
                     date:'date', walletAddress:'walletAdd', amt:'1000', months:'1', proof:"https://thumbs.dreamstime.com/b/invoice-16921374.jpg" }]
 
-    // for (var i = 0; i < 100; i++) {
-    //     list.push(list[0]);
-    // }
+    for (var i = 0; i < 100; i++) {
+        list.push(list[0]);
+    }
 
     return (
         <div className="App">
-            <Hero />
-            
+            {/* <Hero /> */}
+            <InvoiceDisplay
+                date = "13 January 2023"
+                transactionType = "Paid on chain"
+                invoiceId = "dkjf dkfjkd dkfj dkjfk djkfj kdjf"
+                walletAddress = "dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
+                buyerPan = "DKJFEIJDKF"
+                sellerPan = "DKFJKD343J"
+                amt = "5869"
+                months ="4"
+                proof = "https://img.freepik.com/free-vector/minimal-yellow-invoice-template-vector-design_1017-12070.jpg?w=2000"
+            />
+
             <PendingTransaction listing={list} />
 
         </div>

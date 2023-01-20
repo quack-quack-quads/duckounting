@@ -1,0 +1,76 @@
+$logosize : 120px;
+$yellow : #efd00b;
+$grey : #090909;
+
+.centercol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.DuckBoard {
+    padding-top: 15vh;
+
+    .topbanner {
+        height: 40vh;
+        background-image: url(../../assets/backgrounds/gold_fish.jpg);
+        background-size: contain;
+
+        @media(max-width : 767px) {
+            height: 100vh;
+        }
+    }
+    .credcol {
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        padding: 10px 30px;
+
+        @media(max-width : 767px) {
+            align-items: flex-start;
+        }
+
+        .credbox {
+            background-color: black;
+            color: white;
+            width: 100%;
+            // text-align: center;
+            margin-bottom: 3vh;
+            padding: 10px 30px;
+            border-radius: 10px;
+
+            @media(max-width : 767px) {
+                margin: 0;
+                margin-top: 3vh;
+            }
+        }
+
+        .credrow {
+            font-size: 17px;
+            font-family: 'Poppins';
+        }
+
+        .yellowtext {
+            color: $yellow;
+        }
+    }
+
+    .cardrow {
+        .createcardcol {
+            display: flex;
+            justify-content: center;
+            .createcard {
+                height: 70vh;
+                width: 90%;
+                background-color: white;
+                margin-top: -30vh;
+                border-radius: 20px;
+
+                @media(max-width: 767px) {
+                    margin-top: -80vh;
+                    width : 80%;
+                }
+            }
+        }
+    }
+}
