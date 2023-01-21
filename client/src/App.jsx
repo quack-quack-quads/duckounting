@@ -1,4 +1,4 @@
-// import "./App.scss";
+import "./App.scss";
 import React, { useEffect } from 'react';
 import { abi, contractAddress } from "./constants/index";
 import {
