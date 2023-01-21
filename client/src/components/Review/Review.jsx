@@ -8,14 +8,6 @@ const Review = () => {
             <h1 className="review__heading">Review</h1>
             <Slider
             leftLabel="1"
-            // markers={[
-            //     '',
-            //     <Typography>Starter</Typography>,
-            //     <Typography>Pro</Typography>,
-            //     <Typography>Business</Typography>,
-            //     <Typography>Enterprise</Typography>,
-            //     ''
-            // ]}
             max={5}
             min={1}
             onChange={(value) => {

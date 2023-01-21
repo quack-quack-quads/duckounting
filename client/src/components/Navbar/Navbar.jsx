@@ -71,8 +71,13 @@ const Navbar = ({account, logout, chainId, invoicePlatformAddress,contractAbi}) 
     await registerPerson({
       onSuccess: handleSuccess,
       onError: (error) => {
-        console.log("error", error);
-        toast.error("Error in Registration!", { position: toast.POSITION.TOP_CENTER });
+        console.log("error", error.message);
+        if(error.message.includes("PersonAlreadyExists")){
+          toast.error("Person already exists!", { position: toast.POSITION.TOP_CENTER });
+        }
+        else{
+          toast.error("Error in Registration!", { position: toast.POSITION.TOP_CENTER });
+        }
       }
     })
   };

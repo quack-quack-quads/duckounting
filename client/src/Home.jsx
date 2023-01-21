@@ -1,6 +1,7 @@
 import Hero from "./components/Hero/Hero"
 import Features from "./components/Features/Features"
 import LearnPanel from "./components/LearnPanel/LearnPanel"
+import Review from "./components/Review/Review"
 const Home = () => {
     return (
         <div>
