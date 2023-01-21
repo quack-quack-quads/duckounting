@@ -23,12 +23,6 @@ const ConnectButton = ({setShowLogin}) => {
                 console.log("Null account found");
             }
         })
-        // if localStorage does not have a pan, name then show login modal
-        if(typeof window !== "undefined"){
-            if(!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")){
-                setShowLogin(true);
-            }
-        }
     },[account])
 
     const connectToWallet = async() => {
@@ -36,15 +30,20 @@ const ConnectButton = ({setShowLogin}) => {
         if(typeof window !== "undefined"){
             window.localStorage.setItem("connected", "injected");
         }
-        console.log("account", account);
+        console.log("Connected to wallet", account);
+        // if localStorage does not have a pan, name then show login modal
+        if(typeof window !== "undefined"){
+            if(!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")){
+                setShowLogin(true);
+            }
+        }
     }
-
     return(
         <>
             {
                 account ? <div className="btn-address">{account}</div> :
                 <button color="yellow" className="connect"
-                    // onClick={connectToWallet}
+                    onClick={connectToWallet}
                 >Connect
                 </button>
             }

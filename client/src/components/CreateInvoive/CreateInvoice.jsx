@@ -103,8 +103,7 @@ const CreateInvoice = () => {
     }
 
     const handleSuccess = () => {
-        toast.success("Sucessfully added the Contract!", { position: toast.POSITION.TOP_CENTER });
-        // alert("Hey done adding the contract")
+        toast.success("Sucessfully added the Invoice!", { position: toast.POSITION.TOP_CENTER });
     }
 
     // ! contract interaction functions

@@ -1,9 +1,10 @@
 import "./DuckBoard.scss"
 import ProfileCard from "../../components/Profilecard/ProfileCard"
 import { Card, Illustration } from "web3uikit"
+import {useMoralis} from "react-moralis"
+
 
 const DuckBoard = () => {
-
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -12,7 +13,7 @@ const DuckBoard = () => {
             return false;
         }}
         title="Enterprise Duck"
-        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :)"</span>}
+        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :"</span>}
     >
         <div>
             <Illustration
