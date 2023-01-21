@@ -6,8 +6,9 @@ import { useWeb3Contract, useMoralis } from "react-moralis";
 import { abi, contractAddress } from "../../constants/index";
 import { useEffect, useState } from "react";
 import {parseBase64} from "../../utils/parseBase64ToJson";
+import { AiOutlineLogout } from 'react-icons/ai'
 
-const DuckBoard = () => {
+const DuckBoard = (props) => {
 
     const { chainId: chainIdHex, account } = useMoralis();
     const chainId = parseInt(chainIdHex);
@@ -52,7 +53,7 @@ const DuckBoard = () => {
     useEffect(() => {
         getNft();
     }, [account])
-
+    
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -101,7 +102,13 @@ const DuckBoard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col"></div>
+                <div className="col logoutcol">
+                    <div className="logout">
+                        <AiOutlineLogout color="red" size={30}
+                            onClick={props.logout}
+                        />
+                    </div>
+                </div>
             </div>
             <div className="row cardrow">
                 <div className="col-md-3 col-lg-4">
@@ -148,6 +155,15 @@ const DuckBoard = () => {
                         </div>
                     </div>
                 </div>
+                {/* <div className="row">
+                    <div className="col logoutcol">
+                        <div className="logout">
+                            <AiOutlineLogout color="red" size={30}
+                                onClick={logout}
+                            />
+                        </div>
+                    </div>
+                </div> */}
             </div>
             <div className="row cardrow">
                 <div className="col-6 centercol">

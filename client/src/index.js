@@ -5,31 +5,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {MoralisProvider} from "react-moralis"
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-}
-from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import CreateInvoice from './components/CreateInvoive/CreateInvoice';
-import DuckBoard from './screens/DuckBoard/DuckBoard'
-import Review from './components/Review/Review';
+import { MoralisProvider } from 'react-moralis';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <MoralisProvider initializeOnMount={false}>
-    <Navbar/>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="createInvoice" element={<CreateInvoice />} />
-        <Route path="/duckboard" element={<DuckBoard/>} />
-      </Routes>
-    </BrowserRouter>
-    <Review />
-  </MoralisProvider>
+  <React.StrictMode>
+    <MoralisProvider>
+      <App />
+    </MoralisProvider>
+  </React.StrictMode>
 );
 
 reportWebVitals();
