@@ -1,6 +1,6 @@
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import { utils } from "ethers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CreateInvoice.scss";
 import { sendFileToIPFS } from "../../utils/uploadFileToIPFS"
 import { TiTickOutline } from 'react-icons/ti'
@@ -41,10 +41,7 @@ const styles = theme => ({
 })
 
 
-const CreateInvoice = (
-    contractAbi,
-    invoicePlatformAddress
-) => {
+const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     const [date, setDate] = useState(null);
     const [name, setname] = useState(window.localStorage.name || "");  // name
     const [paymentMode, setPaymentMode] = useState(null);
@@ -57,7 +54,6 @@ const CreateInvoice = (
     const [status, setStatus] = useState(false)
     const [fileImg, setFileImg] = useState(null);
     const [url, seturl] = useState("");
-
 
     const [paidDis, setpaidDis] = useState(false);
     const [unpaidDis, setunpaidDis] = useState(false);
@@ -107,8 +103,6 @@ const CreateInvoice = (
 
     const handleAmountChange = (event) => {
         setamount(event.target.value);
-
-
     }
 
     const handleSuccess = () => {
@@ -134,7 +128,6 @@ const CreateInvoice = (
     })
 
     const handleSubmit = async () => {
-
         if (fileImg === null) {
             toast.error("Please select an image!", { position: toast.POSITION.TOP_CENTER });
             return;
@@ -169,22 +162,18 @@ const CreateInvoice = (
 
         setamount(utils.parseUnits(amountMonthly.toString(), 'gwei'));
 
-        // toast("Submitting!");
         setStatus(paymentMode === 2);
-        // const imageHsh = sendFileToIPFS(fileImg);
-        // const uurl = 
-        // console.log(uurl);
-        // seturl(uurl);
         seturl(await toast.promise(sendFileToIPFS(fileImg), {
             pending: "Please wait while image is uploaded to IPFS...",
             success: "Image uploaded!",
             error: 'An error occured while uploading image!'
         }))
         console.log("this is url", url)
+
         await addInvoice({
             onSuccess: handleSuccess,
             onError: (err) => {
-                console.log(err);
+                // console.log(err.message);
                 toast.error(`Ouch! An error occured : ${err}`, { position: toast.POSITION.TOP_CENTER })
             }
         });
