@@ -1,0 +1,18 @@
+.ProfileCard{
+    border-radius: 10px;
+    background: rgb(255,243,156);
+    background: linear-gradient(124deg, rgba(255,243,156,1) 53%, rgba(255,255,255,1) 100%); 
+    margin: 5%;
+    padding: 3%;
+    // padding-bottom: 5%;
+    .illustration{
+        margin : auto;
+    }
+    .labelrow{
+        padding: 10%;
+    }
+    .profilebtn{
+        font-size: small;
+        font-weight: 600;
+    }
+}

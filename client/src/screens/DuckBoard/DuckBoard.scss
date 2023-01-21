@@ -10,39 +10,91 @@ $grey : #090909;
 
 .DuckBoard {
     padding-top: 15vh;
-
-    .topbanner {
-        height: 40vh;
-        background-image: url(../../assets/backgrounds/gold_fish.jpg);
-        background-size: contain;
-
-        @media(max-width : 767px) {
-            height: 100vh;
+    overflow-x : hidden;
+    .nftcard,   
+    .nftcard:hover{
+        background: rgb(255, 243, 156);
+        background: linear-gradient(124deg, rgba(255, 243, 156, 1) 53%, rgba(255, 255, 255, 1) 100%);
+        .sc-kDDrLX{
+            color : black;
         }
     }
-    .credcol {
-        display: flex;
-        justify-content: center;
-        align-items: end;
-        padding: 10px 30px;
 
-        @media(max-width : 767px) {
-            align-items: flex-start;
+    .largescreens {
+        .topbanner {
+            height: 40vh;
+            background-image: url(../../assets/backgrounds/gold_fish.jpg);
+            background-size: contain;
+
+            @media(max-width : 767px) {
+                height: 100vh;
+            }
+        }
+
+        .credcol {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            padding: 10px 30px;
+
+            .credbox {
+                background-color: black;
+                color: white;
+                width: 100%;
+                // text-align: center;
+                margin-bottom: 3vh;
+                padding: 10px 30px;
+                border-radius: 10px;
+
+                @media(max-width : 767px) {
+                    margin: 0;
+                    margin-top: 3vh;
+                }
+            }
+
+            .credrow {
+                font-size: 17px;
+                font-family: 'Poppins';
+            }
+
+            .yellowtext {
+                color: $yellow;
+            }
+        }
+
+        .nftcardcol {
+            display: flex;
+            justify-content: center;
+
+            .nftcard {
+                height: 70vh;
+                width: 90%;
+                background-color: white;
+                margin-top: -30vh;
+                border-radius: 20px;
+                z-index: 5;
+
+                @media(max-width: 767px) {
+                    width: 80%;
+                    background-color: white !important;
+                }
+            }
+        }
+    }
+
+    .smallscreens {
+        .topbanner {
+            background-image: url(../../assets/backgrounds/gold_fish.jpg);
+            background-size: contain;
         }
 
         .credbox {
             background-color: black;
             color: white;
-            width: 100%;
-            // text-align: center;
-            margin-bottom: 3vh;
+            width: 90%;
             padding: 10px 30px;
             border-radius: 10px;
-
-            @media(max-width : 767px) {
-                margin: 0;
-                margin-top: 3vh;
-            }
+            margin: 10% 0;
         }
 
         .credrow {
@@ -53,24 +105,18 @@ $grey : #090909;
         .yellowtext {
             color: $yellow;
         }
-    }
 
-    .cardrow {
-        .createcardcol {
-            display: flex;
-            justify-content: center;
-            .createcard {
-                height: 70vh;
-                width: 90%;
-                background-color: white;
-                margin-top: -30vh;
-                border-radius: 20px;
+        .profbtn {
+            margin: 3vh 0;
+            font-size: small;
+            font-weight: 600;
+            width: 70%;
+        }
 
-                @media(max-width: 767px) {
-                    margin-top: -80vh;
-                    width : 80%;
-                }
-            }
+        .nftcard {
+            height: 50vh;
+            width: 60%;
+            border-radius: 20px;
         }
     }
 }
