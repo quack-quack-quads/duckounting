@@ -35,7 +35,13 @@ const ConnectButton = ({ setShowLogin }) => {
         if (typeof window !== "undefined") {
             window.localStorage.setItem("connected", "injected");
         }
-        console.log("account", account);
+        console.log("Connected to wallet", account);
+        // if localStorage does not have a pan, name then show login modal
+        if(typeof window !== "undefined"){
+            if(!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")){
+                setShowLogin(true);
+            }
+        }
     }
 
     return (

@@ -12,7 +12,7 @@ const DuckBoard = (props) => {
             return false;
         }}
         title="Enterprise Duck"
-        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :)"</span>}
+        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :"</span>}
     >
         <div>
             <Illustration

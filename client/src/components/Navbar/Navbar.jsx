@@ -4,12 +4,22 @@ import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 import { AiOutlineLogout } from 'react-icons/ai'
+import { abi, contractAddress } from "../../constants/index";
+import { useWeb3Contract, useMoralis } from "react-moralis";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = (props) => {
+  const { account } = useMoralis();
+  const { chainId: chainIdHex } = useMoralis();
+  const chainId = parseInt(chainIdHex);
+  const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
+
+  
   const [showLogin, setShowLogin] = useState(false);
   const [pan, setPan] = useState("");
   const [name, setName] = useState("");
-
+  
   const hideLogin = () => {
     setShowLogin(false);
   };
@@ -21,15 +31,39 @@ const Navbar = (props) => {
     setName(event.target.value);
   };
 
-  const submitHandler = () => {
+  const handleSuccess = () => {
+      console.log("success");
+      toast.success("Sucessfully Registered!", { position: toast.POSITION.TOP_CENTER });
+  }
+
+  
+  const { runContractFunction: registerPerson } = useWeb3Contract({
+    abi: abi[chainId],
+    contractAddress: invoicePlatformAddress,
+    functionName: "registerPerson",
+    params: {
+      _pan: pan,
+      _name: name,
+    }
+  });
+  
+  const submitHandler = async() => {
     localStorage.setItem("pan", pan);
     localStorage.setItem("name", name);
     hideLogin();
+    await registerPerson({
+      onSuccess: handleSuccess,
+      onError: (error) => {
+        console.log("error", error);
+        toast.error("Error in Registration!", { position: toast.POSITION.TOP_CENTER });
+      }
+    })
   };
   
 
   return (
     <div className="Navbar">
+      <ToastContainer />
       <div className="row">
         <div className="col-8 navcol1">
           <a
