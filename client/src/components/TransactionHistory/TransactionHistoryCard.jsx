@@ -4,8 +4,9 @@ import sellerArrow from "../../assets/images/arrow-bottom-right.png";
 import "./TransactionHistoryCard.scss";
 
 const TransactionHistoryCard = (props) => {
+  
   return (
-    <Card className="th-card">
+    <Card className="th-card" onClick={props.handleCardClick} >
       <div className="row">
         <div className="col-2 arrow-container">
           {props.role == "buyer" && (
