@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {parseBase64} from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
     const [tokenId, setTokenId] = useState(null);
@@ -32,23 +33,32 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
             tokenId: tokenId
         }
     })
-
-    const getNft = async() => {
-        if(!account) return;
-        setTokenId(await getTokenId());
-        console.log(tokenId, "tokenId");
-        const base64Uri = await tokenURI();
-        console.log(base64Uri, "base64Uri");
-        if(base64Uri) {
-            const jsonobj = parseBase64(base64Uri);
-            setUri(jsonobj.image);
-        }
-        console.log(uri, "uri");
-    }
     
+    const retrieveTokenid = async() => {
+        const tokenid = await getTokenId();
+        setTokenId(tokenid);
+    }
+
+    const getNft = async () => {
+        // sleep for 2 seconds
+        await new Promise(r => setTimeout(r, 2000));
+        let uri_ = await tokenURI();
+        if(uri_ !== undefined)
+        {
+            uri_ = parseBase64(uri_.toString());
+            uri_ = uri_.image;
+            setUri(uri_); 
+        }
+        // console.log(tokenId.toString(), uri_);
+    }
+
+    useEffect(() => {
+        retrieveTokenid();
+    },[invoicePlatformAddress])
+
     useEffect(() => {
         getNft();
-    }, [account])
+    },[tokenId])
     
     const navigate = useNavigate();
 
@@ -68,13 +78,14 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
     >
         <div>
             {
-                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' onClick={getNft} /> 
+                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' /> 
                 :
-                <Illustration
-                height="180px"
-                logo="servers"
-                width="100%"
-            />
+                // CENTER THE SPINNER
+                <div class="row justify-content-center">
+                    <div class="spinner-border text-warning" role="status">
+                    </div>
+                </div>
+
             }
         </div>
     </Card>;

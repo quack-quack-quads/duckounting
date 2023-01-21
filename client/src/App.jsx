@@ -22,18 +22,22 @@ function App() {
 
   const { chainId: chainIdHex } = useMoralis();
   const [chainId, setChainId] = useState(parseInt(chainIdHex));
-  const [invoicePlatformAddress, setInvoicePlatformAddress] = useState(null);
+  const [invoicePlatformAddress, setInvoicePlatformAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
 
-  useEffect(() => {
-    setChainId(parseInt(chainIdHex));
-    try {
+  const getContractDetails = () => {
+    try{
       setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
       setContractAbi(abi[parseInt(chainIdHex)]);
     }
-    catch (err) {
+    catch(err){
     }
-  }, [chainIdHex])
+  }
+
+  useEffect(() => {
+    setChainId(parseInt(chainIdHex));
+    getContractDetails();
+  },[chainIdHex])
 
   const logout = () => {
     deactivateWeb3();
