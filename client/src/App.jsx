@@ -101,7 +101,9 @@ function App() {
           contractAbi={contractAbi}
         />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home contractAbi={contractAbi}
+            invoicePlatformAddress={invoicePlatformAddress}
+          />} />
           <Route path="/createInvoice" element={<CreateInvoice contractAbi={contractAbi}
             invoicePlatformAddress={invoicePlatformAddress}
           />} />
