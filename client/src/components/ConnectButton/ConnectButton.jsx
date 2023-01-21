@@ -1,52 +1,54 @@
 import { useMoralis } from "react-moralis";
 import { useState, useEffect } from "react";
 import './ConnectButton.scss'
-const ConnectButton = ({setShowLogin}) => {
 
+const ConnectButton = ({ setShowLogin }) => {
     const { enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3 } = useMoralis();
     useEffect(() => {
-        if(isWeb3Enabled) return;
-        if(typeof window !== "undefined"){
-            if(window.localStorage.getItem("connected")){
+        if (isWeb3Enabled) return;
+        if (typeof window !== "undefined") {
+            if (window.localStorage.getItem("connected")) {
                 enableWeb3();
             }
         }
-    },[isWeb3Enabled]);
+    }, [isWeb3Enabled]);
 
     useEffect(() => {
         Moralis.onAccountChanged((account) => {
             console.log("Account changed", account);
-            if(account == null)
-            {
+            if (account == null) {
                 window.localStorage.removeItem("connected");
                 deactivateWeb3();
                 console.log("Null account found");
             }
         })
         // if localStorage does not have a pan, name then show login modal
-        if(typeof window !== "undefined"){
-            if(!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")){
+        if (typeof window !== "undefined") {
+            if (!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")) {
                 setShowLogin(true);
             }
         }
-    },[account])
+    }, [account])
 
-    const connectToWallet = async() => {
+    const connectToWallet = async () => {
         await enableWeb3();
-        if(typeof window !== "undefined"){
+        if (typeof window !== "undefined") {
             window.localStorage.setItem("connected", "injected");
         }
         console.log("account", account);
     }
 
-    return(
+    return (
         <>
             {
-                account ? <div className="btn-address">{account}</div> :
-                <button color="yellow" className="connect"
+                account ?
+                    <div className="btn-address">             {account.slice(0, 8)}...
+                    </div>
+                    :
+                    <button className="wallet-connect btn btn-warning"
                     // onClick={connectToWallet}
-                >Connect
-                </button>
+                    >Connect Wallet
+                    </button>
             }
         </>
     )

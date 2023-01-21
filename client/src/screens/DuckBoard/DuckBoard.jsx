@@ -1,9 +1,9 @@
 import "./DuckBoard.scss"
 import ProfileCard from "../../components/Profilecard/ProfileCard"
 import { Card, Illustration } from "web3uikit"
+import { AiOutlineLogout } from 'react-icons/ai'
 
-const DuckBoard = () => {
-
+const DuckBoard = (props) => {
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -47,7 +47,13 @@ const DuckBoard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col"></div>
+                <div className="col logoutcol">
+                    <div className="logout">
+                        <AiOutlineLogout color="red" size={30}
+                            onClick={props.logout}
+                        />
+                    </div>
+                </div>
             </div>
             <div className="row cardrow">
                 <div className="col-md-3 col-lg-4">
@@ -94,6 +100,15 @@ const DuckBoard = () => {
                         </div>
                     </div>
                 </div>
+                {/* <div className="row">
+                    <div className="col logoutcol">
+                        <div className="logout">
+                            <AiOutlineLogout color="red" size={30}
+                                onClick={logout}
+                            />
+                        </div>
+                    </div>
+                </div> */}
             </div>
             <div className="row cardrow">
                 <div className="col-6 centercol">
