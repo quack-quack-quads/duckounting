@@ -10,7 +10,7 @@
     .hero-title-accent {
         color: black;
         -webkit-text-stroke-width: 1px;
-        -webkit-text-stroke-color: yellow;
+        -webkit-text-stroke-color: #ffc107;
     }
     .hero-text {
         padding-left: 15px;
@@ -18,5 +18,14 @@
 
         padding-top: 5vw;
         font-size: 2vw;
+    }
+
+    @media (max-width:767px) and (min-width:0px) {
+        .hero-title {
+            font-size: 10vh;
+        }
+        .hero-text {
+            font-size: 3vh;
+        }
     }
 }

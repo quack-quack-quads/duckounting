@@ -12,8 +12,13 @@
   );
     }
     .features-heading {
-        font-size: 5vw;
-        font-weight: bold;
+        font-size: 4vw;
+        font-family: 'Barlow Condensed';
         margin-bottom: 1.5vw;
     }
+    @media (max-width:767px) and (min-width:0px) {
+      .features-heading{
+        font-size: 4vh;
+      }
+  }
 }

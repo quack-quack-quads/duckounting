@@ -1,6 +1,6 @@
 $yellow : #ffc107;
 .btn-address {
-    color: white;
+    color: black;
     padding : 0 7%;
     border-radius: 10px;
     align-items: center;
@@ -8,6 +8,8 @@ $yellow : #ffc107;
     font-weight: 600;
     display: flex;
     margin-right : 10px;
+    background-color: $yellow;
+    cursor : pointer;
 }
 
 .wallet-connect{

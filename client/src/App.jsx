@@ -5,14 +5,17 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  useNavigate,
 }
-from 'react-router-dom';
+  from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
 import DuckBoard from './screens/DuckBoard/DuckBoard'
+import TransactionHistory from './components/TransactionHistory/TransactionHistory'
 import Home from './Home';
 import { useMoralis } from "react-moralis";
 import { useState } from 'react';
+
 
 function App() {
   const { enableWeb3, account, isWeb3Enabled, deactivateWeb3, Moralis } = useMoralis();
@@ -25,7 +28,7 @@ function App() {
   const getContractDetails = () => {
     try{
       setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
-      setContractAbi(abi[parseInt(chainIdHex)]); 
+      setContractAbi(abi[parseInt(chainIdHex)]);
     }
     catch(err){
     }
@@ -36,30 +39,78 @@ function App() {
     getContractDetails();
   },[chainIdHex])
 
-  const logout = ()=>{
+  const logout = () => {
     deactivateWeb3();
     window.localStorage.removeItem("connected");
   }
 
+  const listing = [{
+    role: "buyer",
+    invoiceID: "InvoiceIDl1",
+    date: "18/01/2023",
+    status: "pending",
+    partnerPAN: "123ASB1234",
+    mode: "ETH",
+    amount: "₹50000"
+  },
+  {
+    role: "seller",
+    invoiceID: "InvoiceIDl2",
+    date: "08/02/2023",
+    status: "paid",
+    partnerPAN: "GH123JKJ12",
+    mode: "Cash",
+    amount: "₹21000"
+  },
+  {
+    role: "seller",
+    invoiceID: "InvoiceID32",
+    date: "08/02/2023",
+    status: "paid",
+    partnerPAN: "LH123JMJ12",
+    mode: "Cash",
+    amount: "₹21002"
+  },
+  {
+    role: "buyer",
+    invoiceID: "InvoiceID22",
+    date: "18/01/2023",
+    status: "pending",
+    partnerPAN: "123KSV5678",
+    mode: "ETH",
+    amount: "₹24000"
+  },
+  {
+    role: "buyer",
+    invoiceID: "InvoiceIDl2",
+    date: "18/01/2023",
+    status: "pending",
+    partnerPAN: "123ASB1235",
+    mode: "ETH",
+    amount: "₹50020"
+  }
+  ]
   return (
     <div className="App">
-        <Navbar 
-        logout = {logout}  
-        account={account}
-        chainId={chainId}
-        invoicePlatformAddress={invoicePlatformAddress}
-        contractAbi={contractAbi}
+      <BrowserRouter>
+        <Navbar
+          logout={logout}
+          account={account}
+          chainId={chainId}
+          invoicePlatformAddress={invoicePlatformAddress}
+          contractAbi={contractAbi}
         />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="createInvoice" element={<CreateInvoice contractAbi={contractAbi}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/createInvoice" element={<CreateInvoice contractAbi={contractAbi}
             invoicePlatformAddress={invoicePlatformAddress}
-            />} />
-            <Route path="/duckboard" element={<DuckBoard account={account}
-            logout = {logout} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}/>} />
-          </Routes>
-        </BrowserRouter>
+          />} />
+          <Route path="/transactionhistory" element={<TransactionHistory listing = {listing}/>}/>
+          <Route path="/duckboard" element={<DuckBoard account={account}
+            logout={logout} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} />} />
+          <Route path="*" element= {<Home />}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
