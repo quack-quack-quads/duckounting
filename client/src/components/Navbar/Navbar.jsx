@@ -1,24 +1,19 @@
 import "./Navbar.scss";
 import Ducklogo from "../../assets/images/ducklogo.png";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 import { AiOutlineLogout } from 'react-icons/ai'
-import { abi, contractAddress } from "../../constants/index";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
-const Navbar = (props) => {
-  const { account } = useMoralis();
-  const { chainId: chainIdHex } = useMoralis();
-  const chainId = parseInt(chainIdHex);
-  const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
-
-  
-  const [showLogin, setShowLogin] = useState(false);
+const Navbar = ({account, logout, chainId, invoicePlatformAddress,contractAbi}) => {
+  const [showLogin, setShowLogin] = useState(false);  
   const [pan, setPan] = useState("");
   const [name, setName] = useState("");
+
+  const { enableWeb3, isWeb3Enabled, deactivateWeb3, Moralis } = useMoralis();
   
   const hideLogin = () => {
     setShowLogin(false);
@@ -35,10 +30,30 @@ const Navbar = (props) => {
       console.log("success");
       toast.success("Sucessfully Registered!", { position: toast.POSITION.TOP_CENTER });
   }
+  
+  useEffect(() => {
+      if (isWeb3Enabled) return;
+      if (typeof window !== "undefined") {
+          if (window.localStorage.getItem("connected")) {
+              enableWeb3();
+          }
+      }
+  }, [isWeb3Enabled]);
+
+  useEffect(() => {
+      Moralis.onAccountChanged((account) => {
+          console.log("Account changed", account);
+          if (account == null) {
+              window.localStorage.removeItem("connected");
+              deactivateWeb3();
+              console.log("Null account found");
+          }
+      })
+  }, [account])
 
   
   const { runContractFunction: registerPerson } = useWeb3Contract({
-    abi: abi[chainId],
+    abi: contractAbi,
     contractAddress: invoicePlatformAddress,
     functionName: "registerPerson",
     params: {
@@ -48,9 +63,11 @@ const Navbar = (props) => {
   });
   
   const submitHandler = async() => {
+    console.log("submitHandler");
     localStorage.setItem("pan", pan);
     localStorage.setItem("name", name);
     hideLogin();
+    console.log(invoicePlatformAddress, pan, name, contractAbi);
     await registerPerson({
       onSuccess: handleSuccess,
       onError: (error) => {
@@ -59,6 +76,20 @@ const Navbar = (props) => {
       }
     })
   };
+
+  const connectToWallet = async () => {
+      await enableWeb3();
+      if (typeof window !== "undefined") {
+          window.localStorage.setItem("connected", "injected");
+      }
+      console.log("Connected to wallet", account);
+      // if localStorage does not have a pan, name then show login modal
+      if(typeof window !== "undefined"){
+          if(!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")){
+              setShowLogin(true);
+          }
+      }
+  }
   
 
   return (
@@ -89,7 +120,7 @@ const Navbar = (props) => {
 
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
               <button className="btn btn-light logoutbtn"
-              onClick={props.logout}
+              onClick={logout}
               >
                   Logout &nbsp; <AiOutlineLogout color="red"
                   />
@@ -97,7 +128,7 @@ const Navbar = (props) => {
           </div>
         </div>
         <div className="col-4 navcol2">
-          <ConnectButton setShowLogin={setShowLogin} />
+          <ConnectButton connectToWallet={connectToWallet} account={account} />
         </div>
       </div>
 
@@ -127,7 +158,7 @@ const Navbar = (props) => {
               Skip
             </button>
             <button className="btn modbuttons btn-warning" onClick={submitHandler}>
-              Save Locally
+              Register
             </button>
           </div>
         </Modal.Body>
