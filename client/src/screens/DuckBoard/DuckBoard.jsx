@@ -6,10 +6,10 @@ import { useWeb3Contract} from "react-moralis";
 import { useEffect, useState } from "react";
 import {parseBase64} from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
+import { useNavigate } from "react-router-dom";
 import { ConstructionOutlined } from "@mui/icons-material";
 
 const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
-
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
     const {
@@ -60,6 +60,12 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
         getNft();
     },[tokenId])
     
+    const navigate = useNavigate();
+
+    const changeUser = ()=>{
+        
+    }
+
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -174,12 +180,18 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
             </div>
             <div className="row cardrow">
                 <div className="col-6 centercol">
-                    <button className="btn btn-warning profbtn" >
+                    <button className="btn btn-warning profbtn"
+                        onClick={()=>{
+                            navigate("/createInvoice");
+                        }}
+                    >
                         CREATE INVOICE
                     </button>
                 </div>
                 <div className="col-6 centercol">
-                    <button className="btn btn-warning profbtn">
+                    <button className="btn btn-warning profbtn"
+                        onClick={()=>navigate('/transactionhistory')}
+                    >
                         PAST TRANSACTIONS
                     </button>
                 </div>

@@ -7,6 +7,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({
   account,
@@ -86,6 +87,8 @@ const Navbar = ({
     });
   };
 
+  let navigate = useNavigate();
+
   const connectToWallet = async () => {
     await enableWeb3();
     if (typeof window !== "undefined") {
@@ -130,7 +133,16 @@ const Navbar = ({
           {/* list of dropdown items */}
 
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <button className="btn btn-light logoutbtn" onClick={logout}>
+            <button
+              className="btn btn-warning navbtn"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Learn More
+            </button>
+
+            <button className="btn btn-light logoutbtn navbtn" onClick={logout}>
               Logout &nbsp; <AiOutlineLogout color="red" />
             </button>
           </div>
