@@ -7,6 +7,7 @@ import { abi, contractAddress } from "../../constants/index";
 import { useEffect, useState } from "react";
 import {parseBase64} from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
+import { useNavigate } from "react-router-dom";
 
 const DuckBoard = (props) => {
 
@@ -54,6 +55,8 @@ const DuckBoard = (props) => {
         getNft();
     }, [account])
     
+    const navigate = useNavigate();
+
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -167,14 +170,24 @@ const DuckBoard = (props) => {
             </div>
             <div className="row cardrow">
                 <div className="col-6 centercol">
-                    <button className="btn btn-warning profbtn">
+                    <btn className="btn btn-warning profbtn"
+                        onClick={()=>{
+                            navigate("/createInvoice");
+                        }}
+                    >
                         CREATE INVOICE
-                    </button>
+                    </btn>
                 </div>
                 <div className="col-6 centercol">
-                    <button className="btn btn-warning profbtn">
+                    <btn className="btn btn-warning profbtn"
+                        onClick={
+                            ()=>{
+                                navigate('/transactionhistory');
+                            }
+                        }
+                    >
                         PAST TRANSACTIONS
-                    </button>
+                    </btn>
                 </div>
             </div>
             <div className="row centercol">

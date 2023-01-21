@@ -11,6 +11,7 @@ from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
 import DuckBoard from './screens/DuckBoard/DuckBoard'
+import TransactionHistory from './components/TransactionHistory/TransactionHistory'
 import { useMoralis } from "react-moralis";
 import { useState } from 'react';
 
@@ -26,8 +27,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="createInvoice" element={<CreateInvoice />} />
+            <Route path="/createInvoice" element={<CreateInvoice />} />
             <Route path="/duckboard" element={<DuckBoard logout = {logout}/>} />
+            <Route path='/transactionhistory' element={<TransactionHistory/>} />
           </Routes>
         </BrowserRouter>
     </div>
