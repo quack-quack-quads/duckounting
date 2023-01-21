@@ -76,6 +76,17 @@ function App() {
           selected="true"
         ></TransactionHistoryMiniCard>
       </div> */}
+      <InvoiceDisplay
+        date="13 January 2023"
+        transactionType="Paid on chain"
+        invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
+        walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
+        buyerPan="DKJFEIJDKF"
+        sellerPan="DKFJKD343J"
+        amt="5869"
+        months="4"
+        proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
+      />
     </div>
   );
 }
