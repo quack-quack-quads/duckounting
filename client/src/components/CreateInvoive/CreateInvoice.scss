@@ -1,15 +1,16 @@
+$yellow : #efd00b;
 .Invoice {
     padding-top: 12vh;
     height: 100vh;
     width: 100vw;
+
     
-    background-image: url("https://img.freepik.com/premium-photo/abstract-background-with-golden-waves-black-background-template-vector-abstract-background-with-golden-waves-black-background-template-corporate-design-banner-website_113524-336.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     .invoice-container {
         display: flex;
 
-        // border: 2px solid yellow;
+        border: 0.5px solid $yellow;
 
         height: 85vh;
         width: 80vw;
@@ -38,12 +39,20 @@
         border-radius: 10px;
         border: 1 px solid rgba(4,4,4,0.18);
         z-index: -1;
+        .inv-head {
+            font-family: "Barlow Condensed";
+        }
 
         .inside-invoice {
             // border: 2px solid yellow;
             padding-top: 0%;
+            .inv-name {
+                color: $yellow;
+                
+            }
             .invoice-header {
                 color: rgba(255, 255, 255, 0.589);
+                
                 justify-content: center;
             }
         }
@@ -79,6 +88,9 @@
             }
         }
 
+        .upl-but {
+            border:1px solid $yellow;
+        }
         .invoice-row {
             margin-bottom: 3rem;
             @media only screen and (max-width: 770px) {
@@ -104,6 +116,7 @@
 
         .upload-but {
             display: none;
+           
         
         }
         @media only screen and (max-width : 990px ) and (min-width : 900px) {

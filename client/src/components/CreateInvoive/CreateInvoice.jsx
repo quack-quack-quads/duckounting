@@ -19,6 +19,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { ConstructionOutlined, PhotoCamera } from "@mui/icons-material";
 import { Send } from "@mui/icons-material";
 import { UploadFile } from "@mui/icons-material";
+import { SxProps } from "@mui/system";
 
 const darkTheme = createTheme({
     palette: {
@@ -26,7 +27,16 @@ const darkTheme = createTheme({
         black: {
             main: '#000000'
 
+        },
+        yellow: {
+            main: '#efd00b !important'
         }
+    }
+})
+
+const styles = theme => ({
+    notchedOutline: {
+        borderColor: "#efd00b !important"
     }
 })
 
@@ -98,7 +108,7 @@ const CreateInvoice = (
     const handleAmountChange = (event) => {
         setamount(event.target.value);
 
-        
+
     }
 
     const handleSuccess = () => {
@@ -167,9 +177,9 @@ const CreateInvoice = (
         // seturl(uurl);
         seturl(await toast.promise(sendFileToIPFS(fileImg), {
             pending: "Please wait while image is uploaded to IPFS...",
-            success: "Image uploaded!", 
+            success: "Image uploaded!",
             error: 'An error occured while uploading image!'
-        })) 
+        }))
         console.log("this is url", url)
         await addInvoice({
             onSuccess: handleSuccess,
@@ -188,6 +198,19 @@ const CreateInvoice = (
         return !(/^\-?[0-9]+(e[0-9]+)?(\.[0-9]+)?$/.test(x));
     }
 
+    const popperSx: SxProps = {
+
+        "& .MuiPaper-root": {
+            backgroundColor: "#efd00b",
+            borderColor: "#efd00b"
+        },
+        "& .MuiCalendarPicker-root": {
+            backgroundColor: "#3c3a05"
+        },
+
+        "& .MuiTabs-root": { backgroundColor: "#efd00b" }
+    };
+
 
     return (
 
@@ -200,7 +223,7 @@ const CreateInvoice = (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                             <Grid container rowSpacing={0} columnSpacing={2} >
                                 <Grid item xs={12} sm={12} md={12} marginTop={{ sm: 5 }} marginBottom={{ md: 5 }}>
-                                    <h1 className="invoice-form d-flex justify-content-center">
+                                    <h1 className="invoice-form d-flex justify-content-center inv-head">
                                         Create Invoice
                                     </h1>
                                 </Grid>
@@ -216,7 +239,27 @@ const CreateInvoice = (
                                         id="outlined-start-adornment"
                                         inputMode="dark"
                                         fullWidth
-                                        sx={{ m: 1 }}
+                                        sx={{
+                                            m: 1,
+                                            "& .MuiInputLabel-root": { color: 'grey' },//styles the label
+                                            "& .MuiOutlinedInput-root": {
+                                                "& > fieldset": { borderColor: "#efd00b" },
+                                            },
+                                            "& .MuiOutlinedInput-root:hover": {
+                                                "& > fieldset": {
+                                                    borderColor: '#8B8000',
+                                                    color: 'grey'
+                                                }
+                                            },
+                                            "& .MuiOutlinedInput-root.Mui-focused": {
+                                                "& > fieldset": {
+                                                    borderColor: '#FCF55F'
+                                                }
+                                            }
+
+                                        }}
+
+                                        className="inv-name"
 
                                     />
                                 </Grid>
@@ -231,7 +274,27 @@ const CreateInvoice = (
                                             value={paymentMode}
                                             onChange={handlePaymentModeChange}
                                             fullWidth
-                                            sx={{ m: 1 }}
+                                            sx={{
+                                                m: 1,
+                                                borderColor: 'yellow.main',
+                                                '& .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b'
+                                                },
+                                                '& .MuiSvgIcon-root': {
+                                                    color: 'white'
+                                                },
+                                                "& .MuiOutlinedInput.Mui-Select": {
+                                                    "& > fieldset": {
+                                                        borderColor: '#FCF55F'
+                                                    }
+                                                },
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                            }}
                                             className="w-100"
 
                                         >
@@ -252,6 +315,17 @@ const CreateInvoice = (
                                             value={monthsToPay}
                                             disabled={monthPayDis}
                                             onChange={handleMonthChange}
+                                            sx={{
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                                '.MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b',
+                                                },
+                                            }}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -283,6 +357,18 @@ const CreateInvoice = (
                                             label="Amount"
                                             value={amountMonthly}
                                             onChange={handleAmountChange}
+                                            sx={{
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                                '.MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b ',
+                                                },
+
+                                            }}
 
                                         />
                                         {checkAmount(amountMonthly) && (
@@ -301,6 +387,17 @@ const CreateInvoice = (
                                             label="Seller Pan"
                                             value={sellerPan}
                                             onChange={handleSellerPanChange}
+                                            sx={{
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                                '.MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b ',
+                                                },
+                                            }}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -313,13 +410,34 @@ const CreateInvoice = (
                                             label="Seller Pan"
                                             value={buyerPan}
                                             onChange={handleBuyerPanChange}
+                                            sx={{
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                                '.MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b ',
+                                                },
+                                            }}
                                         />
                                     </FormControl>
                                 </Grid>
 
 
                                 <Grid item xs={12} sm={6} md={4} lg={3} marginLeft={{ sm: 1, xs: 1 }}>
-                                    <FormControl fullWidth>
+                                    <FormControl fullWidth sx={{
+                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#FCF55F',
+                                        },
+                                        '&:hover .MuiOutlinedInput-root': {
+                                            borderColor: '#8B8000',
+                                        },
+                                        '.MuiOutlinedInput-notchedOutline': {
+                                            borderColor: '#efd00b ',
+                                        },
+                                    }}>
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 label="Date of Payment"
@@ -330,6 +448,20 @@ const CreateInvoice = (
                                                     date_ = date_.split(" ")
                                                     date_ = `${date_[1]} ${date_[2]} ${date_[3]}`
                                                     setDate(date_);
+                                                }}
+                                                sx={{
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#FCF55F',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#8B8000',
+                                                    },
+                                                    '.MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#efd00b ',
+                                                    },
+                                                }}
+                                                PopperProps={{
+                                                    sx: popperSx
                                                 }}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
@@ -345,6 +477,17 @@ const CreateInvoice = (
                                             label="Seller Pan"
                                             value={buyeraddress}
                                             onChange={handleBuyerAddressChange}
+                                            sx={{
+                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#FCF55F',
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#8B8000',
+                                                },
+                                                '.MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: '#efd00b ',
+                                                },
+                                            }}
                                         />
                                     </FormControl>
                                 </Grid>
@@ -359,8 +502,19 @@ const CreateInvoice = (
                                             name="row-radio-buttons-group"
 
                                         >
-                                            <FormControlLabel value="male" checked={paymentMode === 2} disabled={paidDis} className="invoice-form" control={<Radio />} label="Paid" />
-                                            <FormControlLabel value="other" checked={paymentMode === 1 || paymentMode == 0} disabled={unpaidDis} className="invoice-form" control={<Radio />} label="Unpaid" />
+                                            <FormControlLabel value="male" checked={paymentMode === 2} disabled={paidDis} className="invoice-form" control={<Radio />} label="Paid" sx={{
+                                                '.MuiRadio-root': {
+                                                    borderColor: '#efd00b ',
+                                                    color: '#efd00b ',
+                                                },
+                                            }}
+                                            />
+                                            <FormControlLabel value="other" checked={paymentMode === 1 || paymentMode == 0} disabled={unpaidDis} className="invoice-form" control={<Radio />} label="Unpaid" sx={{
+                                                '.MuiRadio-root': {
+                                                    borderColor: '#efd00b ',
+                                                    color: '#efd00b ',
+                                                },
+                                            }} />
                                         </RadioGroup>
                                     </FormControl>
                                 </Grid>
