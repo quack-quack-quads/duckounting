@@ -1,10 +1,58 @@
 import "./DuckBoard.scss"
 import ProfileCard from "../../components/Profilecard/ProfileCard"
 import { Card, Illustration } from "web3uikit"
-import {useMoralis} from "react-moralis"
-
+import { IpfsImage } from 'react-ipfs-image';
+import { useWeb3Contract, useMoralis } from "react-moralis";
+import { abi, contractAddress } from "../../constants/index";
+import { useEffect, useState } from "react";
+import {parseBase64} from "../../utils/parseBase64ToJson";
 
 const DuckBoard = () => {
+
+    const { chainId: chainIdHex, account } = useMoralis();
+    const chainId = parseInt(chainIdHex);
+    const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
+    const [tokenId, setTokenId] = useState(null);
+    const [uri, setUri] = useState(null);
+    const {
+        runContractFunction: getTokenId,
+    } = useWeb3Contract({
+        abi: abi[chainId],
+        contractAddress: invoicePlatformAddress,
+        functionName: "getTokenId",
+        params: {
+            _pan: window.localStorage.getItem("pan") || "0x0000000000000000000000000000000000000000"   
+        }
+    })
+
+    const {
+        runContractFunction: tokenURI
+    } = useWeb3Contract({
+        abi: abi[chainId],
+        contractAddress: invoicePlatformAddress,
+        functionName: "tokenURI",
+        params: {
+            tokenId: tokenId
+        }
+    })
+
+    const getNft = async() => {
+        if(!account) return;
+        setTokenId(await getTokenId());
+        console.log(tokenId, "tokenId");
+        const base64Uri = await tokenURI();
+        console.log(base64Uri, "base64Uri");
+        if(base64Uri) {
+            const jsonobj = parseBase64(base64Uri);
+            setUri(jsonobj.image);
+        }
+        console.log(uri, "uri");
+    }
+    
+    useEffect(() => {
+        getNft();
+    }, [account])
+
     const nftwidget = <Card
         className='nftcard'
         description="You are rated 5 on the platform"
@@ -16,13 +64,18 @@ const DuckBoard = () => {
         tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :"</span>}
     >
         <div>
-            <Illustration
+            {
+                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' onClick={getNft} /> 
+                :
+                <Illustration
                 height="180px"
                 logo="servers"
                 width="100%"
             />
+            }
         </div>
     </Card>;
+
 
     return <div className="DuckBoard">
         {/* top section in md screen onwards */}

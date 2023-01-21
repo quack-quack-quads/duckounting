@@ -28,6 +28,7 @@ const updateContractAddress = async () => {
 }
 const updateABI = async () => {
     const invoicePlatform = await ethers.getContract("InvoicePlatform");
+    const chainId = network.config.chainId.toString();
     // ! interface directly gives us the ABI and we format it to be a JSON string
     fs.writeFileSync(FRONT_END_ABI_FILE,invoicePlatform.interface.format(ethers.utils.FormatTypes.json));
 }
