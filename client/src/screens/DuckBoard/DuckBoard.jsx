@@ -2,24 +2,19 @@ import "./DuckBoard.scss"
 import ProfileCard from "../../components/Profilecard/ProfileCard"
 import { Card, Illustration } from "web3uikit"
 import { IpfsImage } from 'react-ipfs-image';
-import { useWeb3Contract, useMoralis } from "react-moralis";
-import { abi, contractAddress } from "../../constants/index";
+import { useWeb3Contract} from "react-moralis";
 import { useEffect, useState } from "react";
 import {parseBase64} from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 
-const DuckBoard = (props) => {
-
-    const { chainId: chainIdHex, account } = useMoralis();
-    const chainId = parseInt(chainIdHex);
-    const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
+const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
     const {
         runContractFunction: getTokenId,
     } = useWeb3Contract({
-        abi: abi[chainId],
+        abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "getTokenId",
         params: {
@@ -30,7 +25,7 @@ const DuckBoard = (props) => {
     const {
         runContractFunction: tokenURI
     } = useWeb3Contract({
-        abi: abi[chainId],
+        abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "tokenURI",
         params: {
@@ -56,6 +51,10 @@ const DuckBoard = (props) => {
     }, [account])
     
     const navigate = useNavigate();
+
+    const changeUser = ()=>{
+        
+    }
 
     const nftwidget = <Card
         className='nftcard'
@@ -108,7 +107,7 @@ const DuckBoard = (props) => {
                 <div className="col logoutcol">
                     <div className="logout">
                         <AiOutlineLogout color="red" size={30}
-                            onClick={props.logout}
+                            onClick={logout}
                         />
                     </div>
                 </div>
@@ -170,24 +169,20 @@ const DuckBoard = (props) => {
             </div>
             <div className="row cardrow">
                 <div className="col-6 centercol">
-                    <btn className="btn btn-warning profbtn"
+                    <button className="btn btn-warning profbtn"
                         onClick={()=>{
                             navigate("/createInvoice");
                         }}
                     >
                         CREATE INVOICE
-                    </btn>
+                    </button>
                 </div>
                 <div className="col-6 centercol">
-                    <btn className="btn btn-warning profbtn"
-                        onClick={
-                            ()=>{
-                                navigate('/transactionhistory');
-                            }
-                        }
+                    <button className="btn btn-warning profbtn"
+                        onClick={()=>navigate('/transactionhistory')}
                     >
                         PAST TRANSACTIONS
-                    </btn>
+                    </button>
                 </div>
             </div>
             <div className="row centercol">

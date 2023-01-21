@@ -1,9 +1,8 @@
 import { useWeb3Contract, useMoralis } from "react-moralis";
-import { ethers, utils } from "ethers";
-import { abi, contractAddress } from "../../constants/index";
-import { useState, useEffect } from "react";
+import { utils } from "ethers";
+import { useState } from "react";
 import "./CreateInvoice.scss";
-import sendFileToIpfs, { sendFileToIPFS } from "../../utils/uploadFileToIPFS"
+import { sendFileToIPFS } from "../../utils/uploadFileToIPFS"
 import { TiTickOutline } from 'react-icons/ti'
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -32,10 +31,10 @@ const darkTheme = createTheme({
 })
 
 
-const CreateInvoice = () => {
-    const { chainId: chainIdHex, isWeb3Enabled, isLoading, isFetching } = useMoralis();
-    const chainId = parseInt(chainIdHex);
-    const invoicePlatformAddress = chainId in contractAddress ? contractAddress[chainId][0] : null;
+const CreateInvoice = (
+    contractAbi,
+    invoicePlatformAddress
+) => {
     const [date, setDate] = useState(null);
     const [name, setname] = useState(window.localStorage.name || "");  // name
     const [paymentMode, setPaymentMode] = useState(null);
@@ -108,7 +107,7 @@ const CreateInvoice = () => {
 
     // ! contract interaction functions
     const { runContractFunction: addInvoice } = useWeb3Contract({
-        abi: abi[chainId],
+        abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "addInvoice",
         params: {
