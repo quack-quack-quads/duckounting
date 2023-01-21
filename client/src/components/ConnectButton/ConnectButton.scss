@@ -1,3 +1,19 @@
+$yellow : #ffc107;
 .btn-address {
-    color: white;
+    color: black;
+    padding : 0 7%;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    display: flex;
+    margin-right : 10px;
+}
+
+.wallet-connect{
+    color: black;
+    font-size: 17px;
+    font-weight: 600;
+    padding : 0 7%;
+    margin-right : 10px;
 }

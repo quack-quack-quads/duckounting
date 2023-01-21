@@ -19,6 +19,8 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
     event RegisterPerson(string pan, string name);
     event Paid(string sellerPan, string buyerPan);
 
+    mapping(string => uint256) public panToTokenId;
+
     constructor(
         string memory _commonURI,
         string memory _mediumURI,
@@ -75,6 +77,7 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
         s_tokenCounter++;
         tokenIdToPan[s_tokenCounter] = _pan;
         _safeMint(msg.sender, s_tokenCounter);
+        panToTokenId[_pan] = s_tokenCounter;
         emit RegisterPerson(_pan, _name);
     }
 
@@ -151,5 +154,10 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             }
             emit Paid(_sellerPan, _buyerPan);
         }
+    }
+
+    // getters
+    function getTokenId(string memory _pan) public view returns (uint256) {
+        return panToTokenId[_pan];
     }
 }
