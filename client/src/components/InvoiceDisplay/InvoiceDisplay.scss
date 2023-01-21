@@ -92,17 +92,6 @@ $grey : #090909;
             font-size: 17px;
             font-weight: bold;
         }
-        // .buyer:hover,
-        // .seller:hover{
-        //     background-color: black;
-        //     color : white;
-        //     border-radius: 10px;
-        //     transform : scale(1.1);
-        //     border : 3px solid yellow;
-        // }
-        // .seller:hover{
-        //     border : 3px solid white;
-        // }
         .amt,
         .number{
             background-color: $grey;
@@ -168,6 +157,9 @@ $grey : #090909;
             border-radius: 10px 0 0 10px;
             display: block;
         }
+        .proofimg:hover{
+            cursor: pointer;
+        }
         .viewimage{
             width: 300px;
             text-align: center;
@@ -176,6 +168,7 @@ $grey : #090909;
         .proofdiv:hover,
         .proofdiv:active{
             .proofimage{
+                cursor: pointer;
                 border : 3px solid $yellow;
             }
             .viewimage{
@@ -196,4 +189,12 @@ $grey : #090909;
             margin-left: 2%;
         }
     }
+}
+.modalBody{
+    padding: 0;
+}
+.ipfs-img-container{
+    background-color: #090909;
+    padding: 0;
+    margin: 0;
 }

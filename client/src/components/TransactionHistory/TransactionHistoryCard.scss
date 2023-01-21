@@ -1,84 +1,70 @@
-$bck-clr : #0b0b0b;
+// $BG_COLOR: rgb(179, 173, 173);
 $TEXT_COLOR: white;
 $HEADER_COLOR: rgba(37, 35, 35, 0.682);
 $HEADER_SECONDARY: yellow;
-
 @mixin glass-look {
     background: rgba(117, 114, 114, 0.18);
     backdrop-filter: blur(7.5px);
     box-shadow: 0 8px 32px 0 rgba(4, 4, 4, 0.18);
     border-radius: 20px;
 }
-.pending-txn  {
-    background-color: $bck-clr;
-    height: 75vh;
-    width: 100%;
-    padding: 2%;
-    
-    border: 2px solid rgb(236, 236, 235);
-    margin-left: 2rem;
 
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-
-    // fonts
-    font-size: xx-large;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-
-    @media only screen and (max-width: 772px) {
-        width: 80%;
-    }
-
-    @media only screen and (min-width: 772px) and (max-width: 992px) {
-        width: 70%;
-    }
-
-    .invoice-whole-container {
-        padding-right: 0;
-    }
-
-    .underline {
-        height: 0.1vh;
-        width: 75%;
-        background-color: white;
-        margin-left: 3rem;
-    }
-
-    .pending-txn-table {
-        height: 93%;
-        // border: 2px solid yellow;
-    }
-
-    ::-webkit-scrollbar {
-        background-color: black;
-        width: 0rem;
-        // scrollbar-width: thin;
-    }
-
-    .table-head {
-        font-size: x-large;
-    }
-
-    .georgia {
-        font-family: Georgia, 'Times New Roman', Times, serif;
-    }
-}
-
-
-.pt-card {
+.th-card {
     @include glass-look;
     margin-top: 1%;
-    padding: 1%;
+    .text-box {
+        margin-top: 1%;
+        text-align: center;
         h4{
             color: $TEXT_COLOR;
             font-size: 1rem;
-            padding: 1%;
         }
-    
+    }
+    .role-arrow {
+        max-width: 40px;
+        height: auto;
+        width:100%;
+        filter: invert(100%);
+        
+    }
 }
 
+.th-mini-card {
+    @include glass-look;
+    margin-top: 1%;
+    .role-arrow {
+        max-width: 20px;
+        height: auto;
+        width:100%;
+        filter: invert(100%);
+    }
+    .text-box {
+        margin-top: 1%;
+        text-align: center;
+        h4{
+            color: $TEXT_COLOR;
+            font-size: 0.7rem;
+        }
+    }
+}
 
-.pt-header {
+.selected {
+    background-color: yellow;
+    h4{
+        color: black !important;
+    }
+    .role-arrow {
+        filter: none;
+    }
+}
+
+.arrow-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.th-header {
     margin-top: 1.5%;
     background-color: $HEADER_COLOR;
     padding-top: 1%;

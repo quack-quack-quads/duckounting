@@ -489,14 +489,14 @@ const { developmentChains } = require("../../helper-hardhat-config")
     describe("mintNft", () => {
         it("should mint an NFT when a person registers", async() => {
             await invoicePlatform.registerPerson("sellerPAN", "sellerName");
-
+            let tokendatabase64 = await invoicePlatform.tokenURI(1); 
+            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
+            token = JSON.parse(token);
             // should fail if asked a NFT that is not minted
             await expect(invoicePlatform.tokenURI(0)).to.be.revertedWith("NftNotExist")
 
             // check if the NFT is minted properly by getting the tokenURI
-            let tokendatabase64 = await invoicePlatform.tokenURI(1); 
-            let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
-            token = JSON.parse(token);
+
             assert.equal(token.name, "InvoiceNFT", "name should be InvoiceNFT")
             assert.equal(token.description, "An NFT that changes based on the rating that a seller has.", "description should be correct")
             assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
