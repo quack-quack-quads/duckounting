@@ -1,4 +1,14 @@
 $bck-clr : #0b0b0b;
+$TEXT_COLOR: white;
+$HEADER_COLOR: rgba(37, 35, 35, 0.682);
+$HEADER_SECONDARY: yellow;
+
+@mixin glass-look {
+    background: rgba(117, 114, 114, 0.18);
+    backdrop-filter: blur(7.5px);
+    box-shadow: 0 8px 32px 0 rgba(4, 4, 4, 0.18);
+    border-radius: 20px;
+}
 .pending-txn  {
     background-color: $bck-clr;
     height: 75vh;
@@ -52,4 +62,85 @@ $bck-clr : #0b0b0b;
     .georgia {
         font-family: Georgia, 'Times New Roman', Times, serif;
     }
+}
+
+
+.pt-card {
+    @include glass-look;
+    margin-top: 1%;
+    padding: 1%;
+        h4{
+            color: $TEXT_COLOR;
+            font-size: 1rem;
+            padding: 1%;
+        }
+    
+}
+
+
+.pt-header {
+    margin-top: 1.5%;
+    background-color: $HEADER_COLOR;
+    padding-top: 1%;
+    .search-icon {
+        background-color: $HEADER_COLOR;
+        border-right: 0;
+    }
+    .search-icon-svg {
+        color: white;
+    }
+    .search-input {
+        background-color: $HEADER_COLOR;
+        color: $HEADER_SECONDARY;
+        border-left: 0;
+    }
+    .btn-filter-container {
+        border: 1px solid $HEADER_SECONDARY;
+        border-radius: 12px;
+    }
+    .btn-filter {
+        background:none;
+        border: none;
+        color: $HEADER_SECONDARY;
+        padding: 10px;
+    }
+    .btn-selected-first{
+        background-color: $HEADER_SECONDARY;
+        color: $HEADER_COLOR;
+        border-radius: 10px 0px 0px 10px;
+    }
+    .btn-selected{
+        background-color: $HEADER_SECONDARY;
+        color: $HEADER_COLOR;
+    }
+    .btn-selected-last{
+        background-color: $HEADER_SECONDARY;
+        color: $HEADER_COLOR;
+        border-radius: 0px 10px 10px 0px;
+    }
+    .flex-line-1{
+        border: 0.5px solid $HEADER_SECONDARY;
+    }
+    .flex-line-2{
+        border: 0.5px solid $HEADER_COLOR;
+    }
+    @media(max-width : 575px) and (min-width : 0px){
+        .btn-selected-first{
+            background-color: $HEADER_SECONDARY;
+            color: $HEADER_COLOR;
+            border-radius: 10px 10px 0px 0px;
+        }
+        .btn-selected-last{
+            background-color: $HEADER_SECONDARY;
+            color: $HEADER_COLOR;
+            border-radius: 0px 0px 10px 10px;
+        }
+    }
+}
+
+.sort-button {
+    background-color: $HEADER_COLOR;
+    border-color: $HEADER_SECONDARY;
+    color: $HEADER_SECONDARY;
+    cursor: pointer;
 }

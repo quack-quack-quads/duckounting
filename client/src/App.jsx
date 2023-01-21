@@ -5,7 +5,8 @@ import PendingTransaction from "./components/PendingTransactions/PendingTransact
 import TransactionHistoryCard from "./components/TransactionHistory/TransactionHistoryCard";
 import TransactionHistoryMiniCard from "./components/TransactionHistory/TransactionHistoryMiniCard";
 import TransactionHistoryTableHeader from "./components/TransactionHistory/TransactionHistoryTableHeader";
-import LandingPage from "./pages/LandingPage";
+import PendingTransactionCard from "./components/PendingTransactions/PendingTransactionsCard";
+import PendingTransactionHeader from "./components/PendingTransactions/PendingTransactionHeader";
 
 function App() {
   const list = [
@@ -37,9 +38,9 @@ function App() {
 
   return (
     <div className="App">
-      <div className="col-8 offset-2 my-auto">
-        <TransactionHistoryTableHeader />
-        <TransactionHistoryCard
+      {/* <div className="col-8 offset-2 my-auto">
+        <PendingTransactionHeader />
+        <PendingTransactionCard
           role="buyer"
           invoiceID="InvoiceIDl1"
           date="18/01/2023"
@@ -74,7 +75,7 @@ function App() {
           amount="₹21000"
           selected="true"
         ></TransactionHistoryMiniCard>
-      </div>
+      </div> */}
     </div>
   );
 }

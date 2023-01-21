@@ -1,37 +1,24 @@
 import { useState } from "react";
-import "./TransactionHistoryCard.scss";
+import "./PendingTransaction.scss";
 import { FaSearch } from "react-icons/fa";
 import { InputGroup } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import SortButton from "./SortButton";
+import SortButton from "../TransactionHistory/SortButton";
 
-const TransactionHistoryTableHeader = (props) => {
-  const [isBuyer, setIsBuyer] = useState(false);
-
+const PendingTransactionHeader = (props) => {
   const [sortOrder, setSortOrder] = useState(["date", "dec"]);
-  const [filterState, setFilterState] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [filterState, setFilterState] = useState([false, false, false]);
   const filterMap = {
-    buyer: 0,
-    seller: 1,
-    paid: 2,
-    pending: 3,
-    eth_one_time: 4,
-    eth_recurring: 5,
-    cash: 6,
+    eth_one_time: 0,
+    eth_recurring: 1,
+    cash: 2,
   };
   const filterClickHandler = (event) => {
     setFilterState((prevState) => {
       var newList = [...prevState];
       newList[filterMap[event.target.id]] =
         !newList[filterMap[event.target.id]];
+      console.log(newList);
       return newList;
     });
   };
@@ -49,7 +36,7 @@ const TransactionHistoryTableHeader = (props) => {
     });
   };
   return (
-    <div className="th-header row">
+    <div className="pt-header row">
       <div className="col-12 col-md-8 offset-md-2">
         <InputGroup className="mb-3">
           <InputGroup.Text className="search-icon">
@@ -84,57 +71,11 @@ const TransactionHistoryTableHeader = (props) => {
       <div className="col-8 offset-2 col-md-4 offset-md-2 d-flex flex-column align-items-center mb-1">
         <h4 className="text-center">Filter</h4>
         <div className="d-flex flex-row flex-sm-column">
-          <div className="btn-filter-container d-flex flex-column flex-sm-row">
-            <button
-              id="buyer"
-              className={`btn-filter flex-fill ${
-                filterState[0] ? "btn-selected-first" : ""
-              }`}
-              onClick={filterClickHandler}
-            >
-              Buyer
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="seller"
-              className={`btn-filter flex-fill ${
-                filterState[1] ? "btn-selected-last" : ""
-              }`}
-              onClick={filterClickHandler}
-            >
-              Seller
-            </button>
-          </div>
-
-          <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
-            <button
-              id="paid"
-              className={`btn-filter flex-fill ${
-                filterState[2] ? "btn-selected-first" : ""
-              }`}
-              onClick={filterClickHandler}
-            >
-              Paid
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="pending"
-              className={`btn-filter flex-fill ${
-                filterState[3] ? "btn-selected-last" : ""
-              }`}
-              onClick={filterClickHandler}
-            >
-              Pending
-            </button>
-          </div>
-
           <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
             <button
               id="eth_one_time"
               className={`btn-filter flex-fill ${
-                filterState[4] ? "btn-selected-first" : ""
+                filterState[0] ? "btn-selected-first" : ""
               }`}
               onClick={filterClickHandler}
             >
@@ -144,8 +85,8 @@ const TransactionHistoryTableHeader = (props) => {
             <div className="flex-line-2"></div>
             <button
               id="eth_recurring"
-              className={`btn-filter flex-fill${
-                filterState[5] ? "btn-selected" : ""
+              className={`btn-filter flex-fill ${
+                filterState[1] ? "btn-selected" : ""
               }`}
               onClick={filterClickHandler}
             >
@@ -155,8 +96,8 @@ const TransactionHistoryTableHeader = (props) => {
             <div className="flex-line-2"></div>
             <button
               id="cash"
-              className={`btn-filter flex-fill${
-                filterState[6] ? "btn-selected-last" : ""
+              className={`btn-filter flex-fill ${
+                filterState[2] ? "btn-selected-last" : ""
               }`}
               onClick={filterClickHandler}
             >
@@ -169,4 +110,4 @@ const TransactionHistoryTableHeader = (props) => {
   );
 };
 
-export default TransactionHistoryTableHeader;
+export default PendingTransactionHeader;
