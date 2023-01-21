@@ -16,6 +16,7 @@ from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
 import DuckBoard from './screens/DuckBoard/DuckBoard'
+import Review from './components/Review/Review';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,6 +29,7 @@ root.render(
         <Route path="/duckboard" element={<DuckBoard/>} />
       </Routes>
     </BrowserRouter>
+    <Review />
   </MoralisProvider>
 );
 
