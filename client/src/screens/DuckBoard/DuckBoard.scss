@@ -37,6 +37,17 @@ $grey : #090909;
 
         }
     }
+    .dicard, .dicard:hover{
+        background: rgb(255, 243, 156);
+        background: linear-gradient(124deg, rgba(255, 243, 156, 1) 53%, rgba(255, 255, 255, 1) 100%);
+        .sc-kDDrLX{
+            color : black;
+        }
+        .xHoFN{
+            font-size: larger;
+
+        }
+    }
     .largescreens {
         .topbanner {
             height: 40vh;
@@ -98,6 +109,25 @@ $grey : #090909;
                 }
             }
         }
+        .dicardcol {
+            display: flex;
+            justify-content: center;
+
+            .dicard {
+                margin-top: 19px;
+                margin-bottom: 19px;
+                height: auto;
+                width: 100%;
+                background-color: white;
+                border-radius: 20px;
+                z-index: 5;
+
+                @media(max-width: 767px) {
+                    width: 80%;
+                    background-color: white !important;
+                }
+            }
+        }
     }
 
     .smallscreens {
@@ -138,6 +168,13 @@ $grey : #090909;
             height: 50vh;
             width: 60%;
             border-radius: 20px;
+        }
+        .dicard {
+            height: auto;
+            width: 80%;
+            border-radius: 20px;
+            margin-top: 3%;
+            margin-bottom: 3%;
         }
     }
 }
