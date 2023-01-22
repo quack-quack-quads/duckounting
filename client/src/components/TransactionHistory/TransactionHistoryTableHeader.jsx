@@ -7,9 +7,6 @@ import SortButton from "./SortButton";
 
 const TransactionHistoryTableHeader = (props) => {
   const [isBuyer, setIsBuyer] = useState(false);
-
-
-
   const [sortOrder, setSortOrder] = useState(["date", "dec"]);
   const [filterState, setFilterState] = useState([
     false,
@@ -63,22 +60,25 @@ const TransactionHistoryTableHeader = (props) => {
 
   return (
     <div className="th-header row">
-      <div className="col-12 col-md-8 offset-md-2">
-        <InputGroup className="mb-3">
+      <div className="col-12">
+        <InputGroup className="mb-3 mt-3 searchbar">
           <InputGroup.Text className="search-icon">
             <FaSearch className="search-icon-svg" />
           </InputGroup.Text>
           <Form.Control
             autofill="true"
-            className="search-input "
+            className="search-input"
             placeholder="Search"
             onChange={onSearchChange}
           />
         </InputGroup>
       </div>
-      <div className="col-8 offset-2 col-md-4 offset-md-1">
-        <h4 className="text-center">Sort by</h4>
-        <div className="row row-cols-1 mb-1">
+
+      <div className="row">
+        <div className="col-4 centercol">
+          SORT BY
+        </div>
+        <div className="col-4 btncol">
           <SortButton
             clickHandler={sortClickHandler}
             id="date"
@@ -86,6 +86,8 @@ const TransactionHistoryTableHeader = (props) => {
           >
             Date
           </SortButton>
+        </div>
+        <div className="col-4 btncol">
           <SortButton
             clickHandler={sortClickHandler}
             id="amount"
@@ -95,81 +97,85 @@ const TransactionHistoryTableHeader = (props) => {
           </SortButton>
         </div>
       </div>
-      <div className="col-8 offset-2 col-md-4 offset-md-2 d-flex flex-column align-items-center mb-1">
-        <h4 className="text-center">Filter</h4>
-        <div className="d-flex flex-row flex-sm-column">
-          <div className="btn-filter-container d-flex flex-column flex-sm-row">
-            <button
-              id="buyer"
-              className={`btn-filter flex-fill ${filterState[0] ? "btn-selected-first" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              Buyer
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="seller"
-              className={`btn-filter flex-fill ${filterState[1] ? "btn-selected-last" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              Seller
-            </button>
-          </div>
 
-          <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
-            <button
-              id="paid"
-              className={`btn-filter flex-fill ${filterState[2] ? "btn-selected-first" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              Paid
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="pending"
-              className={`btn-filter flex-fill ${filterState[3] ? "btn-selected-last" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              Pending
-            </button>
-          </div>
+      <div className="row mb-3">
+        <div className="col-4 centercol">
+          FILTERS
+        </div>
+      </div>
 
-          <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
-            <button
-              id="eth_one_time"
-              className={`btn-filter flex-fill ${filterState[4] ? "btn-selected-first" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              ETH One Time
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="eth_recurring"
-              className={`btn-filter flex-fill ${filterState[5] ? "btn-selected" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              ETH Recurring
-            </button>
-            <div className="flex-line-1"></div>
-            <div className="flex-line-2"></div>
-            <button
-              id="cash"
-              className={`btn-filter flex-fill ${filterState[6] ? "btn-selected-last" : ""
-                }`}
-              onClick={filterClickHandler}
-            >
-              Cash (Offline)
-            </button>
-          </div>
+      <div className="d-flex flex-row flex-sm-column justify-content-center">
+        <div className="btn-filter-container d-flex flex-column flex-sm-row">
+          <button
+            id="buyer"
+            className={`btn-filter flex-fill ${filterState[0] ? "btn-selected-first" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            Buyer
+          </button>
+          <div className="flex-line-1"></div>
+          <div className="flex-line-2"></div>
+          <button
+            id="seller"
+            className={`btn-filter flex-fill ${filterState[1] ? "btn-selected-last" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            Seller
+          </button>
+        </div>
+
+        <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
+          <button
+            id="paid"
+            className={`btn-filter flex-fill ${filterState[2] ? "btn-selected-first" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            Paid
+          </button>
+          <div className="flex-line-1"></div>
+          <div className="flex-line-2"></div>
+          <button
+            id="pending"
+            className={`btn-filter flex-fill ${filterState[3] ? "btn-selected-last" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            Pending
+          </button>
+        </div>
+
+        <div className="btn-filter-container d-flex flex-column flex-sm-row m-1">
+          <button
+            id="eth_one_time"
+            className={`btn-filter flex-fill ${filterState[4] ? "btn-selected-first" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            ETH One Time
+          </button>
+          <div className="flex-line-1"></div>
+          <div className="flex-line-2"></div>
+          <button
+            id="eth_recurring"
+            className={`btn-filter flex-fill ${filterState[5] ? "btn-selected" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            ETH Recurring
+          </button>
+          <div className="flex-line-1"></div>
+          <div className="flex-line-2"></div>
+          <button
+            id="cash"
+            className={`btn-filter flex-fill ${filterState[6] ? "btn-selected-last" : ""
+              }`}
+            onClick={filterClickHandler}
+          >
+            Cash (Offline)
+          </button>
         </div>
       </div>
     </div>
