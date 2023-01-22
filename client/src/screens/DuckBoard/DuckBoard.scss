@@ -8,6 +8,7 @@ $grey : #090909;
     align-items: center;
 }
 
+
 .DuckBoard {
     padding-top: 15vh;
     overflow-x : hidden;
@@ -24,6 +25,12 @@ $grey : #090909;
         display: flex;
         justify-content: end;
         
+    }
+    .nftimage{
+        border-radius: 20px;
+        height: 280px;
+        width: 100%;
+        object-fit: cover;
     }
     .nftcard,   
     .nftcard:hover{

@@ -69,6 +69,7 @@ const DuckBoard = ({ account, logout, invoicePlatformAddress, contractAbi }) => 
     }
 
     const nftwidget = <Card
+        tooltipPosition="left"
         className='nftcard'
         description="You are rated 5 on the platform"
         onClick={() => { }}
@@ -76,17 +77,17 @@ const DuckBoard = ({ account, logout, invoicePlatformAddress, contractAbi }) => 
             return false;
         }}
         title="Enterprise Duck"
-        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :)"</span>}
+        tooltipText={<span style={{ width: 60 , paddingRight : -100}}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :)"</span>}
     >
         <div>
             {
-                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' />
-                    :
+                <IpfsImage hash={"QmWcwZud5HxJD1u2SuVuVijDHUPBbxBBkje46YW3o6QWiB"} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='nftimage' />
+                    
                     // CENTER THE SPINNER
-                    <div class="row justify-content-center">
-                        <div class="spinner-border text-warning" role="status">
-                        </div>
-                    </div>
+                    // <div class="row justify-content-center">
+                    //     <div class="spinner-border text-warning" role="status">
+                    //     </div>
+                    // </div>
 
             }
         </div>
