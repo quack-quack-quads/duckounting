@@ -1,5 +1,6 @@
 $yellow : #ffc107;
 .txn-main {
+    overflow-x: hidden;
     padding-top: 4rem;
     // border: 2px solid pink;
     padding-bottom: 5vh;
@@ -21,6 +22,7 @@ $yellow : #ffc107;
         position: absolute;
         z-index: 0;
         padding : 0 !important;
+        overflow-x: hidden !important;
         margin: 0;
         justify-content: center;
         text-align: center;
@@ -70,6 +72,7 @@ $yellow : #ffc107;
     }
     .scrolloverflow{
         overflow-y: scroll;
+        overflow-x: hidden;
     }
     .txn-table {
         // border: 2px solid yellow;

@@ -1,7 +1,206 @@
+.Rating{
+    padding-top: 6rem;
+    
+}
 .review__container{
+        // border: 2px solid yellow;
+        
         .review__heading{
             font-size: 3rem;
             font-weight: 700;
             color: #efd00b;
         }
+        transform: scale(0.8) ;
+}
+.seller-name {
+    font-family: "Barlow Condensed";
+    color: #ffc107;
+}
+
+
+::-webkit-input-placeholder {
+    color: red;
+    text-align: center;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    text-align: center;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    text-align: center;
+}
+:-ms-input-placeholder {
+    color: red;
+    text-align: center;
+}
+
+.row1 {
+    // border: 2px solid yellow;
+}
+
+@media only screen and (max-width:575px) and (min-width:323px) {
+    .rating-stars {
+        font-size: 4rem !important;
+    }
+}
+@media only screen and (max-width:323px) {
+    .rating-stars {
+        font-size: 3rem !important;
+    }
+}
+
+@media only screen and (min-width:575px) {
+    .rating-stars {
+        font-size: 6rem !important;
+    }
+    .review-field {
+        width: 45%;
+        height: 20vh;
+        color: white;
+        background: black;
+        // border: 2px solid yellow;
+    }
+    
+    .review-field:focus {
+        width: 45%;
+        height: 20vh;
+        color: white;
+        background: black;
+    }
+}
+.sub {
+    height: 100%;
+    width: 20%;
+    margin-left: 1rem;
+}
+
+@media only screen and (max-width:992px) and (min-width:772px) {
+    .review-field {
+        width: 55%;
+        height: 20vh;
+        color: white;
+        background: black;
+        // border: 2px solid yellow;
+    }
+    
+    .review-field:focus {
+        width: 55%;
+        height: 20vh;
+        color: white;
+        background: black;
+    }
+    .sub {
+        height: 100%;
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width:773px) and (min-width:575px) {
+    .review-field {
+        width: 65%;
+        height: 20vh;
+        color: white;
+        background: black;
+        // border: 2px solid yellow;
+    }
+    
+    .review-field:focus {
+        width: 65%;
+        height: 20vh;
+        color: white;
+        background: black;
+    }
+    .sub {
+        height: 100%;
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width:575px) and (min-width:376px) {
+    .review-field {
+        width: 70%;
+        height: 20vh;
+        color: white;
+        background: black;
+        // border: 2px solid yellow;
+    }
+    
+    .review-field:focus {
+        width: 70%;
+        height: 20vh;
+        color: white;
+        background: black;
+    }
+    .sub {
+        height: 100%;
+        width: 30%;
+    }
+}
+@media only screen and (max-width:375px) {
+    .review-field {
+        width: 100%;
+        height: 20vh;
+        color: white;
+        background: black;
+        // border: 2px solid yellow;
+    }
+    
+    .review-field:focus {
+        width: 100%;
+        height: 20vh;
+        color: white;
+        background: black;
+    }
+    .sub {
+        height: 100%;
+        width: 90%;
+    }
+}
+
+.sub:hover {
+    background-color:  #EEDC82;
+}
+
+.review-modal {
+    background-color: #000000 !important;
+    border: 2px solid yelow !important;
+}
+.review-modal1 {
+    // border: 2px solid yelow !important;
+}
+
+.modal-head {
+    background-color: #000000 !important;
+    color: white;
+    display: flex !important;
+    justify-content: center !important;
+    text-align: center !important;
+
+    
+}
+
+.btn-close {
+    background-color: white !important;
+}
+.tit-head {
+    margin: auto;
+
+}
+.row4 {
+    border: 1px  yellow;
+    border-style: solid solid none solid;
+    border-bottom: 1px solid white;
+}
+
+.mod-tit {
+    font-size: xx-large;
+    font-family: "Barlow Condensed";
+}
+
+.mod-body {
+    border: 1px yellow;
+    border-style: none solid solid solid;
 }

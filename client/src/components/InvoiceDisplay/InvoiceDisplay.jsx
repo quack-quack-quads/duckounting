@@ -7,20 +7,47 @@ import Ducklogo from '../../assets/images/ducklogo.png'
 import { IpfsImage } from 'react-ipfs-image';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Review from '../Review/Review'
+import { abi, contractAddress } from "../../constants/index";
+import { useMoralis } from "react-moralis";
 
 const InvoiceDisplay = (props) => {
     const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
     const [show, setShow] = useState(false);
+    const [success, setSuccess] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [contractAbi, setContractAbi] = useState(null);
+    const [invoicePlatformAddress, setInvoicePlatformAddress] = useState("");
+    const { chainId: chainIdHex } = useMoralis();
+    const [chainId, setChainId] = useState(parseInt(chainIdHex));
+
     const handleShow = () => setShow(true);
     var amtDue = parseFloat(props.amt) * parseFloat(props.months);
     const delta = 1e-6;
     var transactionWidget;
 
-    const paynow = ()=>{
-        
-    }
+    const getContractDetails = () => {
+        try {
+          setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
+          setContractAbi(abi[parseInt(chainIdHex)]);
+        } catch (err) {}
+      };
+    
+      useEffect(() => {
+        setChainId(parseInt(chainIdHex));
+        getContractDetails();
+      }, [chainIdHex]);
+    
 
+    const paynow = () => {
+        console.log(success);
+        if (success) {
+            setShowModal(true);
+        }
+
+    }
+    console.log("at invoice display : ", success);
     if (Math.abs(amtDue) <= delta) {
         transactionWidget =
             <>
@@ -112,34 +139,36 @@ const InvoiceDisplay = (props) => {
         </div>
         <div className="row imgrow">
             <div className="col-12 col-md-7 d-flex justify-content-center align-items-center">
-                    <div className="proofdiv">
-                        <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='proofimg' 
+                <div className="proofdiv">
+                    <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='proofimg'
                         onClick={handleShow}
-                        />
-                    </div>
+                    />
+                </div>
             </div>
             <div className="col-12 col-md-5 d-flex justify-content-center align-items-center">
                 <img src={stamp} alt="" className="logo" />
             </div>
         </div>
         <Modal
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        show={show}
-        onHide={() => setShow(false)}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+            show={show}
+            onHide={() => setShow(false)}
         >
-        <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-            </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='modalBody'>
-            <div className="d-flex justify-content-center ipfs-img-container">
-                <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' />
-            </div>
-        </Modal.Body>   
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Modal heading
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className='modalBody'>
+                <div className="d-flex justify-content-center ipfs-img-container">
+                    <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' />
+                </div>
+            </Modal.Body>
         </Modal>
+        {success === true ? <Review sellerPan={"rohitPan"} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}
+            showModal={showModal} setshowModal={setShowModal} /> : null}
     </div>
 }
 

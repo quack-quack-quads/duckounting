@@ -17,6 +17,7 @@ import { useState } from 'react';
 import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
 import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
 import Footer from "./components/Footer/Footer";
+import Review from "./components/Review/Review";
 
 
 
@@ -28,7 +29,6 @@ function App() {
   const [chainId, setChainId] = useState(parseInt(chainIdHex));
   const [invoicePlatformAddress, setInvoicePlatformAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
-  const [listing, setListing] = useState([]);
 
   const getContractDetails = () => {
     try {
@@ -170,7 +170,8 @@ function App() {
           />
           <Route
             path="/transactionhistory"
-            element={<TransactionHistory contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}/>}
+            element={<TransactionHistory contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} getContractDetails={getContractDetails}
+            chainId={chainId} setChainid={setChainId} chainIdHex={chainIdHex}/>}
           />
           <Route
             path="/duckboard"
@@ -184,6 +185,7 @@ function App() {
             }
           />
           <Route path="*" element={<Home />} />
+          
         </Routes>
       </BrowserRouter>
     </div>
