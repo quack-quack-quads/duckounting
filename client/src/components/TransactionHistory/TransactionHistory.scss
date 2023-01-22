@@ -1,12 +1,50 @@
-
+$yellow : #ffc107;
 .txn-main {
     padding-top: 4rem;
     // border: 2px solid pink;
-
-    .txn-main-row1 {
-        // border: 2px solid lightblue;
+    .title{
+        background-color : $yellow;
+        color : black;
+        border-radius: 15px;
+        font-size: 24px;
+        width: 80%;
+        margin : auto;
+        text-align: center;
+        font-family: "Poppins";
+        padding : 0.5vh 0.5vw;
+        font-weight: 600;
+        margin-top : 3vh;
+        margin-bottom: 5vh;
     }
-
+    .invoicediv{
+        position: absolute;
+        z-index: 0;
+        padding : 0 !important;
+        margin: 0;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        display: flex;
+        width: 100%;
+    }
+    .txn-main-row1 {
+        z-index: 1;
+    }
+    .tableCollapsed{
+        z-index: 1;
+        position: absolute;
+        top : 48%;
+        left : 0;
+        .collapsebutton{
+            padding : 0 20px;
+        }
+        .row{
+            padding : 10px;
+        }
+        .row2{
+            padding-top : 0px;
+        }
+    }
     ::-webkit-scrollbar-track
     {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -65,9 +103,7 @@
             padding: 0 !important;
             padding-right: 0 !important;
             margin-left: 5px;
-            
-            height: 70vh;
-            
+            height: 50vh;
         }
         scrollbar-width: 10px;
         .body {

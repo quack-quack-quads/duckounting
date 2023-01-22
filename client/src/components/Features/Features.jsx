@@ -9,8 +9,8 @@ const Features = () => {
   return (
     <div className="features">
       <div className="line"></div>
-      <h1 className="features-heading">
-        Explore the amazing features of decentralisation with Duckounting
+      <h1 className="features-heading text-center">
+        Explore our amazing features
       </h1>
       <div className="d-flex flex-column flex-lg-row">
         <Feature

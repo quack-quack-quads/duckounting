@@ -22,7 +22,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
 
     function addInvoice(
         uint8 _paymentMode,
-        uint32 _amountMonthly,
+        uint256 _amountMonthly,
         uint32 _monthsToPay,
         bool _status,
         address recipient,

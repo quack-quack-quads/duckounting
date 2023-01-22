@@ -1,7 +1,7 @@
 import "./Navbar.scss";
 import Ducklogo from "../../assets/images/duck.png";
 import { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useWeb3Contract, useMoralis } from "react-moralis";
@@ -19,6 +19,7 @@ const Navbar = ({
   const [showLogin, setShowLogin] = useState(false);
   const [pan, setPan] = useState("");
   const [name, setName] = useState("");
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
 
   const { enableWeb3, isWeb3Enabled, deactivateWeb3, Moralis } = useMoralis();
 
@@ -142,7 +143,12 @@ const Navbar = ({
               Learn More
             </button>
 
-            <button className="btn btn-light logoutbtn navbtn" onClick={logout}>
+            <button
+              className="btn btn-light logoutbtn navbtn"
+              onClick={() => {
+                setShowLogoutAlert(true);
+              }}
+            >
               Logout &nbsp; <AiOutlineLogout color="red" />
             </button>
           </div>
@@ -151,6 +157,40 @@ const Navbar = ({
           <ConnectButton connectToWallet={connectToWallet} account={account} />
         </div>
       </div>
+
+      <Modal
+        show={showLogoutAlert}
+        onHide={() => {
+          setShowLogoutAlert(false);
+        }}
+      >
+        <div className="logoutModal">
+          <Modal.Body>
+            <p className="row m-2">Are you sure you want to logout?</p>
+            <div className="d-flex flex-row justify-content-end">
+              <Button
+                className="m-1"
+                variant="warning"
+                onClick={() => {
+                  setShowLogoutAlert(false);
+                }}
+              >
+                No
+              </Button>
+              <Button
+                className="m-1"
+                variant="danger"
+                onClick={() => {
+                  setShowLogoutAlert(false);
+                  logout();
+                }}
+              >
+                Yes
+              </Button>
+            </div>
+          </Modal.Body>
+        </div>
+      </Modal>
 
       {/* login modal */}
       <Modal show={showLogin} onHide={hideLogin} className="loginModal">
