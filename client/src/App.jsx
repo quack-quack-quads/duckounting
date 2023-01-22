@@ -17,6 +17,7 @@ import { useState } from 'react';
 import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
 import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
 import Footer from "./components/Footer/Footer";
+import Review from "./components/Review/Review";
 
 
 
@@ -28,6 +29,7 @@ function App() {
   const [chainId, setChainId] = useState(parseInt(chainIdHex));
   const [invoicePlatformAddress, setInvoicePlatformAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
+  const [showModal, setShowModal] = useState(true);
 
   const getContractDetails = () => {
     try {
@@ -137,6 +139,9 @@ function App() {
             }
           />
           <Route path="*" element={<Home />} />
+          <Route path="/review"
+          element={<Review sellerPan={"rohitPan"} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} 
+          showModal={showModal} setshowModal={setShowModal}/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -184,7 +184,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             seturl(async (prev2) => {
                 setDone(false);
                 console.log(done);
-                var new_url =  sendFileToIPFS(fileImg);
+                var new_url = sendFileToIPFS(fileImg);
                 await toast.promise(new_url, {
                     pending: "Uploading image ...",
                     success: "Image uploaded",
