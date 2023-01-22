@@ -26,18 +26,18 @@ function App() {
   const [contractAbi, setContractAbi] = useState(null);
 
   const getContractDetails = () => {
-    try{
+    try {
       setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
       setContractAbi(abi[parseInt(chainIdHex)]);
     }
-    catch(err){
+    catch (err) {
     }
   }
 
   useEffect(() => {
     setChainId(parseInt(chainIdHex));
     getContractDetails();
-  },[chainIdHex])
+  }, [chainIdHex])
 
   const logout = () => {
     deactivateWeb3();
@@ -105,10 +105,10 @@ function App() {
           <Route path="/createInvoice" element={<CreateInvoice contractAbi={contractAbi}
             invoicePlatformAddress={invoicePlatformAddress}
           />} />
-          <Route path="/transactionhistory" element={<TransactionHistory listing = {listing}/>}/>
+          <Route path="/transactionhistory" element={<TransactionHistory listing={listing} />} />
           <Route path="/duckboard" element={<DuckBoard account={account}
             logout={logout} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} />} />
-          <Route path="*" element= {<Home />}/>
+          <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>

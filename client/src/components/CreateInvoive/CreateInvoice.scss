@@ -7,6 +7,7 @@ $yellow : #efd00b;
     
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    padding-left: 0;
     .invoice-container {
         display: flex;
 
@@ -41,6 +42,7 @@ $yellow : #efd00b;
         z-index: -1;
         .inv-head {
             font-family: "Barlow Condensed";
+            color: $yellow;
         }
 
         .inside-invoice {
@@ -102,6 +104,11 @@ $yellow : #efd00b;
         .invoice-submit {
             color: rgba(255, 255, 255, 0.558);
         }
+
+        .invoice-submit:hover {
+            color: $yellow;
+        }
+
         .invoice-date {
             color: rgba(255, 255, 255, 0.558);;
         }
@@ -112,6 +119,32 @@ $yellow : #efd00b;
             border: 2px solid yellow;
             padding-left: 0;
             margin-left: 0;
+        }
+
+        .stamp-row {
+            margin-top: 0;
+            margin-right: 0rem;
+            margin-bottom: 25rem;
+            margin-left: 0;
+            height: 15vh;
+            width: 20vw;
+            @media  only screen and (max-width: 1200px) {
+                height: 0;
+                width: 0;;
+            }
+            @media only screen and (min-width: 1300px)  {
+                width: 30vw;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                width: 32vw;
+            }
+            // border: 2px solid yellow;
+        }
+
+        .stamp-row2 {
+            // border: 2px solid yellow;
+            margin-left: 0;
+            margin-right: 2rem;
         }
 
         .upload-but {
