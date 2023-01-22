@@ -16,6 +16,7 @@ import { useMoralis } from "react-moralis";
 import { useState } from 'react';
 import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
 import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
+import Footer from "./components/Footer/Footer";
 
 
 

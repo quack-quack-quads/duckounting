@@ -1,15 +1,17 @@
+$yellow : #efd00b;
 .Invoice {
     padding-top: 12vh;
     height: 100vh;
     width: 100vw;
+
     
-    background-image: url("https://img.freepik.com/premium-photo/abstract-background-with-golden-waves-black-background-template-vector-abstract-background-with-golden-waves-black-background-template-corporate-design-banner-website_113524-336.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    padding-left: 0;
     .invoice-container {
         display: flex;
 
-        // border: 2px solid yellow;
+        border: 0.5px solid $yellow;
 
         height: 85vh;
         width: 80vw;
@@ -38,12 +40,21 @@
         border-radius: 10px;
         border: 1 px solid rgba(4,4,4,0.18);
         z-index: -1;
+        .inv-head {
+            font-family: "Barlow Condensed";
+            color: $yellow;
+        }
 
         .inside-invoice {
             // border: 2px solid yellow;
             padding-top: 0%;
+            .inv-name {
+                color: $yellow;
+                
+            }
             .invoice-header {
                 color: rgba(255, 255, 255, 0.589);
+                
                 justify-content: center;
             }
         }
@@ -79,6 +90,9 @@
             }
         }
 
+        .upl-but {
+            border:1px solid $yellow;
+        }
         .invoice-row {
             margin-bottom: 3rem;
             @media only screen and (max-width: 770px) {
@@ -90,6 +104,11 @@
         .invoice-submit {
             color: rgba(255, 255, 255, 0.558);
         }
+
+        .invoice-submit:hover {
+            color: $yellow;
+        }
+
         .invoice-date {
             color: rgba(255, 255, 255, 0.558);;
         }
@@ -102,8 +121,35 @@
             margin-left: 0;
         }
 
+        .stamp-row {
+            margin-top: 0;
+            margin-right: 0rem;
+            margin-bottom: 25rem;
+            margin-left: 0;
+            height: 15vh;
+            width: 20vw;
+            @media  only screen and (max-width: 1200px) {
+                height: 0;
+                width: 0;;
+            }
+            @media only screen and (min-width: 1300px)  {
+                width: 30vw;
+            }
+            @media only screen and (min-width: 1200px) and (max-width: 1300px) {
+                width: 32vw;
+            }
+            // border: 2px solid yellow;
+        }
+
+        .stamp-row2 {
+            // border: 2px solid yellow;
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+
         .upload-but {
             display: none;
+           
         
         }
         @media only screen and (max-width : 990px ) and (min-width : 900px) {
