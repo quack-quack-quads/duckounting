@@ -2,6 +2,7 @@ $yellow : #ffc107;
 .txn-main {
     padding-top: 4rem;
     // border: 2px solid pink;
+    padding-bottom: 5vh;
     .title{
         background-color : $yellow;
         color : black;
@@ -112,10 +113,6 @@ $yellow : #ffc107;
             overflow-y: scroll;
             height: 40vh;
            }
-            
-
-              
-              
         
         
     }

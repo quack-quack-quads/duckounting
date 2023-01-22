@@ -8,7 +8,7 @@ import {parseBase64} from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 import { ConstructionOutlined } from "@mui/icons-material";
-
+import Footer from "../../components/Footer/Footer";
 const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
@@ -74,7 +74,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
             return false;
         }}
         title="Enterprise Duck"
-        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :"</span>}
+        tooltipText={<span style={{ width: 200 }}>"The users who sign/reject the contracts you send them rate you out of five. Highly rated users get an NFT :)"</span>}
     >
         <div>
             {
@@ -182,6 +182,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                 <div className="col-6 centercol">
                     <button className="btn btn-warning profbtn"
                         onClick={()=>{
+                            console.log("btn click")
                             navigate("/createInvoice");
                         }}
                     >
@@ -200,6 +201,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                 {nftwidget}
             </div>
         </div>
+        <Footer/>
     </div>
 }
 

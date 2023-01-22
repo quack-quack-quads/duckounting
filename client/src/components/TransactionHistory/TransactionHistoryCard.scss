@@ -1,18 +1,20 @@
 // $BG_COLOR: rgb(179, 173, 173);
-$TEXT_COLOR: white;
+$TEXT_COLOR: black;
 $yellow : #ffc107;
-$HEADER_COLOR: rgba(37, 35, 35, 0.682);
+$HEADER_COLOR: black;
 $HEADER_SECONDARY: $yellow;
-@mixin glass-look {
-    background: rgba(117, 114, 114, 0.18);
-    backdrop-filter: blur(7.5px);
-    box-shadow: 0 8px 32px 0 rgba(4, 4, 4, 0.18);
-    border-radius: 20px;
+
+.centercol{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .th-card {
-    @include glass-look;
-
+    background: rgb(255,217,101);
+    background: linear-gradient(276deg, rgba(255,217,101,1) 79%, rgba(255,255,255,1) 100%); 
+    color : black;
     margin-top: 1%;
     .text-box {
         margin-top: 1%;
@@ -36,7 +38,6 @@ $HEADER_SECONDARY: $yellow;
 }
 
 .th-mini-card {
-    @include glass-look;
     margin-top: 1%;
     .role-arrow {
         max-width: 20px;
@@ -86,10 +87,15 @@ $HEADER_SECONDARY: $yellow;
     .search-icon-svg {
         color: white;
     }
+    .searchbar{
+        width: 70%;
+        margin: auto;
+    }
     .search-input {
         background-color: $HEADER_COLOR;
         color: $HEADER_SECONDARY;
         border-left: 0;
+        margin: auto;
     }
     .btn-filter-container {
         border: 1px solid $HEADER_SECONDARY;
@@ -147,4 +153,9 @@ $HEADER_SECONDARY: $yellow;
 .form-control:focus {
     border-color: #efd00b;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 251, 0, 0.6);
-  }
+}
+
+.btncol{
+    padding : 5px;
+
+}

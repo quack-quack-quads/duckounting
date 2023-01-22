@@ -40,7 +40,6 @@ function App() {
     setChainId(parseInt(chainIdHex));
     getContractDetails();
   }, [chainIdHex]);
-
   const logout = () => {
     deactivateWeb3();
     window.localStorage.removeItem("connected");
@@ -140,7 +139,6 @@ function App() {
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
-      <Footer />
     </div>
   );
 }

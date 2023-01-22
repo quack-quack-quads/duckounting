@@ -130,6 +130,7 @@ const TransactionHistory = (props) => {
 
     const toggleTable = () => {
         setCollapse(!collapse);
+        setShow(!show);
         console.log("btn click")
     }
 
@@ -151,10 +152,10 @@ const TransactionHistory = (props) => {
     return (
         <div className="container txn-main">
             <div className="row centerrow">
-                    <div className="title">
-                        Transaction History
-                    </div>
+                <div className="title">
+                    Transaction History
                 </div>
+            </div>
             <div className="row ">
                 {
                     collapse ?
@@ -170,14 +171,16 @@ const TransactionHistory = (props) => {
                                 </div>
                             </button>
                         </div>
+
                         :
-                        <div className={`txn-main-row1`
-                            // ${animate ? "col-12 col-lg-6" : "col-12"}
-                        } ref={txn_card_ref}>
-                            <div className={`container txn-table $`}>
-                                <div className="row header-content">
-                                    <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
-                                </div>
+
+
+                        <div className="txn-main-row1 row" ref={txn_card_ref}>
+                            <div className="col-12 col-md-6">
+                                <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
+                            </div>
+
+                            <div className="col-12 col-md-6">
                                 <div className="row body">
                                     <div className={`txn-card `}>
                                         {listing.map((obj) => {
@@ -200,28 +203,28 @@ const TransactionHistory = (props) => {
                                                         amount={obj.amount}
                                                         date={obj.date}
                                                         mode={obj.mode}
+                                                        handleCardClick = {handleCardClick}
                                                     />)
                                             )
                                         })}
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                 }
                 <div className="invoicediv">
-                {show ? <InvoiceDisplay
-                    date="13 January 2023"
-                    transactionType="Paid on chain"
-                    invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
-                    walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
-                    buyerPan="DKJFEIJDKF"
-                    sellerPan="DKFJKD343J"
-                    amt="5869"
-                    months="4"
-                    proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
-                /> : null}
-            </div>
+                    {show ? <InvoiceDisplay
+                        date="13 January 2023"
+                        transactionType="Paid on chain"
+                        invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
+                        walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
+                        buyerPan="DKJFEIJDKF"
+                        sellerPan="DKFJKD343J"
+                        amt="5869"
+                        months="4"
+                        proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
+                    /> : null}
+                </div>
             </div>
 
         </div>
