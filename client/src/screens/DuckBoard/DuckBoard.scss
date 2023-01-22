@@ -8,6 +8,7 @@ $grey : #090909;
     align-items: center;
 }
 
+
 .DuckBoard {
     padding-top: 15vh;
     overflow-x : hidden;
@@ -25,21 +26,28 @@ $grey : #090909;
         justify-content: end;
         
     }
+    .nftimage{
+        border-radius: 20px;
+        height: 280px;
+        width: 100%;
+        object-fit: cover;
+    }
     .nftcard,   
     .nftcard:hover{
-        background: rgb(255, 243, 156);
-        background: linear-gradient(124deg, rgba(255, 243, 156, 1) 53%, rgba(255, 255, 255, 1) 100%);
+        background: rgb(255,255,255);
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,234,173,1) 93%, rgba(255,255,255,1) 100%); 
         .sc-kDDrLX{
             color : black;
+            font-family: "Poppins";
         }
         .xHoFN{
             font-size: larger;
-
+            font-family: "Poppins";
         }
     }
     .dicard, .dicard:hover{
-        background: rgb(255, 243, 156);
-        background: linear-gradient(124deg, rgba(255, 243, 156, 1) 53%, rgba(255, 255, 255, 1) 100%);
+        background: white !important;
+        border :  3px solid #ffc107;
         .sc-kDDrLX{
             color : black;
         }
@@ -94,7 +102,22 @@ $grey : #090909;
         .nftcardcol {
             display: flex;
             justify-content: center;
-
+            padding : 0;
+            .row{
+                padding : 0;
+                margin : 0;
+                width : 100% !important;
+                z-index: 10;
+            }
+            .ducklogo{
+                z-index: 90;
+            }
+            .wrapperdiv{
+                width: 100%;
+                margin : 0;
+                padding : 0;
+                padding-left : 10px;
+            }
             .nftcard {
                 height: 395px;
                 width: 90%;

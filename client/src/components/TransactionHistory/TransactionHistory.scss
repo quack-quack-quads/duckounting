@@ -1,25 +1,33 @@
 $yellow : #ffc107;
+.bkg{
+    background-image: url("../../assets/backgrounds/yb_geo_l.jpg");
+}
 .txn-main {
+    .transactioncol{
+        padding : 3vh 3vw;
+
+    }
     overflow-x: hidden;
     padding-top: 4rem;
-    // border: 2px solid pink;
+    min-height: 100vh;
+    height: fit-content;
     padding-bottom: 5vh;
     .title{
-        background-color : $yellow;
-        color : black;
+        background-color : black;
+        color : $yellow;
         border-radius: 15px;
-        font-size: 24px;
+        font-size: 26px;
         width: 80%;
         margin : auto;
         text-align: center;
         font-family: "Poppins";
-        padding : 0.5vh 0.5vw;
+        padding : 1.5vh 0.5vw;
         font-weight: 600;
         margin-top : 3vh;
         margin-bottom: 5vh;
     }
+    
     .invoicediv{
-        position: absolute;
         z-index: 0;
         padding : 0 !important;
         overflow-x: hidden !important;
@@ -40,6 +48,8 @@ $yellow : #ffc107;
         left : 0;
         .collapsebutton{
             padding : 0 20px;
+            background-color: black;
+            color : $yellow;
         }
         .row{
             padding : 10px;

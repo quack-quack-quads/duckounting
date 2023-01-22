@@ -58,6 +58,16 @@ const DuckBoard = ({
     // console.log(tokenId.toString(), uri_);
   };
 
+  const [duckIndex, setDuckIndex] = useState(0.7);
+  const [rating, setRating] = useState("4");
+
+  
+
+  const ratingmap = {
+    "4" : "Exquisite",
+    "5" : "Enterprise",
+    "3" : "Normie"
+  }
   useEffect(() => {
     retrieveTokenid();
   }, [invoicePlatformAddress]);
@@ -68,19 +78,17 @@ const DuckBoard = ({
 
   const navigate = useNavigate();
 
-  const changeUser = () => {};
-
   const nftwidget = (
     <Card
       className="nftcard"
-      description="You are rated 5 on the platform"
-      onClick={() => {}}
+      description={"You are rated " + rating + " on the platform"}
+      onClick={() => { }}
       setIsSelected={() => {
         return false;
       }}
-      title="Enterprise Duck"
+      title={ratingmap[rating] + " Duck"}
       tooltipText={
-        <span style={{ width: 200 }}>
+        <span style={{ width: 60 }}>
           "The users who sign/reject the contracts you send them rate you out of
           five. Highly rated users get an NFT :)"
         </span>
@@ -91,7 +99,7 @@ const DuckBoard = ({
           <IpfsImage
             hash={uri}
             gatewayUrl="https://gateway.pinata.cloud/ipfs"
-            className="img-fluid"
+            className="nftimage"
           />
         ) : (
           // CENTER THE SPINNER
@@ -106,15 +114,15 @@ const DuckBoard = ({
   const duckountingIndex = (
     <Card
       className="dicard"
-      description="You have a duckounting index of 70%"
-      title="Duckounting Index"
-      onClick={() => {}}
+      description="You have a duckountability index of 70%"
+      title="Duckountability Index"
+      onClick={() => { }}
       setIsSelected={() => {
         return false;
       }}
       tooltipText={
         <span style={{ width: 200, zIndex: 1000 }}>
-          Your duckounting index is calculated on the basis of how regular you
+          Your duckountability index is calculated on the basis of how regular you
           were in paying due amounts on your invoices
         </span>
       }
@@ -124,7 +132,7 @@ const DuckBoard = ({
           id="gauge-chart1"
           nrOfLevels={10}
           colors={["#000000", "#00FF00"]}
-          percent={0.7}
+          percent={duckIndex}
           textColor={"#000000"}
           animateDuration={5000}
         ></GaugeChart>
@@ -188,7 +196,16 @@ const DuckBoard = ({
           </div>
           <div className="col-md-3 col-lg-4 dicardcol">{duckountingIndex}</div>
           {/* <div className="col d-none d-md-block d-lg-none"></div> */}
-          <div className="col-md-5 col-lg-4 nftcardcol">{nftwidget}</div>
+          <div className="col-md-5 col-lg-4 nftcardcol">
+            <div className="wrapperdiv">
+              <div className="row">
+                {nftwidget}
+              </div>
+              <div className="row">
+                <img src="../assets/images/duck.png" alt="" className="ducklogo" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
