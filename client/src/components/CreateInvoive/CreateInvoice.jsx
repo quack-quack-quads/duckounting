@@ -553,15 +553,12 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                                             <Button variant="text" color="black" className="invoice-submit" size="large" onClick={handleSubmit}>Submit</Button>
                                         </div>
                                     </Grid>
-
                                 </Grid>
-
                             </Box>
                         </ThemeProvider>
                     </div>
                 </div>
             </div>
-            <Footer/>
         </div>
     )
 }

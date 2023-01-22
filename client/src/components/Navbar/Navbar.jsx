@@ -135,21 +135,16 @@ const Navbar = ({
 
           {/* list of dropdown items */}
 
+          
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            <button
-              className="btn btn-warning navbtn"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              Learn More
-            </button>
+            
 
             <button
               className="btn btn-warning navbtn"
               onClick={() => {
                 navigate("/transactionhistory");
               }}
+              disabled = {!account}
             >
               Transaction History
             </button>
@@ -159,8 +154,18 @@ const Navbar = ({
               onClick={() => {
                 navigate("/createInvoice");
               }}
+              disabled = {!account}
             >
               Create Invoice
+            </button>
+
+            <button
+              className="btn btn-warning navbtn"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Learn More
             </button>
 
             {
