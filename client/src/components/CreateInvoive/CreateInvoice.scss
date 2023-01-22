@@ -1,10 +1,12 @@
 $yellow : #efd00b;
 .Invoice {
     padding-top: 12vh;
-    margin: 0;
+    width: 100vw;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     padding-left: 0;
+    margin-top : 5vh;
+    margin-bottom: 5vh;
     .invoice-container {
         display: flex;
 

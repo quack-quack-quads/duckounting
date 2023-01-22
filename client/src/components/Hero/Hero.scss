@@ -4,6 +4,13 @@
     overflow-x: 0;
     background-image: url("./../../assets/backgrounds/yb_geo_l.jpg");
     height: 100vh;
+    .centercol{
+        display: flex;
+        justify-content: center;
+    }
+    .yellowhighlight{
+        color : #ffc107;
+    }
     .hero-title {
         font-family: 'Barlow Condensed';
         font-size: 9vw;
