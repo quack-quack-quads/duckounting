@@ -106,6 +106,7 @@ const Navbar = ({
         setShowLogin(true);
       }
     }
+    navigate("/duckboard");
   };
 
   return (
