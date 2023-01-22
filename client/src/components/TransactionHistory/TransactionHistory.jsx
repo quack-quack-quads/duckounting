@@ -16,6 +16,7 @@ const TransactionHistory = ({
 }) => {
     const [listing_orig, setListing_orig] = useState([]);
     const [listing, setListing] = useState([]);
+    const [toDisplayProps, setToDisplayProps] = useState({});
 
     const [sortBy, setSortBy] = useState("");
     const [filterState, setFilterState] = useState("");
@@ -44,11 +45,11 @@ const TransactionHistory = ({
     }
     const giveMode = (mode) => {
         if (mode == 0) {
-        return "ETH (One Time)";
+        return "ETH";
         } else if (mode == 1) {
-        return "ETH (Monthly)";
+        return "Recurring";
         } else{
-        return "CASH (Offline)";
+        return "Cash";
         }
     }
 
@@ -77,7 +78,7 @@ const TransactionHistory = ({
         .then(res => {
             if(res !== undefined)
             {
-                // console.log("fetched this", res);
+                console.log("fetched this", res);
                 let newList = []
                 for (var i = 0; i < res.length; i++) {
                     let tmpObj = {}
@@ -89,11 +90,14 @@ const TransactionHistory = ({
                     tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
                     tmpObj["date"] = res[i].date;
                     tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                    // ! new props
+                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
+                    tmpObj["walletAddress"] = res[i].recipient;
+                    tmpObj["proof"] = res[i].url;
                     newList.push(tmpObj);
                 }
                 setListing_orig(newList);
                 setListing(newList);
-                console.log("listing", newList);
             }
         })
         .catch(err => {console.log(`Error: ${err}`)})
@@ -113,6 +117,10 @@ const TransactionHistory = ({
                     tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
                     tmpObj["date"] = res[i].date;
                     tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                    // ! new props
+                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
+                    tmpObj["walletAddress"] = res[i].recipient;
+                    tmpObj["proof"] = res[i].url;
                     newList.push(tmpObj);
                 }
                 setListing_orig(prevArr => [...prevArr, ...newList]);
@@ -234,8 +242,10 @@ const TransactionHistory = ({
         console.log("btn click")
     }
 
-    const handleCardClick = () => {
-        // setAnimate(true);
+    const handleCardClick = (props) => {
+        // setAnimate(true);    
+        console.log("card click",props)
+        setToDisplayProps(props);
         setShow(true);
         setCollapse(true);
         // if (window.innerWidth >= 992) {
@@ -296,6 +306,10 @@ const TransactionHistory = ({
                                                         mode={obj.mode}
                                                         sellerPAN={obj.sellerPAN}
                                                         handleCardClick={handleCardClick}
+                                                        // ! new fields
+                                                        monthsToPay={obj.monthsToPay}
+                                                        walletAddress={obj.walletAddress}
+                                                        proof={obj.proof}
                                                     /> :
                                                         <TransactionHistoryMiniCard 
                                                             role={obj.role}
@@ -306,6 +320,10 @@ const TransactionHistory = ({
                                                             date={obj.date}
                                                             mode={obj.mode}
                                                             handleCardClick = {handleCardClick}
+                                                            // ! new fields
+                                                            monthsToPay={obj.monthsToPay}
+                                                            walletAddress={obj.walletAddress}
+                                                            proof={obj.proof}
                                                         />)
                                                 )
                                             })
@@ -319,15 +337,17 @@ const TransactionHistory = ({
                 }
                 <div className="invoicediv">
                     {show ? <InvoiceDisplay
-                        date="13 January 2023"
+                        date={toDisplayProps.date}
+                        invoiceId={toDisplayProps.invoiceID}
+                        walletAddress={toDisplayProps.walletAddress}
+                        buyerPan={toDisplayProps.partnerPAN}
+                        sellerPan={toDisplayProps.sellerPAN}
+                        amt={toDisplayProps.amount}
+                        months={toDisplayProps.monthsToPay}
+                        proof={toDisplayProps.proof}
+                        // TODO - 
                         transactionType="Paid on chain"
-                        invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
-                        walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
-                        buyerPan="DKJFEIJDKF"
-                        sellerPan="DKFJKD343J"
-                        amt="5869"
-                        months="4"
-                        proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
+                        sellerAddress="0x1234567890"
                     /> : null}
                 </div>
             </div>
