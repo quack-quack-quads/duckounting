@@ -16,6 +16,11 @@ const InvoiceDisplay = (props) => {
     var amtDue = parseFloat(props.amt) * parseFloat(props.months);
     const delta = 1e-6;
     var transactionWidget;
+
+    const paynow = ()=>{
+        
+    }
+
     if (Math.abs(amtDue) <= delta) {
         transactionWidget =
             <>
@@ -29,11 +34,15 @@ const InvoiceDisplay = (props) => {
     } else {
         transactionWidget =
             <>
-                <div className="pending">
-                    PENDING
+                <div className="pending"
+                    onClick={
+                        paynow
+                    }
+                >
+                    PAY NOW
                 </div>
                 <div className="helpertext">
-                    Some payments are yet to be done.
+                    Some payments are pending.
                 </div>
             </>
     }

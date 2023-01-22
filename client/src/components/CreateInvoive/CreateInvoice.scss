@@ -1,10 +1,7 @@
 $yellow : #efd00b;
 .Invoice {
     padding-top: 12vh;
-    height: 100vh;
-    width: 100vw;
-
-    
+    margin: 0;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     padding-left: 0;
@@ -13,7 +10,7 @@ $yellow : #efd00b;
 
         border: 0.5px solid $yellow;
 
-        height: 85vh;
+        height: fit-content;
         width: 80vw;
 
         @media only screen and (max-width: 500px) {

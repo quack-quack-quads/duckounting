@@ -8,7 +8,6 @@ import nftpng from "../../assets/images/card.png";
 const Features = () => {
   return (
     <div className="features">
-      <div className="line"></div>
       <h1 className="features-heading text-center">
         Explore our amazing features
       </h1>

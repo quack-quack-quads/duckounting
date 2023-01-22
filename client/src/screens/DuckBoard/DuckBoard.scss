@@ -11,19 +11,19 @@ $grey : #090909;
 .DuckBoard {
     padding-top: 15vh;
     overflow-x : hidden;
+    .logout{
+        background-color: white;
+        padding : 10px;
+        border-radius: 100px;
+        cursor: pointer;
+    }
+    .logout:hover{
+        background-color: black;
+    }
     .logoutcol{
         display: flex;
-        justify-content: flex-start;
-        align-items: end;
-        .logout{
-            background-color: white;
-            padding : 10px;
-            border-radius: 100px;
-            margin-bottom : 6vh;
-        }
-        .logout:hover{
-            background-color: black;
-        }
+        justify-content: end;
+        
     }
     .nftcard,   
     .nftcard:hover{

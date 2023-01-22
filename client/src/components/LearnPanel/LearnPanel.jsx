@@ -23,7 +23,6 @@ const LearnPanel = () => {
             <li className="flex-fill">
               Blockchain is what the cool kids use nowadays
             </li>
-            <li className="flex-fill">You might get sex</li>
           </ul>
         </div>
         <div className="col-4">
