@@ -56,6 +56,7 @@ const DuckBoard = ({
     const tokenid = await getTokenId();
     setTokenId(tokenid);
     const person = await getPersonDetails();
+    console.log(person)
     setRating(person.rating.toString());
   };
 
@@ -124,7 +125,7 @@ const DuckBoard = ({
   const duckountingIndex = (
     <Card
       className="dicard"
-      description="You have a duckountability index of 70%"
+      description="You have a duckountability index of 100%"
       title="Duckountability Index"
       onClick={() => { }}
       setIsSelected={() => {
