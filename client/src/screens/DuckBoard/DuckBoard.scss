@@ -10,7 +10,7 @@ $grey : #090909;
 
 
 .DuckBoard {
-    padding-top: 15vh;
+    padding-top: 13vh;
     overflow-x : hidden;
     .logout{
         background-color: white;
@@ -24,11 +24,10 @@ $grey : #090909;
     .logoutcol{
         display: flex;
         justify-content: end;
-        
     }
     .nftimage{
         border-radius: 20px;
-        height: 280px;
+        height: 330px;
         width: 100%;
         object-fit: cover;
     }
@@ -119,7 +118,9 @@ $grey : #090909;
                 padding-left : 10px;
             }
             .nftcard {
-                height: 395px;
+                min-height: 395px;
+                max-width: 500px;
+                height : 65vh;
                 width: 90%;
                 background-color: white;
                 margin-top: -200px;

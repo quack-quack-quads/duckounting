@@ -58,15 +58,15 @@ const DuckBoard = ({
     // console.log(tokenId.toString(), uri_);
   };
 
-  const [duckIndex, setDuckIndex] = useState(0.7);
+  const [duckIndex, setDuckIndex] = useState(1.0);
   const [rating, setRating] = useState("4");
 
-  
+
 
   const ratingmap = {
-    "4" : "Exquisite",
-    "5" : "Enterprise",
-    "3" : "Normie"
+    "4": "Exquisite",
+    "5": "Enterprise",
+    "3": "Normie"
   }
   useEffect(() => {
     retrieveTokenid();
@@ -114,7 +114,7 @@ const DuckBoard = ({
   const duckountingIndex = (
     <Card
       className="dicard"
-      description="You have a duckountability index of 70%"
+      description="You have a duckountability index of 100%"
       title="Duckountability Index"
       onClick={() => { }}
       setIsSelected={() => {
