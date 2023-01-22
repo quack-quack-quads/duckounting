@@ -21,6 +21,7 @@ import { Send } from "@mui/icons-material";
 import { UploadFile } from "@mui/icons-material";
 import { SxProps } from "@mui/system";
 import stamp from "../../assets/images/stamp.png"
+import Footer from "../Footer/Footer"
 
 const darkTheme = createTheme({
     palette: {
@@ -198,8 +199,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                 return new_url;
 
             })
-
-
             return new_amt;
         })
         console.log(done);
@@ -215,10 +214,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             console.log("called me!");
 
         }
-
-
-
-
     }
 
     const sizeVal = () => {
@@ -565,10 +560,8 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                         </ThemeProvider>
                     </div>
                 </div>
-
-
-
             </div>
+            <Footer/>
         </div>
     )
 }

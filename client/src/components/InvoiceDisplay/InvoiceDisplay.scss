@@ -133,7 +133,11 @@ $grey : #090909;
             background-color: rgb(89, 170, 89);
         }
         .pending{
-            background-color: rgb(250, 77, 77);
+            background-color: rgb(213, 38, 38);
+            cursor : pointer;
+        }
+        .pending:hover{
+            background-color: black;
         }
         .helpertext{
             background-color: white;

@@ -10,6 +10,7 @@ $yellow : #ffc107;
     margin-right : 10px;
     background-color: $yellow;
     cursor : pointer;
+    border: 2px solid black;
 }
 
 .wallet-connect{
@@ -18,4 +19,6 @@ $yellow : #ffc107;
     font-weight: 600;
     padding : 0 7%;
     margin-right : 10px;
+    border: 2px solid black;
+
 }

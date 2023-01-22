@@ -17,7 +17,9 @@ const ProfileCard = (props)=>{
                     {props.label}
                 </div>
                 <div className="row">
-                    <button className="btn btn-warning profilebtn">
+                    <button className="btn btn-warning profilebtn"
+                    onClick={props.handler}
+                    >
                         {props.button}
                     </button>
                 </div>
