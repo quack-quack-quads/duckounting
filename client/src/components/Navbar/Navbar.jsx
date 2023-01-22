@@ -138,6 +138,15 @@ const Navbar = ({
           
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
             
+          <button
+              className="btn btn-warning navbtn"
+              onClick={() => {
+                navigate("/duckboard");
+              }}
+              disabled = {!account}
+            >
+              Duckboard
+            </button>
 
             <button
               className="btn btn-warning navbtn"

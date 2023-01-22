@@ -260,13 +260,13 @@ const TransactionHistory = ({
 
 
     return (
-        <div className="container txn-main">
+        <div className="txn-main bkg">
             <div className="row centerrow">
                 <div className="title">
                     Transaction History
                 </div>
             </div>
-            <div className="row ">
+            <div className="row backrow">
                 {
                     collapse ?
                         <div className="tableCollapsed">
@@ -286,11 +286,11 @@ const TransactionHistory = ({
 
 
                         <div className="txn-main-row1 row" ref={txn_card_ref}>
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-6 transactioncol">
                                 <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
                             </div>
 
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-6 transactioncol">
                                 <div className="row body">
                                     <div className="txn-card scrolloverflow">
                                         { listing.length > 0 ?
@@ -336,7 +336,7 @@ const TransactionHistory = ({
                         </div>
                 }
                 <div className="invoicediv">
-                    {show ? <InvoiceDisplay
+                    {collapse ? <InvoiceDisplay
                         date={toDisplayProps.date}
                         invoiceId={toDisplayProps.invoiceID}
                         walletAddress={toDisplayProps.walletAddress}
