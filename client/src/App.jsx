@@ -1,15 +1,23 @@
 import "./App.scss";
 import React, { useEffect } from "react";
 import { abi, contractAddress } from "./constants/index";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import CreateInvoice from "./components/CreateInvoive/CreateInvoice";
-import DuckBoard from "./screens/DuckBoard/DuckBoard";
-import TransactionHistory from "./components/TransactionHistory/TransactionHistory";
-import Home from "./Home";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import CreateInvoice from './components/CreateInvoive/CreateInvoice';
+import DuckBoard from './screens/DuckBoard/DuckBoard'
+import TransactionHistory from './components/TransactionHistory/TransactionHistory'
+import Home from './Home';
 import { useMoralis } from "react-moralis";
-import { useState } from "react";
-import Footer from "./components/Footer/Footer";
+import { useState } from 'react';
+import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
+import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
+
+
 
 function App() {
   const { enableWeb3, account, isWeb3Enabled, deactivateWeb3, Moralis } =

@@ -5,6 +5,8 @@ import TransactionHistoryMiniCard from "./TransactionHistoryMiniCard";
 import TransactionHistoryTableHeader from "./TransactionHistoryTableHeader";
 import InvoiceDisplay from "../InvoiceDisplay/InvoiceDisplay";
 import { gsap } from "gsap";
+import { BsFillCaretRightFill } from "react-icons/bs";
+import { Diversity1 } from "@mui/icons-material";
 
 const TransactionHistory = (props) => {
 
@@ -18,6 +20,8 @@ const TransactionHistory = (props) => {
 
     const [animate, setAnimate] = useState(false);
     const [show, setShow] = useState(false);
+
+    const [collapse, setCollapse] = useState(false);
 
     const txn_card_ref = useRef();
     const invoice_ref = useRef();
@@ -119,83 +123,105 @@ const TransactionHistory = (props) => {
         }
 
         if (animate) {
-           
+
         }
 
     }, [sortBy, filterState, search]);
 
-    const handleCardClick = () => {
-        setAnimate(true);
-        setShow(true);
-        if (window.innerWidth >= 992) {
-            console.log("curr")
-            gsap.fromTo(txn_card_ref.current, {scale:1.4}, {scale:1});
-            gsap.from(txn_card_ref.current, {x : 200})
-            gsap.from(invoice_ref.current, {x:-200});
-            gsap.fromTo(invoice_ref.current, {scale:0}, {scale:1});
-        }
-        
+    const toggleTable = () => {
+        setCollapse(!collapse);
+        console.log("btn click")
     }
 
-    
+    const handleCardClick = () => {
+        // setAnimate(true);
+        setShow(true);
+        setCollapse(true);
+        // if (window.innerWidth >= 992) {
+        //     console.log("curr")
+        //     gsap.fromTo(txn_card_ref.current, { scale: 1.4 }, { scale: 1 });
+        //     gsap.from(txn_card_ref.current, { x: 200 })
+        //     gsap.from(invoice_ref.current, { x: -200 });
+        //     gsap.fromTo(invoice_ref.current, { scale: 0 }, { scale: 1 });
+        // }
+
+    }
 
 
     return (
         <div className="container txn-main">
-            <div className="row ">
-                <div className={`txn-main-row1 ${animate ? "col-12 col-lg-6" : "col-12"}`} ref={txn_card_ref}>
-                    <div className={`container txn-table $`}>
-                        <div className="row table-head-row">
-                            <div className="col-12 d-flex justify-content-center table-header">
-                                <h1>Transaction History</h1>
-                            </div>
-                        </div>
-                        <div className="row header-content">
-                            <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
-                        </div>
-                        <div className="row body">
-                            <div className={`txn-card `}>
-                                {listing.map((obj) => {
-                                    return (
-                                        // console.log(window.innerWidth)
-
-                                        (window.innerWidth > 772 && !animate ? <TransactionHistoryCard role={obj.role}
-                                            invoiceID={obj.invoiceID}
-                                            status={obj.status}
-                                            partnerPAN={obj.partnerPAN}
-                                            amount={obj.amount}
-                                            date={obj.date}
-                                            mode={obj.mode}
-                                            handleCardClick={handleCardClick}
-                                        /> :
-                                            <TransactionHistoryMiniCard role={obj.role}
-                                                invoiceID={obj.invoiceID}
-                                                status={obj.status}
-                                                partnerPAN={obj.partnerPAN}
-                                                amount={obj.amount}
-                                                date={obj.date}
-                                                mode={obj.mode}
-                                            />)
-                                    )
-                                })}
-                            </div>
-                        </div>
+            <div className="row centerrow">
+                    <div className="title">
+                        Transaction History
                     </div>
                 </div>
+            <div className="row ">
+                {
+                    collapse ?
+                        <div className="tableCollapsed">
+                            <button className="btn btn-warning collapsebutton"
+                                onClick={toggleTable}
+                            >
+                                <div className="row">
+                                    Show Table
+                                </div>
+                                <div className="row row2">
+                                    <BsFillCaretRightFill />
+                                </div>
+                            </button>
+                        </div>
+                        :
+                        <div className={`txn-main-row1`
+                            // ${animate ? "col-12 col-lg-6" : "col-12"}
+                        } ref={txn_card_ref}>
+                            <div className={`container txn-table $`}>
+                                <div className="row header-content">
+                                    <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
+                                </div>
+                                <div className="row body">
+                                    <div className={`txn-card `}>
+                                        {listing.map((obj) => {
+                                            return (
+                                                // console.log(window.innerWidth)
 
-                <div className="col-12 col-lg-6" ref={invoice_ref}>
-                    {show ? <InvoiceDisplay
-                        date="13 January 2023"
-                        transactionType="Paid on chain"
-                        invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
-                        walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
-                        buyerPan="DKJFEIJDKF"
-                        sellerPan="DKFJKD343J"
-                        amt="5869"
-                        months="4"
-                        proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
-                    /> : null}
-                </div>
+                                                (window.innerWidth > 772 && !animate ? <TransactionHistoryCard role={obj.role}
+                                                    invoiceID={obj.invoiceID}
+                                                    status={obj.status}
+                                                    partnerPAN={obj.partnerPAN}
+                                                    amount={obj.amount}
+                                                    date={obj.date}
+                                                    mode={obj.mode}
+                                                    handleCardClick={handleCardClick}
+                                                /> :
+                                                    <TransactionHistoryMiniCard role={obj.role}
+                                                        invoiceID={obj.invoiceID}
+                                                        status={obj.status}
+                                                        partnerPAN={obj.partnerPAN}
+                                                        amount={obj.amount}
+                                                        date={obj.date}
+                                                        mode={obj.mode}
+                                                    />)
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                }
+                <div className="invoicediv">
+                {show ? <InvoiceDisplay
+                    date="13 January 2023"
+                    transactionType="Paid on chain"
+                    invoiceId="dkjf dkfjkd dkfj dkjfk djkfj kdjf"
+                    walletAddress="dfjkd dkjfkd kdjf dkdjfkj ddkfj 54 k45j4"
+                    buyerPan="DKJFEIJDKF"
+                    sellerPan="DKFJKD343J"
+                    amt="5869"
+                    months="4"
+                    proof="QmX2pLwriofRopVs1BVXSzsdTsuM5jPfuXtLV4RNxyHNh6"
+                /> : null}
+            </div>
             </div>
 
         </div>

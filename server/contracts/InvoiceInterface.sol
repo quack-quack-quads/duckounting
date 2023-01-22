@@ -21,7 +21,6 @@ interface InvoiceInterface {
         string date;
         string url;
     }
-
     enum PersonType {
         SELLER,
         BUYER

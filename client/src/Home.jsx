@@ -5,6 +5,7 @@ import Review from "./components/Review/Review"
 const Home = ({contractAbi,invoicePlatformAddress }) => {
     return (
         <div>
+            <InvoiceDisplay/>
             <Hero />
             <Features />
             <LearnPanel />
