@@ -78,6 +78,34 @@ const TransactionHistory = ({
         .then(res => {
             if(res !== undefined)
             {
+                // console.log("fetched this", res);
+                let newList = []
+                for (var i = 0; i < res.length; i++) {
+                    let tmpObj = {}
+                    tmpObj["role"] = giveRole(res[i].sellerPAN);
+                    tmpObj["invoiceID"] = (res[i].id).toString();
+                    tmpObj["status"] = giveStatus(res[i].status);
+                    tmpObj["sellerPAN"] = res[i].sellerPAN;
+                    tmpObj["partnerPAN"] = res[i].buyerPAN;
+                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
+                    tmpObj["date"] = res[i].date;
+                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                    // ! new props
+                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
+                    tmpObj["walletAddress"] = res[i].sellerAddress;
+                    tmpObj["proof"] = res[i].url;
+                    newList.push(tmpObj);
+                }
+                setListing_orig(newList);
+                setListing(newList);
+            }
+        })
+        .catch(err => {console.log(`Error: ${err}`)})
+
+        await getInvoicesBuyer()
+        .then(res => {
+            if(res !== undefined)
+            {
                 console.log("fetched this", res);
                 let newList = []
                 for (var i = 0; i < res.length; i++) {
@@ -92,34 +120,7 @@ const TransactionHistory = ({
                     tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
                     // ! new props
                     tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
-                    tmpObj["walletAddress"] = res[i].recipient;
-                    tmpObj["proof"] = res[i].url;
-                    newList.push(tmpObj);
-                }
-                setListing_orig(newList);
-                setListing(newList);
-            }
-        })
-        .catch(err => {console.log(`Error: ${err}`)})
-
-        await getInvoicesBuyer()
-        .then(res => {
-            if(res !== undefined)
-            {
-                let newList = []
-                for (var i = 0; i < res.length; i++) {
-                    let tmpObj = {}
-                    tmpObj["role"] = giveRole(res[i].sellerPAN);
-                    tmpObj["invoiceID"] = (res[i].id).toString();
-                    tmpObj["status"] = giveStatus(res[i].status);
-                    tmpObj["sellerPAN"] = res[i].sellerPAN;
-                    tmpObj["partnerPAN"] = res[i].buyerPAN;
-                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
-                    tmpObj["date"] = res[i].date;
-                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
-                    // ! new props
-                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
-                    tmpObj["walletAddress"] = res[i].recipient;
+                    tmpObj["walletAddress"] = res[i].sellerAddress;
                     tmpObj["proof"] = res[i].url;
                     newList.push(tmpObj);
                 }
@@ -339,15 +340,14 @@ const TransactionHistory = ({
                     {show ? <InvoiceDisplay
                         date={toDisplayProps.date}
                         invoiceId={toDisplayProps.invoiceID}
-                        walletAddress={toDisplayProps.walletAddress}
                         buyerPan={toDisplayProps.partnerPAN}
                         sellerPan={toDisplayProps.sellerPAN}
                         amt={toDisplayProps.amount}
                         months={toDisplayProps.monthsToPay}
                         proof={toDisplayProps.proof}
                         // TODO - 
-                        transactionType="Paid on chain"
-                        sellerAddress="0x1234567890"
+                        transactionType={toDisplayProps.mode}
+                        walletAddress={toDisplayProps.walletAddress}
                     /> : null}
                 </div>
             </div>

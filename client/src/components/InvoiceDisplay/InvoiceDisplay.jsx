@@ -2,7 +2,7 @@ import './InvoiceDisplay.scss'
 import stamp from '../../assets/images/stamp.png'
 import { AiOutlineWallet } from 'react-icons/ai'
 import { AiOutlineNumber } from 'react-icons/ai'
-import { FaFileInvoice } from 'react-icons/fa'
+import { FaEthereum, FaFileInvoice } from 'react-icons/fa'
 import Ducklogo from '../../assets/images/ducklogo.png'
 import { IpfsImage } from 'react-ipfs-image';
 import Button from 'react-bootstrap/Button';
@@ -10,8 +10,9 @@ import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 import Review from '../Review/Review'
 import { abi, contractAddress } from "../../constants/index";
-import { useMoralis } from "react-moralis";
-
+import { useMoralis, useWeb3Contract } from "react-moralis";
+import { toast } from 'react-toastify'
+import {ethers} from "ethers";
 const InvoiceDisplay = (props) => {
     const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
     const [show, setShow] = useState(false);
@@ -27,6 +28,19 @@ const InvoiceDisplay = (props) => {
     const delta = 1e-6;
     var transactionWidget;
 
+    const {runContractFunction: pay} = useWeb3Contract({
+        abi: contractAbi,
+        contractAddress: invoicePlatformAddress,
+        functionName: "pay",
+        params: {
+            _sellerAddress: props.walletAddress,
+            _buyerPan: props.buyerPan,
+            _sellerPan: props.sellerPan,
+            _id: props.invoiceId
+        },
+        msgValue: ethers.utils.parseEther(props.amt.split(" ")[0])
+    });
+
     const getContractDetails = () => {
         try {
           setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
@@ -34,14 +48,17 @@ const InvoiceDisplay = (props) => {
         } catch (err) {}
       };
     
-      useEffect(() => {
-        setChainId(parseInt(chainIdHex));
-        getContractDetails();
-      }, [chainIdHex]);
-    
-
-    const paynow = () => {
-        console.log(success);
+    const paynow = async() => {
+        await pay({
+            onSuccess: () => {
+                setSuccess(true);
+                toast.success("Sucessfully Paid", { position: toast.POSITION.TOP_CENTER });
+            },
+            onError: (err) => {
+                setSuccess(false);
+                toast.error("Payment Failed", { position: toast.POSITION.TOP_CENTER });
+            },
+        });      
         if (success) {
             setShowModal(true);
         }
@@ -61,18 +78,38 @@ const InvoiceDisplay = (props) => {
     } else {
         transactionWidget =
             <>
-                <div className="pending"
-                    onClick={
-                        paynow
-                    }
-                >
-                    PAY NOW
-                </div>
-                <div className="helpertext">
-                    Some payments are pending.
-                </div>
+                {
+                    props.sellerPan !== localStorage.getItem("pan") ?
+                    <>
+                        <div className="pending"
+                            onClick={
+                                paynow
+                            }
+                        >
+                            PAY NOW
+                        </div>
+                        <div className="helpertext">
+                            Some payments are pending.
+                        </div>
+                    </>
+
+                    :
+                    <>
+                        <div className="pending">
+                            UNPAID
+                        </div>
+                        <div className="helpertext">
+                            Some payments are pending.
+                        </div>
+                    </>
+                }
             </>
     }
+
+    useEffect(() => {
+        setChainId(parseInt(chainIdHex));
+        getContractDetails();
+    }, [chainIdHex]);
 
 
     return <div className="InvoiceDisplay">
@@ -96,7 +133,7 @@ const InvoiceDisplay = (props) => {
         </div>
         <div className="row typerow">
             <div className='idlabel'>
-                Recipient Add. &nbsp;
+                Seller Add. &nbsp;
                 <AiOutlineWallet className="labelIcon" size={25} />
             </div>
             <div className="idtext">
