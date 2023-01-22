@@ -15,7 +15,7 @@ const Feature = (props) => {
               />
             )}
             <div className="card-body col-12 col-md-6 col-lg-12">
-              <h4 className="card-title">{props.title}</h4>
+              <h3 className="card-title">{props.title}</h3>
               <p className="card-text">{props.children}</p>
             </div>
             {props.img_pos == "bot" && (
