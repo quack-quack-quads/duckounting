@@ -11,7 +11,7 @@ interface InvoiceInterface {
 
     struct Invoice {
         uint8 paymentMode;
-        uint32 amountMonthly;
+        uint256 amountMonthly;
         uint32 monthsToPay;
         bool status;
         uint256 id;
