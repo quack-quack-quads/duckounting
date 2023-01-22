@@ -182,11 +182,9 @@ const TransactionHistory = (props) => {
 
                             <div className="col-12 col-md-6">
                                 <div className="row body">
-                                    <div className={`txn-card `}>
+                                    <div className="txn-card scrolloverflow">
                                         {listing.map((obj) => {
                                             return (
-                                                // console.log(window.innerWidth)
-
                                                 (window.innerWidth > 772 && !animate ? <TransactionHistoryCard role={obj.role}
                                                     invoiceID={obj.invoiceID}
                                                     status={obj.status}

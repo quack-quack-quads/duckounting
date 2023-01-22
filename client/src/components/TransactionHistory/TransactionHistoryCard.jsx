@@ -2,7 +2,7 @@ import { Card } from "react-bootstrap";
 import buyerArrow from "../../assets/images/arrow-up-left.png";
 import sellerArrow from "../../assets/images/arrow-bottom-right.png";
 import "./TransactionHistoryCard.scss";
-
+import {BsFillArrowDownRightCircleFill, BsFillArrowUpLeftCircleFill, BsArrowDownRight, BsArrowUpLeft} from 'react-icons/bs'
 const TransactionHistoryCard = (props) => {
   
   return (
@@ -10,10 +10,10 @@ const TransactionHistoryCard = (props) => {
       <div className="row">
         <div className="col-2 arrow-container">
           {props.role == "buyer" && (
-            <img src={buyerArrow} className="role-arrow" />
+            <BsFillArrowDownRightCircleFill size={40}/>
           )}
           {props.role == "seller" && (
-            <img src={sellerArrow} className="role-arrow" />
+            <BsFillArrowUpLeftCircleFill size={40}/>
           )}
         </div>
         <div className="col-10 row row-cols-4 text-box">
