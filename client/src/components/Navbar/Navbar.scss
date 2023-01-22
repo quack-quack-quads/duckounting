@@ -7,6 +7,12 @@ $yellow : #ffc107;
     width: 100%;
     height: fit-content;
     padding-top : 20px;
+    .navdropdiv{
+        background-color: black;
+        border-radius: 15px;
+        padding: 8px;
+        width: fit-content;
+    }
     .navbtn{
         width : 100%;
         margin-top: 5px;
@@ -58,7 +64,7 @@ $yellow : #ffc107;
         color : black;
     }
     .dropdown-menu{
-        background-color: white;
+        background-color: black;
         padding: 10px;
     }
     .dropdown-item{

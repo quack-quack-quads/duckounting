@@ -2,10 +2,20 @@
     padding-top: 100px;
     padding-left: 50px;
     overflow-x: 0;
+    background-image: url("./../../assets/backgrounds/yb_geo_l.jpg");
+    height: 100vh;
+    .centercol{
+        display: flex;
+        justify-content: center;
+    }
+    .yellowhighlight{
+        color : #ffc107;
+    }
     .hero-title {
         font-family: 'Barlow Condensed';
         font-size: 9vw;
         line-height:85%;
+        color : white;
     }
     .hero-title-accent {
         color: black;
@@ -13,11 +23,12 @@
         -webkit-text-stroke-color: #ffc107;
     }
     .hero-text {
-        padding-left: 15px;
-        padding-right: 30px;
-
-        padding-top: 5vw;
-        font-size: 2vw;
+        padding: 25px;
+        background-color: black;
+        margin-top: 2vh;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        font-family: "Poppins";
     }
 
     @media (max-width:767px) and (min-width:0px) {

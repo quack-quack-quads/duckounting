@@ -1,5 +1,7 @@
-const float64ToUint32= require( '@stdlib/number-float64-base-to-uint32' );
+const {ethers} =    require("ethers");
 
-var y = float64ToUint32( 4294967297.0 );
-
-console.log(y)
+let a = "123000000000000000"
+// a is in wei
+// convert to ether
+let b = ethers.utils.formatEther(a)
+console.log(b)

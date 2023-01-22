@@ -8,6 +8,7 @@ import { useWeb3Contract, useMoralis } from "react-moralis";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { AiFillCaretDown } from "react-icons/ai";
 
 const Navbar = ({
   account,
@@ -112,28 +113,52 @@ const Navbar = ({
       <ToastContainer />
       <div className="row">
         <div className="col-8 navcol1">
-          <a
-            className="nav-link dropdown-toggle"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
+          <div 
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          id="navbarDropdown"
+          className = "navdropdiv"
           >
-            <img
+          <img
               src={Ducklogo}
               className="logodrop"
-              role="button"
-              id="navbarDropdown"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              // role="button"
+              // id="navbarDropdown"
+              // data-bs-toggle="dropdown"
+              // aria-haspopup="true"
+              // aria-expanded="false"
             ></img>
-          </a>
+            <AiFillCaretDown/>
+          </div>
 
           {/* list of dropdown items */}
 
+          
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+
+            <button
+              className="btn btn-warning navbtn"
+              onClick={() => {
+                navigate("/transactionhistory");
+              }}
+              disabled = {!account}
+            >
+              Transaction History
+            </button>
+
+            <button
+              className="btn btn-warning navbtn"
+              onClick={() => {
+                navigate("/createInvoice");
+              }}
+              disabled = {!account}
+            >
+              Create Invoice
+            </button>
+
             <button
               className="btn btn-warning navbtn"
               onClick={() => {
@@ -143,14 +168,18 @@ const Navbar = ({
               Learn More
             </button>
 
-            <button
-              className="btn btn-light logoutbtn navbtn"
-              onClick={() => {
-                setShowLogoutAlert(true);
-              }}
-            >
-              Logout &nbsp; <AiOutlineLogout color="red" />
-            </button>
+            {
+              account ?
+                <button
+                  className="btn btn-light logoutbtn navbtn"
+                  onClick={() => {
+                    setShowLogoutAlert(true);
+                  }}
+                >
+                  Logout &nbsp; <AiOutlineLogout color="red" />
+                </button> :
+                null
+            }
           </div>
         </div>
         <div className="col-4 navcol2">
@@ -183,6 +212,7 @@ const Navbar = ({
                 onClick={() => {
                   setShowLogoutAlert(false);
                   logout();
+                  navigate("/");
                 }}
               >
                 Yes

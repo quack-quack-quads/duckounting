@@ -7,15 +7,18 @@ import InvoiceDisplay from "../InvoiceDisplay/InvoiceDisplay";
 import { gsap } from "gsap";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import { Diversity1 } from "@mui/icons-material";
+import { useWeb3Contract } from "react-moralis";
+import { ethers } from "ethers";
 
-const TransactionHistory = (props) => {
+const TransactionHistory = ({
+    contractAbi,
+    invoicePlatformAddress
+}) => {
+    const [listing_orig, setListing_orig] = useState([]);
+    const [listing, setListing] = useState([]);
 
-    const [listing, setListing] = useState(props.listing);
-    const [listing_orig, setListing_orig] = useState(props.listing);
     const [sortBy, setSortBy] = useState("");
-
     const [filterState, setFilterState] = useState("");
-
     const [search, setSearch] = useState("");
 
     const [animate, setAnimate] = useState(false);
@@ -25,6 +28,104 @@ const TransactionHistory = (props) => {
 
     const txn_card_ref = useRef();
     const invoice_ref = useRef();
+
+    const giveEthVal = (val) => {
+        return `${ethers.utils.formatEther(val)} ETH`;
+    }
+    const giveStatus = (status) => {
+        return (status == true ? "paid": "pending")
+    }
+    const giveRole = (sellerpan) => {
+        if (sellerpan === localStorage.getItem("pan")) {
+            return "seller";
+        } else {
+            return "buyer";
+        }
+    }
+    const giveMode = (mode) => {
+        if (mode == 0) {
+        return "ETH (One Time)";
+        } else if (mode == 1) {
+        return "ETH (Monthly)";
+        } else{
+        return "CASH (Offline)";
+        }
+    }
+
+    const {runContractFunction: getInvoicesSeller} = useWeb3Contract({
+        abi: contractAbi,
+        contractAddress: invoicePlatformAddress,
+        functionName: "getInvoices",
+        params: {
+            PAN: localStorage.getItem("pan") || "",
+            personType: 0
+        }
+    })
+
+    const {runContractFunction: getInvoicesBuyer} = useWeb3Contract({
+        abi: contractAbi,
+        contractAddress: invoicePlatformAddress,
+        functionName: "getInvoices",
+        params: {
+            PAN: localStorage.getItem("pan") || "",
+            personType: 1
+        }
+    })
+
+    const fetchInvoices = async () => {
+        await getInvoicesSeller()
+        .then(res => {
+            if(res !== undefined)
+            {
+                // console.log("fetched this", res);
+                let newList = []
+                for (var i = 0; i < res.length; i++) {
+                    let tmpObj = {}
+                    tmpObj["role"] = giveRole(res[i].sellerPAN);
+                    tmpObj["invoiceID"] = (res[i].id).toString();
+                    tmpObj["status"] = giveStatus(res[i].status);
+                    tmpObj["sellerPAN"] = res[i].sellerPAN;
+                    tmpObj["partnerPAN"] = res[i].buyerPAN;
+                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
+                    tmpObj["date"] = res[i].date;
+                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                    newList.push(tmpObj);
+                }
+                setListing_orig(newList);
+                setListing(newList);
+                console.log("listing", newList);
+            }
+        })
+        .catch(err => {console.log(`Error: ${err}`)})
+
+        await getInvoicesBuyer()
+        .then(res => {
+            if(res !== undefined)
+            {
+                let newList = []
+                for (var i = 0; i < res.length; i++) {
+                    let tmpObj = {}
+                    tmpObj["role"] = giveRole(res[i].sellerPAN);
+                    tmpObj["invoiceID"] = (res[i].id).toString();
+                    tmpObj["status"] = giveStatus(res[i].status);
+                    tmpObj["sellerPAN"] = res[i].sellerPAN;
+                    tmpObj["partnerPAN"] = res[i].buyerPAN;
+                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
+                    tmpObj["date"] = res[i].date;
+                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                    newList.push(tmpObj);
+                }
+                setListing_orig(prevArr => [...prevArr, ...newList]);
+                setListing(prevArr => [...prevArr, ...newList]);
+            }
+        })
+        .catch(err => {console.log(`Error: ${err}`)})   
+    }
+
+    useEffect(() => {
+        // fetch the data from the blockchain
+        fetchInvoices();  
+    },[contractAbi, invoicePlatformAddress])
 
     useEffect(() => {
         var listing_dup = listing_orig;
@@ -41,7 +142,6 @@ const TransactionHistory = (props) => {
             })
             setListing(listing_dup);
         }
-
 
         var listing_dup = listing_orig;
         var ret = false;
@@ -182,31 +282,36 @@ const TransactionHistory = (props) => {
 
                             <div className="col-12 col-md-6">
                                 <div className="row body">
-                                    <div className={`txn-card `}>
-                                        {listing.map((obj) => {
-                                            return (
-                                                // console.log(window.innerWidth)
-
-                                                (window.innerWidth > 772 && !animate ? <TransactionHistoryCard role={obj.role}
-                                                    invoiceID={obj.invoiceID}
-                                                    status={obj.status}
-                                                    partnerPAN={obj.partnerPAN}
-                                                    amount={obj.amount}
-                                                    date={obj.date}
-                                                    mode={obj.mode}
-                                                    handleCardClick={handleCardClick}
-                                                /> :
-                                                    <TransactionHistoryMiniCard role={obj.role}
+                                    <div className="txn-card scrolloverflow">
+                                        { listing.length > 0 ?
+                                            listing.map((obj) => {
+                                                return (
+                                                    (window.innerWidth > 772 && !animate ? <TransactionHistoryCard 
+                                                        role={obj.role}
                                                         invoiceID={obj.invoiceID}
                                                         status={obj.status}
                                                         partnerPAN={obj.partnerPAN}
                                                         amount={obj.amount}
                                                         date={obj.date}
                                                         mode={obj.mode}
-                                                        handleCardClick = {handleCardClick}
-                                                    />)
-                                            )
-                                        })}
+                                                        sellerPAN={obj.sellerPAN}
+                                                        handleCardClick={handleCardClick}
+                                                    /> :
+                                                        <TransactionHistoryMiniCard 
+                                                            role={obj.role}
+                                                            invoiceID={obj.invoiceID}
+                                                            status={obj.status}
+                                                            partnerPAN={obj.partnerPAN}
+                                                            amount={obj.amount}
+                                                            date={obj.date}
+                                                            mode={obj.mode}
+                                                            handleCardClick = {handleCardClick}
+                                                        />)
+                                                )
+                                            })
+                                            :
+                                            ""
+                                        }
                                     </div>
                                 </div>
                             </div>

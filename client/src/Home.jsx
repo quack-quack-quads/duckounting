@@ -9,6 +9,7 @@ const Home = ({ contractAbi, invoicePlatformAddress }) => {
             <Hero />
             <Features />
             <LearnPanel />
+            {/* <Review sellerPan={"rohitPan"} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} /> */}
             <Footer />
         </div>
     )

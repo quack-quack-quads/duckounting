@@ -65,7 +65,12 @@ $yellow : #ffc107;
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
         background-color: #555;
     }
-    
+    .txn-card{
+        max-height: 70vh!important;
+    }
+    .scrolloverflow{
+        overflow-y: scroll;
+    }
     .txn-table {
         // border: 2px solid yellow;
         height: 100%;

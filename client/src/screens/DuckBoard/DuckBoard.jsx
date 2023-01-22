@@ -2,16 +2,19 @@ import "./DuckBoard.scss"
 import ProfileCard from "../../components/Profilecard/ProfileCard"
 import { Card, Illustration } from "web3uikit"
 import { IpfsImage } from 'react-ipfs-image';
-import { useWeb3Contract} from "react-moralis";
+import { useWeb3Contract } from "react-moralis";
 import { useEffect, useState } from "react";
-import {parseBase64} from "../../utils/parseBase64ToJson";
+import { parseBase64 } from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
 import { ConstructionOutlined } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
-const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
+import { Modal, Button } from "react-bootstrap"
+
+const DuckBoard = ({ account, logout, invoicePlatformAddress, contractAbi }) => {
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
+    const [showLogoutAlert, setShowLogoutAlert] = useState(false);
     const {
         runContractFunction: getTokenId,
     } = useWeb3Contract({
@@ -19,7 +22,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
         contractAddress: invoicePlatformAddress,
         functionName: "getTokenId",
         params: {
-            _pan: window.localStorage.getItem("pan") || "0x0000000000000000000000000000000000000000"   
+            _pan: window.localStorage.getItem("pan") || "0x0000000000000000000000000000000000000000"
         }
     })
 
@@ -33,8 +36,8 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
             tokenId: tokenId
         }
     })
-    
-    const retrieveTokenid = async() => {
+
+    const retrieveTokenid = async () => {
         const tokenid = await getTokenId();
         setTokenId(tokenid);
     }
@@ -43,27 +46,26 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
         // sleep for 2 seconds
         await new Promise(r => setTimeout(r, 2000));
         let uri_ = await tokenURI();
-        if(uri_ !== undefined)
-        {
+        if (uri_ !== undefined) {
             uri_ = parseBase64(uri_.toString());
             uri_ = uri_.image;
-            setUri(uri_); 
+            setUri(uri_);
         }
         // console.log(tokenId.toString(), uri_);
     }
 
     useEffect(() => {
         retrieveTokenid();
-    },[invoicePlatformAddress])
+    }, [invoicePlatformAddress])
 
     useEffect(() => {
         getNft();
-    },[tokenId])
-    
+    }, [tokenId])
+
     const navigate = useNavigate();
 
-    const changeUser = ()=>{
-        
+    const changeUser = () => {
+
     }
 
     const nftwidget = <Card
@@ -78,13 +80,13 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
     >
         <div>
             {
-                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' /> 
-                :
-                // CENTER THE SPINNER
-                <div class="row justify-content-center">
-                    <div class="spinner-border text-warning" role="status">
+                uri ? <IpfsImage hash={uri} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='img-fluid' />
+                    :
+                    // CENTER THE SPINNER
+                    <div class="row justify-content-center">
+                        <div class="spinner-border text-warning" role="status">
+                        </div>
                     </div>
-                </div>
 
             }
         </div>
@@ -107,20 +109,22 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                                     DUCKS6969D
                                 </div>
                             </div>
-                            <div className="col-4 centercol">
-                                <button className="btn btn-sm btn-warning">
-                                    Change
-                                </button>
+                            <div className="col-4 centercol logoutcol">
+                                {
+                                    account ?
+                                        <div className="logout">
+                                            <AiOutlineLogout color="red" size={30}
+                                                onClick={() => {
+                                                    setShowLogoutAlert(true);
+                                                }}
+                                            />
+                                        </div> : null
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="col logoutcol">
-                    <div className="logout">
-                        <AiOutlineLogout color="red" size={30}
-                            onClick={logout}
-                        />
-                    </div>
                 </div>
             </div>
             <div className="row cardrow">
@@ -129,6 +133,9 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                         image="token"
                         label="Want to send someone an invoice?"
                         button="CREATE INVOICE"
+                        handler={() => {
+                            navigate('/createInvoice')
+                        }}
                     />
                 </div>
                 <div className="col-md-3 col-lg-4">
@@ -136,6 +143,9 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                         image="servers"
                         label="Want to take a look at your past invoices?"
                         button="HISTORY"
+                        handler={() => {
+                            navigate('/transactionhistory')
+                        }}
                     />
                 </div>
                 <div className="col d-none d-md-block d-lg-none"></div>
@@ -160,10 +170,17 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                                     DUCKS6969D
                                 </div>
                             </div>
-                            <div className="col-4 centercol">
-                                <button className="btn btn-sm btn-warning">
-                                    Change
-                                </button>
+                            <div className="col-4 centercol logoutcol">
+                                {
+                                    account ?
+                                        <div className="logout">
+                                            <AiOutlineLogout color="red" size={30}
+                                                onClick={() => {
+                                                    setShowLogoutAlert(true);
+                                                }}
+                                            />
+                                        </div> : null
+                                }
                             </div>
                         </div>
                     </div>
@@ -181,7 +198,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
             <div className="row cardrow">
                 <div className="col-6 centercol">
                     <button className="btn btn-warning profbtn"
-                        onClick={()=>{
+                        onClick={() => {
                             console.log("btn click")
                             navigate("/createInvoice");
                         }}
@@ -191,7 +208,7 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                 </div>
                 <div className="col-6 centercol">
                     <button className="btn btn-warning profbtn"
-                        onClick={()=>navigate('/transactionhistory')}
+                        onClick={() => navigate('/transactionhistory')}
                     >
                         PAST TRANSACTIONS
                     </button>
@@ -201,7 +218,42 @@ const DuckBoard = ({account, logout, invoicePlatformAddress, contractAbi}) => {
                 {nftwidget}
             </div>
         </div>
-        <Footer/>
+        <Footer />
+
+        <Modal
+            show={showLogoutAlert}
+            onHide={() => {
+                setShowLogoutAlert(false);
+            }}
+        >
+            <div className="logoutModal">
+                <Modal.Body>
+                    <p className="row m-2">Are you sure you want to logout?</p>
+                    <div className="d-flex flex-row justify-content-end">
+                        <Button
+                            className="m-1"
+                            variant="warning"
+                            onClick={() => {
+                                setShowLogoutAlert(false);
+                            }}
+                        >
+                            No
+                        </Button>
+                        <Button
+                            className="m-1"
+                            variant="danger"
+                            onClick={() => {
+                                setShowLogoutAlert(false);
+                                logout();
+                                navigate("/");
+                            }}
+                        >
+                            Yes
+                        </Button>
+                    </div>
+                </Modal.Body>
+            </div>
+        </Modal>
     </div>
 }
 

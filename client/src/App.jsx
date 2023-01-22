@@ -42,58 +42,104 @@ function App() {
     setChainId(parseInt(chainIdHex));
     getContractDetails();
   }, [chainIdHex]);
+
   const logout = () => {
     deactivateWeb3();
     window.localStorage.removeItem("connected");
   };
 
-  const listing = [
-    {
-      role: "buyer",
-      invoiceID: "InvoiceIDl1",
-      date: "18/01/2023",
-      status: "pending",
-      partnerPAN: "123ASB1234",
-      mode: "ETH",
-      amount: "₹50000",
-    },
-    {
-      role: "seller",
-      invoiceID: "InvoiceIDl2",
-      date: "08/02/2023",
-      status: "paid",
-      partnerPAN: "GH123JKJ12",
-      mode: "Cash",
-      amount: "₹21000",
-    },
-    {
-      role: "seller",
-      invoiceID: "InvoiceID32",
-      date: "08/02/2023",
-      status: "paid",
-      partnerPAN: "LH123JMJ12",
-      mode: "Cash",
-      amount: "₹21002",
-    },
-    {
-      role: "buyer",
-      invoiceID: "InvoiceID22",
-      date: "18/01/2023",
-      status: "pending",
-      partnerPAN: "123KSV5678",
-      mode: "ETH",
-      amount: "₹24000",
-    },
-    {
-      role: "buyer",
-      invoiceID: "InvoiceIDl2",
-      date: "18/01/2023",
-      status: "pending",
-      partnerPAN: "123ASB1235",
-      mode: "ETH",
-      amount: "₹50020",
-    },
-  ];
+  // const listingExample = [
+  //   {
+  //     role: "buyer", // ! fetch twice for buyer and seller 
+  //     invoiceID: "InvoiceIDl1", // ! id
+  //     date: "18/01/2023", // ! date
+  //     status: "pending", // ! status
+  //     partnerPAN: "123ASB1234", // ! buyerPAN
+  //     mode: "ETH", // ! paymentMode - int - convert to String
+  //     amount: "₹50000", // ! amountMonthly
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceIDl2",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "GH123JKJ12",
+  //     mode: "Cash",
+  //     amount: "₹21000",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  //   {
+  //     role: "buyer",
+  //     invoiceID: "InvoiceID22",
+  //     date: "18/01/2023",
+  //     status: "pending",
+  //     partnerPAN: "123KSV5678",
+  //     mode: "ETH",
+  //     amount: "₹24000",
+  //   },
+  //   {
+  //     role: "buyer",
+  //     invoiceID: "InvoiceIDl2",
+  //     date: "18/01/2023",
+  //     status: "pending",
+  //     partnerPAN: "123ASB1235",
+  //     mode: "ETH",
+  //     amount: "₹50020",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  //   {
+  //     role: "seller",
+  //     invoiceID: "InvoiceID32",
+  //     date: "08/02/2023",
+  //     status: "paid",
+  //     partnerPAN: "LH123JMJ12",
+  //     mode: "Cash",
+  //     amount: "₹21002",
+  //   },
+  // ];
   return (
     <div className="App">
       <BrowserRouter>
@@ -125,7 +171,7 @@ function App() {
           />
           <Route
             path="/transactionhistory"
-            element={<TransactionHistory listing={listing} />}
+            element={<TransactionHistory contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}/>}
           />
           <Route
             path="/duckboard"
