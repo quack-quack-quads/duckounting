@@ -29,7 +29,6 @@ function App() {
   const [chainId, setChainId] = useState(parseInt(chainIdHex));
   const [invoicePlatformAddress, setInvoicePlatformAddress] = useState("");
   const [contractAbi, setContractAbi] = useState(null);
-  const [showModal, setShowModal] = useState(true);
 
   const getContractDetails = () => {
     try {
@@ -171,7 +170,8 @@ function App() {
           />
           <Route
             path="/transactionhistory"
-            element={<TransactionHistory contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}/>}
+            element={<TransactionHistory contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} getContractDetails={getContractDetails}
+            chainId={chainId} setChainid={setChainId} chainIdHex={chainIdHex}/>}
           />
           <Route
             path="/duckboard"
@@ -185,9 +185,7 @@ function App() {
             }
           />
           <Route path="*" element={<Home />} />
-          <Route path="/review"
-          element={<Review sellerPan={"rohitPan"} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} 
-          showModal={showModal} setshowModal={setShowModal}/>} />
+          
         </Routes>
       </BrowserRouter>
     </div>

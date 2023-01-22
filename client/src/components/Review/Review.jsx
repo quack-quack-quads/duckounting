@@ -42,10 +42,10 @@ const Review = ({
         functionName: "addRating",
         params: {
             _sellerPAN: sellerPan,
-            _rating: 3,
+            _rating: rating,
         }
     })
-
+    console.log("at review", showModal);
     const handleReviewChange = (event) => {
         setReview(event.target.value);
     }
@@ -73,7 +73,7 @@ const Review = ({
 
     return (
         <div className="Rating">
-            <ToastContainer theme="dark" />
+
             <div className="container review__container">
                 <ThemeProvider theme={darkTheme}>
                     <Modal
@@ -85,6 +85,7 @@ const Review = ({
                         className="review-modal1"
 
                     >
+                        <ToastContainer theme="dark" />
                         <Modal.Header closeButton className="modal-head row4 d-flex justify-content-center">
                             <div className="container">
                                 <div className="row ">
