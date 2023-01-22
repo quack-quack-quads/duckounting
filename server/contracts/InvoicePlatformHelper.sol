@@ -25,13 +25,12 @@ contract InvoicePlatformHelper is InvoiceInterface {
         uint256 _amountMonthly,
         uint32 _monthsToPay,
         bool _status,
-        address recipient,
         string memory _sellerPAN,
         string memory _buyerPAN,
         string memory _date,
         string memory _url
     ) public {
-        if (bytes(_sellerPAN).length == 0 || bytes(_buyerPAN).length == 0) {
+        if (persons[_sellerPAN].addr == address(0)) {
             revert InvalidTx();
         }
         Invoice memory invoice = Invoice(
@@ -40,7 +39,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
             _monthsToPay,
             _status,
             invoiceIdCount,
-            recipient,
+            payable(msg.sender),
             _sellerPAN,
             _buyerPAN,
             _date,
@@ -54,7 +53,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
 
     // TODO - only allow valid buyer to call this function
     function addRating(string memory _sellerPAN, uint8 _rating) public {
-        if (bytes(persons[_sellerPAN].name).length == 0) {
+        if (persons[_sellerPAN].addr == address(0)) {
             revert InvalidTx();
         }
         persons[_sellerPAN].rating = (_rating + persons[_sellerPAN].rating) / 2;
@@ -98,7 +97,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
     }
 
     function getPerson(string memory PAN) public view returns (Person memory) {
-        if (bytes(persons[PAN].name).length == 0) {
+        if (persons[PAN].addr == address(0)) {
             revert InvalidTx();
         }
         return persons[PAN];

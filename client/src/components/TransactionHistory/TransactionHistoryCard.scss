@@ -74,9 +74,8 @@ $HEADER_SECONDARY: $yellow;
 .th-header {
     margin-top: 0%;
     background-color: $HEADER_COLOR;
-    padding-top: 0%;
-    padding-left: 0% !important;
-    padding-right: 0% !important;
+    padding : 3vh 1vw;
+    border-radius: 20px;
     // border: 2px solid pink;
     margin-right: 0;
     margin-left: 0;

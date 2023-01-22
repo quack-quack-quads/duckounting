@@ -16,7 +16,7 @@ error NftNotExist();
 
 contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
     // events
-    event RegisterPerson(string pan, string name);
+    event RegisterPerson(string pan);
     event Paid(string sellerPan, string buyerPan);
 
     mapping(string => uint256) public panToTokenId;
@@ -63,22 +63,22 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             );
     }
 
-    function registerPerson(string memory _pan, string memory _name) public {
-        if (bytes(persons[_pan].name).length != 0) {
+    function registerPerson(string memory _pan) public {
+        if (persons[_pan].addr != address(0)) {
             revert PersonAlreadyExists();
         }
         persons[_pan] = Person({
             addr: msg.sender,
             rating: 5,
-            percentSuccess: 100,
-            name: _name
+            percentSuccess: 100
         });
+        // should not register person if already exists
         // mint the NFT for him
         s_tokenCounter++;
         tokenIdToPan[s_tokenCounter] = _pan;
         _safeMint(msg.sender, s_tokenCounter);
         panToTokenId[_pan] = s_tokenCounter;
-        emit RegisterPerson(_pan, _name);
+        emit RegisterPerson(_pan);
     }
 
     function pay(
@@ -116,9 +116,6 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             // invoice not exists
             revert InvoiceNotExist();
         } else {
-            if (msg.sender != sellerInvoiceList[sellerInvoiceIndex].recipient) {
-                revert WrongBuyer();
-            }
             if (
                 uint8(PaymentMode.ONETIME_ETH) ==
                 sellerInvoiceList[sellerInvoiceIndex].paymentMode

@@ -50,7 +50,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     const [monthPayDis, setmonthPayDis] = useState(false);
     const [monthsToPay, setMonthsToPay] = useState("");
     const [amountMonthly, setamount] = useState(0);
-    const [buyeraddress, setbuyeraddress] = useState("");
     const [buyerPan, setbuyerPan] = useState("");
     const [sellerPan, setSellerPan] = useState(window.localStorage.pan || "");
     const [status, setStatus] = useState(false)
@@ -63,9 +62,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     const [done, setDone] = useState(null);
 
 
-    const handleBuyerAddressChange = (event) => {
-        setbuyeraddress(event.target.value);
-    }
     const handleBuyerPanChange = (event) => {
         setbuyerPan(event.target.value);
     }
@@ -124,7 +120,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             _amountMonthly: uint32No,
             _monthsToPay: monthsToPay,
             _status: status,
-            recipient: buyeraddress,
             _sellerPAN: sellerPan,
             _buyerPAN: buyerPan,
             _date: date,
@@ -166,10 +161,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             return;
         }
 
-        if (buyeraddress.length === 0) {
-            toast.error("Please enter the Buyer Address!", { position: toast.POSITION.TOP_CENTER });
-            return;
-        }
 
         if (date === null) {
             toast.error("Please enter the date!", { position: toast.POSITION.TOP_CENTER });
@@ -185,7 +176,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             seturl(async (prev2) => {
                 setDone(false);
                 console.log(done);
-                var new_url =  sendFileToIPFS(fileImg);
+                var new_url = sendFileToIPFS(fileImg);
                 await toast.promise(new_url, {
                     pending: "Uploading image ...",
                     success: "Image uploaded",
@@ -498,28 +489,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                                         </FormControl>
                                     </Grid>
 
-                                    <Grid item xs={12} sm={12} lg={12}>
-                                        <FormControl fullWidth sx={{ m: 1 }}>
-                                            <InputLabel htmlFor="outlined-adornment-amount">Buyer Address</InputLabel>
-                                            <OutlinedInput
-                                                id="outlined-adornment-amount"
-                                                label="Seller Pan"
-                                                value={buyeraddress}
-                                                onChange={handleBuyerAddressChange}
-                                                sx={{
-                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#FCF55F',
-                                                    },
-                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#8B8000',
-                                                    },
-                                                    '.MuiOutlinedInput-notchedOutline': {
-                                                        borderColor: '#efd00b ',
-                                                    },
-                                                }}
-                                            />
-                                        </FormControl>
-                                    </Grid>
+                                   
 
                                     <Grid item xs={12} sm={6} lg={6} marginLeft={2} marginTop={1}>
                                         <FormControl >

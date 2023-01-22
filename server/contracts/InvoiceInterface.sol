@@ -4,9 +4,8 @@ pragma solidity ^0.8.7;
 interface InvoiceInterface {
     struct Person {
         address addr;
-        uint8 rating;   
+        uint8 rating;
         uint16 percentSuccess;
-        string name;
     }
 
     struct Invoice {
@@ -15,7 +14,7 @@ interface InvoiceInterface {
         uint32 monthsToPay;
         bool status;
         uint256 id;
-        address recipient;
+        address payable sellerAddress;
         string sellerPAN;
         string buyerPAN;
         string date;
