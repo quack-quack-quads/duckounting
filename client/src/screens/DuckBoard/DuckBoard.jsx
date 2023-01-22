@@ -20,6 +20,8 @@ const DuckBoard = ({
 }) => {
   const [tokenId, setTokenId] = useState(null);
   const [uri, setUri] = useState(null);
+  const [duckIndex, setDuckIndex] = useState(0.7);
+  const [rating, setRating] = useState("4");
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
   const { runContractFunction: getTokenId } = useWeb3Contract({
     abi: contractAbi,
@@ -41,9 +43,20 @@ const DuckBoard = ({
     },
   });
 
-  const retrieveTokenid = async () => {
+  const { runContractFunction: getPersonDetails } = useWeb3Contract({
+    abi: contractAbi,
+    contractAddress: invoicePlatformAddress,
+    functionName: "getPerson",
+    params: {
+      PAN: window.localStorage.getItem("pan"),
+    }
+  })
+
+  const retrieveDetails = async () => {
     const tokenid = await getTokenId();
     setTokenId(tokenid);
+    const person = await getPersonDetails();
+    setRating(person.rating.toString());
   };
 
   const getNft = async () => {
@@ -58,18 +71,15 @@ const DuckBoard = ({
     // console.log(tokenId.toString(), uri_);
   };
 
-  const [duckIndex, setDuckIndex] = useState(0.7);
-  const [rating, setRating] = useState("4");
-
-  
-
   const ratingmap = {
-    "4" : "Exquisite",
     "5" : "Enterprise",
-    "3" : "Normie"
+    "4" : "Exquisite",
+    "3" : "Exquisite",
+    "2" : "Normie",
+    "1" : "Normie",
   }
   useEffect(() => {
-    retrieveTokenid();
+    retrieveDetails();
   }, [invoicePlatformAddress]);
 
   useEffect(() => {
@@ -103,8 +113,8 @@ const DuckBoard = ({
           />
         ) : (
           // CENTER THE SPINNER
-          <div class="row justify-content-center">
-            <div class="spinner-border text-warning" role="status"></div>
+          <div className="row justify-content-center">
+            <div className="spinner-border text-warning" role="status"></div>
           </div>
         )}
       </div>
