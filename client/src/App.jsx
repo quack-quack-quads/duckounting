@@ -6,8 +6,7 @@ import {
   Routes,
   Route,
   useNavigate,
-}
-  from 'react-router-dom';
+} from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import CreateInvoice from './components/CreateInvoive/CreateInvoice';
 import DuckBoard from './screens/DuckBoard/DuckBoard'
@@ -15,6 +14,9 @@ import TransactionHistory from './components/TransactionHistory/TransactionHisto
 import Home from './Home';
 import { useMoralis } from "react-moralis";
 import { useState } from 'react';
+import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
+import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
+
 
 
 function App() {
@@ -26,18 +28,18 @@ function App() {
   const [contractAbi, setContractAbi] = useState(null);
 
   const getContractDetails = () => {
-    try{
+    try {
       setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
       setContractAbi(abi[parseInt(chainIdHex)]);
     }
-    catch(err){
+    catch (err) {
     }
   }
 
   useEffect(() => {
     setChainId(parseInt(chainIdHex));
     getContractDetails();
-  },[chainIdHex])
+  }, [chainIdHex])
 
   const logout = () => {
     deactivateWeb3();
@@ -105,10 +107,12 @@ function App() {
           <Route path="/createInvoice" element={<CreateInvoice contractAbi={contractAbi}
             invoicePlatformAddress={invoicePlatformAddress}
           />} />
-          <Route path="/transactionhistory" element={<TransactionHistory listing = {listing}/>}/>
+          <Route path="/invoice" element={<BuyerConfirmation paid = {true}/>} />
+
+          <Route path="/transactionhistory" element={<TransactionHistory listing={listing} />} />
           <Route path="/duckboard" element={<DuckBoard account={account}
             logout={logout} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress} />} />
-          <Route path="*" element= {<Home />}/>
+          <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>

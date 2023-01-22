@@ -11,7 +11,6 @@ import { useState } from 'react';
 
 const InvoiceDisplay = (props) => {
     const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
-    const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     var amtDue = parseFloat(props.amt) * parseFloat(props.months);
@@ -103,18 +102,15 @@ const InvoiceDisplay = (props) => {
             </div>
         </div>
         <div className="row imgrow">
-            <div className="col-12 col-md-7">
-                <div className="row proofrow">
+            <div className="col-12 col-md-7 d-flex justify-content-center align-items-center">
                     <div className="proofdiv">
                         <IpfsImage hash={props.proof} gatewayUrl='https://gateway.pinata.cloud/ipfs' className='proofimg' 
                         onClick={handleShow}
                         />
                     </div>
-                </div>
             </div>
             <div className="col-12 col-md-5 d-flex justify-content-center align-items-center">
                 <img src={stamp} alt="" className="logo" />
-
             </div>
         </div>
         <Modal
