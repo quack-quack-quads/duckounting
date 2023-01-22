@@ -34,8 +34,20 @@ $grey : #090909;
     }
     .nftcard,   
     .nftcard:hover{
-        background: rgb(255, 243, 156);
-        background: linear-gradient(124deg, rgba(255, 243, 156, 1) 53%, rgba(255, 255, 255, 1) 100%);
+        background: rgb(255,255,255);
+        background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,234,173,1) 93%, rgba(255,255,255,1) 100%); 
+        .sc-kDDrLX{
+            color : black;
+            font-family: "Poppins";
+        }
+        .xHoFN{
+            font-size: larger;
+            font-family: "Poppins";
+        }
+    }
+    .dicard, .dicard:hover{
+        background: white !important;
+        border :  3px solid #ffc107;
         .sc-kDDrLX{
             color : black;
         }
@@ -90,12 +102,46 @@ $grey : #090909;
         .nftcardcol {
             display: flex;
             justify-content: center;
-
+            padding : 0;
+            .row{
+                padding : 0;
+                margin : 0;
+                width : 100% !important;
+                z-index: 10;
+            }
+            .ducklogo{
+                z-index: 90;
+            }
+            .wrapperdiv{
+                width: 100%;
+                margin : 0;
+                padding : 0;
+                padding-left : 10px;
+            }
             .nftcard {
                 height: 395px;
                 width: 90%;
                 background-color: white;
                 margin-top: -200px;
+                border-radius: 20px;
+                z-index: 5;
+
+                @media(max-width: 767px) {
+                    width: 80%;
+                    background-color: white !important;
+                }
+            }
+        }
+        .dicardcol {
+            display: flex;
+            justify-content: center;
+
+            .dicard {
+                margin-top: 19px;
+                margin-bottom: 19px;
+                height: auto;
+                width: 100%;
+                background-color: white;
                 border-radius: 20px;
                 z-index: 5;
 
@@ -145,6 +191,13 @@ $grey : #090909;
             height: 50vh;
             width: 60%;
             border-radius: 20px;
+        }
+        .dicard {
+            height: auto;
+            width: 80%;
+            border-radius: 20px;
+            margin-top: 3%;
+            margin-bottom: 3%;
         }
     }
 }

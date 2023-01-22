@@ -6,7 +6,9 @@ import {BsFillArrowDownRightCircleFill, BsFillArrowUpLeftCircleFill, BsArrowDown
 const TransactionHistoryCard = (props) => {
   
   return (
-    <Card className="th-card" onClick={props.handleCardClick} >
+    <Card className="th-card" onClick={() => {
+      props.handleCardClick(props);
+    }} >
       <div className="row">
         <div className="col-2 arrow-container">
           {props.role == "buyer" && (
