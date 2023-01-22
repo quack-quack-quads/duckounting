@@ -1,18 +1,25 @@
 import "./Navbar.scss";
-import Ducklogo from "../../assets/images/ducklogo.png";
+import Ducklogo from "../../assets/images/duck.png";
 import { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import ConnectButton from "../ConnectButton/ConnectButton";
-import { AiOutlineLogout } from 'react-icons/ai'
+import { AiOutlineLogout } from "react-icons/ai";
 import { useWeb3Contract, useMoralis } from "react-moralis";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi }) => {
+const Navbar = ({
+  account,
+  logout,
+  chainId,
+  invoicePlatformAddress,
+  contractAbi,
+}) => {
   const [showLogin, setShowLogin] = useState(false);
   const [pan, setPan] = useState("");
   const [name, setName] = useState("");
+  const [showLogoutAlert, setShowLogoutAlert] = useState(false);
 
   const { enableWeb3, isWeb3Enabled, deactivateWeb3, Moralis } = useMoralis();
 
@@ -29,8 +36,10 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
 
   const handleSuccess = () => {
     console.log("success");
-    toast.success("Sucessfully Registered!", { position: toast.POSITION.TOP_CENTER });
-  }
+    toast.success("Sucessfully Registered!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
 
   useEffect(() => {
     if (isWeb3Enabled) return;
@@ -49,9 +58,8 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
         deactivateWeb3();
         console.log("Null account found");
       }
-    })
-  }, [account])
-
+    });
+  }, [account]);
 
   const { runContractFunction: registerPerson } = useWeb3Contract({
     abi: contractAbi,
@@ -60,7 +68,7 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
     params: {
       _pan: pan,
       _name: name,
-    }
+    },
   });
 
   const submitHandler = async () => {
@@ -73,9 +81,11 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
       onSuccess: handleSuccess,
       onError: (error) => {
         console.log("error", error);
-        toast.error("Error in Registration!", { position: toast.POSITION.TOP_CENTER });
-      }
-    })
+        toast.error("Error in Registration!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      },
+    });
   };
 
   let navigate = useNavigate();
@@ -88,12 +98,14 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
     console.log("Connected to wallet", account);
     // if localStorage does not have a pan, name then show login modal
     if (typeof window !== "undefined") {
-      if (!window.localStorage.getItem("pan") || !window.localStorage.getItem("name")) {
+      if (
+        !window.localStorage.getItem("pan") ||
+        !window.localStorage.getItem("name")
+      ) {
         setShowLogin(true);
       }
     }
-  }
-
+  };
 
   return (
     <div className="Navbar">
@@ -122,28 +134,63 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
           {/* list of dropdown items */}
 
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-
-            <button className="btn btn-warning navbtn"
+            <button
+              className="btn btn-warning navbtn"
               onClick={() => {
-                navigate("/")
+                navigate("/");
               }}
             >
               Learn More
             </button>
 
-            <button className="btn btn-light logoutbtn navbtn"
-              onClick={logout}
+            <button
+              className="btn btn-light logoutbtn navbtn"
+              onClick={() => {
+                setShowLogoutAlert(true);
+              }}
             >
-              Logout &nbsp; <AiOutlineLogout color="red"
-              />
+              Logout &nbsp; <AiOutlineLogout color="red" />
             </button>
-
           </div>
         </div>
         <div className="col-4 navcol2">
           <ConnectButton connectToWallet={connectToWallet} account={account} />
         </div>
       </div>
+
+      <Modal
+        show={showLogoutAlert}
+        onHide={() => {
+          setShowLogoutAlert(false);
+        }}
+      >
+        <div className="logoutModal">
+          <Modal.Body>
+            <p className="row m-2">Are you sure you want to logout?</p>
+            <div className="d-flex flex-row justify-content-end">
+              <Button
+                className="m-1"
+                variant="warning"
+                onClick={() => {
+                  setShowLogoutAlert(false);
+                }}
+              >
+                No
+              </Button>
+              <Button
+                className="m-1"
+                variant="danger"
+                onClick={() => {
+                  setShowLogoutAlert(false);
+                  logout();
+                }}
+              >
+                Yes
+              </Button>
+            </div>
+          </Modal.Body>
+        </div>
+      </Modal>
 
       {/* login modal */}
       <Modal show={showLogin} onHide={hideLogin} className="loginModal">
@@ -170,7 +217,10 @@ const Navbar = ({ account, logout, chainId, invoicePlatformAddress, contractAbi 
             <button className="btn modbuttons btn-warning" onClick={hideLogin}>
               Skip
             </button>
-            <button className="btn modbuttons btn-warning" onClick={submitHandler}>
+            <button
+              className="btn modbuttons btn-warning"
+              onClick={submitHandler}
+            >
               Register
             </button>
           </div>

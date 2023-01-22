@@ -20,6 +20,7 @@
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "gsap": "^3.11.4",
+    "mdb-react-ui-kit": "^5.1.0",
     "moment": "^2.29.4",
     "moralis": "^2.11.0",
     "moralis-v1": "^1.12.0",
