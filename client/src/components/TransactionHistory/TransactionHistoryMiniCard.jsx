@@ -2,15 +2,16 @@ import { Card } from "react-bootstrap";
 import "./TransactionHistoryCard.scss";
 import buyerArrow from "../../assets/images/arrow-up-left.png";
 import sellerArrow from "../../assets/images/arrow-bottom-right.png";
-
+import { ethers } from "ethers";
 const TransactionHistoryMiniCard = (props) => {
+
   return (
     <Card
       className={`th-mini-card ${props.selected === "true" ? "selected" : ""}`}
     >
       <div className="row">
         <div className="col-3 arrow-container">
-          {props.role == "buyer" && (
+          { props.role == "buyer" && (
             <img src={buyerArrow} className="role-arrow" />
           )}
           {props.role == "seller" && (
