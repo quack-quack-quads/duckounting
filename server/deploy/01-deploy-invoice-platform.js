@@ -23,7 +23,7 @@ module.exports = async({getNamedAccounts, deployments}) => {
     const args = [
         ...tokenUris
     ];
-    const waitBlockConfirmations = developmentChains.includes(network.name) || 1;
+    const waitBlockConfirmations = developmentChains.includes(network.name) ? 1 : VERIFICATION_BLOCK_CONFIRMATIONS;
     log("-----------------------------------------------------------------")
 
     const invoicePlatform = await deploy("InvoicePlatform", {
