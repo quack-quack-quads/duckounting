@@ -9,15 +9,15 @@ const ConnectButton = ({ connectToWallet, account}) => {
         <>
             {
                 account ?
-                    <div className="btn-address"            
-                        onClick={()=>{
-                            navigate("/duckboard");
-                        }}
-                    >
-                        <BsFillPersonFill size={25}/>
-                        &nbsp;
-                        {account.slice(0, 8)}...
-                    </div>
+                        <div className="btn-address"            
+                            onClick={()=>{
+                                navigate("/duckboard");
+                            }}
+                        >
+                            <BsFillPersonFill size={25}/>
+                            &nbsp;
+                            {account.slice(0, 8)}...
+                        </div>
                     :
                     <button className="wallet-connect btn btn-warning"
                     onClick={connectToWallet}

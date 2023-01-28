@@ -18,6 +18,7 @@ import InvoiceDisplay from "./components/InvoiceDisplay/InvoiceDisplay";
 import BuyerConfirmation from "./components/BuyerConfirmation/BuyerConfirmation";
 import Footer from "./components/Footer/Footer";
 import Review from "./components/Review/Review";
+import EnsFetch from "./components/ENS_fetch/EnsFetch";
 
 
 
@@ -184,6 +185,7 @@ function App() {
               />
             }
           />
+          <Route path="/ens" element={<EnsFetch />} />
           <Route path="*" element={<Home />} />
           
         </Routes>

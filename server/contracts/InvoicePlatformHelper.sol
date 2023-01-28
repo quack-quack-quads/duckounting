@@ -19,6 +19,7 @@ contract InvoicePlatformHelper is InvoiceInterface {
     mapping(string => Invoice[]) internal sellerInvoices; // sellerPAN => Invoice[]
     mapping(string => Person) internal persons; // pan => Person
     mapping(uint256 => string) internal tokenIdToPan; // tokenId => pan
+    mapping(address => string) internal addrToPan; // addr => pan
 
     function addInvoice(
         uint8 _paymentMode,
@@ -101,5 +102,12 @@ contract InvoicePlatformHelper is InvoiceInterface {
             revert InvalidTx();
         }
         return persons[PAN];
+    }
+
+    function getPersonPAN(address _addr) public view returns (string memory) {
+        if (bytes(addrToPan[_addr]).length == 0) {
+            revert InvalidTx();
+        }
+        return addrToPan[_addr];
     }
 }

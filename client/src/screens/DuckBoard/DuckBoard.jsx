@@ -20,6 +20,7 @@ const DuckBoard = ({
 }) => {
   const [tokenId, setTokenId] = useState(null);
   const [uri, setUri] = useState(null);
+  const [openSeaURI, setOpenSeaURI] = useState(null);
   const [duckIndex, setDuckIndex] = useState(0.7);
   const [rating, setRating] = useState("4");
   const [showLogoutAlert, setShowLogoutAlert] = useState(false);
@@ -68,8 +69,8 @@ const DuckBoard = ({
       uri_ = parseBase64(uri_.toString());
       uri_ = uri_.image;
       setUri(uri_);
+      setOpenSeaURI(`https://testnets.opensea.io/assets/goerli/${invoicePlatformAddress}/${tokenId.toString()}`);
     }
-    // console.log(tokenId.toString(), uri_);
   };
 
   const ratingmap = {
@@ -92,12 +93,12 @@ const DuckBoard = ({
   const nftwidget = (
     <Card
       className="nftcard"
-      description={"You are rated " + rating + " on the platform"}
+      description={uri ? "You are rated " + rating + " on the platform": ""}
       onClick={() => {}}
       setIsSelected={() => {
         return false;
       }}
-      title={ratingmap[rating] + " Duck"}
+      title={uri ? ratingmap[rating] + " Duck": ""}
       tooltipText={
         <span style={{ width: 60 }}>
           "The users who sign/reject the contracts you send them rate you out of
@@ -111,6 +112,9 @@ const DuckBoard = ({
             hash={uri}
             gatewayUrl="https://gateway.pinata.cloud/ipfs"
             className="nftimage"
+            onClick={() => {
+              window.open(openSeaURI, "_blank");
+            }}
           />
         ) : (
           // CENTER THE SPINNER

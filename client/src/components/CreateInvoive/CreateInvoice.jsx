@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import {
     IconButton, Box, Input, FilledInput, OutlinedInput, InputLabel, InputAdornment,
     FormHelperText, FormControl, TextField, ThemeProvider, Select, MenuItem, Button, FormLabel,
-    RadioGroup, FormControlLabel, Radio, Grid
+    RadioGroup, FormControlLabel, Radio, Grid, toolbarClasses
 } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
@@ -106,9 +106,10 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         setamount(event.target.value);
     }
 
-    const handleSuccess = () => {
-        toast.success("Sucessfully added the Invoice!", { position: toast.POSITION.TOP_CENTER });
+    const handleSuccess = async () => {
+        toast.success("Invoice added to blockchain.", { position: toast.POSITION.TOP_CENTER });
     }
+
 
     // ! contract interaction functions
     const { runContractFunction: addInvoice } = useWeb3Contract({
@@ -127,11 +128,12 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         }
     })
 
+
     useEffect(() => {
         if (url !== "") {
             setDone(true);
             addInvoice({
-                onSuccess: handleSuccess,
+                onSuccess: handleSuccess, 
                 onError: (err) => {
                     // console.log(err.message);
                     toast.error(`Ouch! An error occured : ${err}`, { position: toast.POSITION.TOP_CENTER })
@@ -178,9 +180,9 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                 console.log(done);
                 var new_url = sendFileToIPFS(fileImg);
                 await toast.promise(new_url, {
-                    pending: "Uploading image ...",
-                    success: "Image uploaded",
-                    error: "Error uploading image"
+                    pending: "Uploading image to IPFS ...",
+                    success: "Image uploaded to IPFS",
+                    error: "Error uploading image to IPFS"
                 })
                 console.log("this is url", new_url)
                 if (new_url === null) {
