@@ -8,7 +8,7 @@ import { parseBase64 } from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import GaugeChart from "react-gauge-chart";
-import { ConstructionOutlined } from "@mui/icons-material";
+import { CircleNotifications, ConstructionOutlined } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
 import { Modal, Button } from "react-bootstrap";
 

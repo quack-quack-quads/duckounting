@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useEnsName } from 'react-moralis'
-import { ByMoralis } from "react-moralis";
 const EnsFetch = () => {
     const [toSearch, setToSearch] = useState("");
     const { address } = useEnsName(toSearch);

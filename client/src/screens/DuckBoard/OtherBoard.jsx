@@ -12,7 +12,7 @@ import { ConstructionOutlined, Foundation } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
 import NotFoundImage from "../../assets/backgrounds/notfound.png"
 import SearchingImage from "../../assets/backgrounds/searching.png"
-
+import { useEnsName } from 'react-moralis'
 
 
 
@@ -23,24 +23,39 @@ const OtherBoard = ({
     invoicePlatformAddress,
     contractAbi,
 }) => {
-    const name = localStorage.getItem("name");
-    const pan = localStorage.getItem("pan");
-    const address = "0x9bAfce2A8dc304546827b7f74cf623b15272C416";
+    const [name, setName] = useState("Seller");
+    const [toSearch, setToSearch] = useState("");
 
+    const { address: foundAddress } = useEnsName(toSearch);
+    const [address, setAddress] = useState("");
+    const [pan, setPan] = useState("");
 
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
     const [duckIndex, setDuckIndex] = useState(0.7);
     const [rating, setRating] = useState("4");
+
+    const changeAddress = (_address)=>{
+        return new Promise((res,rej) => {
+            setAddress(_address, () => res());
+        })
+    }
+     
+    const changePan = (_pan) => {
+        
+    }
+
+    const changeUri = (_uri) => {
+
+    }
+
     const { runContractFunction: getTokenId } = useWeb3Contract({
         abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "getTokenId",
         params: {
-            _pan:
-                window.localStorage.getItem("pan") ||
-                "0x0000000000000000000000000000000000000000",
-        },
+            _pan: pan || "0x0000000000000000000000000000000000000000000000000000000000000000",
+    },
     });
 
     const { runContractFunction: tokenURI } = useWeb3Contract({
@@ -57,16 +72,49 @@ const OtherBoard = ({
         contractAddress: invoicePlatformAddress,
         functionName: "getPerson",
         params: {
-            PAN: window.localStorage.getItem("pan"),
+            PAN: pan,
         },
     });
 
-    const retrieveDetails = async () => {
+    const { runContractFunction:getPersonPAN } = useWeb3Contract({
+        abi: contractAbi,
+        contractAddress: invoicePlatformAddress,
+        functionName: "getPersonPAN",
+        params: {
+            _addr: address,
+        }
+    })
+
+    const retrieveTokenId = async () => {
         const tokenid = await getTokenId();
-        setTokenId(tokenid);
-        const person = await getPersonDetails();
-        console.log(person);
-        setRating(person.rating.toString());
+        // console.log("tokenId", tokenid.toString());
+        setTokenId(tokenid.toString())
+    }
+
+    const retrievePersonPan = async() => {
+        await getPersonPAN().then(async(foundpan) => {
+            setPan(foundpan)    
+            // console.log("foundPan",foundpan)
+        }).catch(err => {
+            // console.log(err);
+            setDefaults();
+            setMode(<NotFound />)
+        })
+    }
+
+    const retrieveDetails = async () => {
+        // console.log("pan before getPersonDetails", pan);
+        await getPersonDetails().then(person => {
+            setRating(person.rating.toString()); 
+            setAddress(person.addr);
+        })
+        .catch(err => {
+            // console.log(err);
+            setDefaults();
+            setMode(<NotFound />)
+        })
+        // console.log(person);
+        await getNft();
     };
 
     const getNft = async () => {
@@ -76,10 +124,17 @@ const OtherBoard = ({
         if (uri_ !== undefined) {
             uri_ = parseBase64(uri_.toString());
             uri_ = uri_.image;
-            setUri(uri_);
+            // console.log("found nft by you",uri_);
+            setUri(uri_)
         }
-        // console.log(tokenId.toString(), uri_);
     };
+
+    const setDefaults = () => {
+        setAddress("")
+        setUri(null)
+        setPan("")
+        setTokenId(null)
+    }
 
     const ratingmap = {
         5: "Enterprise",
@@ -88,15 +143,54 @@ const OtherBoard = ({
         2: "Normie",
         1: "Normie",
     };
-    useEffect(() => {
-        retrieveDetails();
-    }, [invoicePlatformAddress]);
 
     useEffect(() => {
-        getNft();
-    }, [tokenId]);
+        if(pan != ""){
+            // console.log("pan changed");
+            retrieveTokenId();
+        }
+    },[pan])
 
+    useEffect(() => {
+        if(pan != "" && tokenId != null){
+            retrieveDetails();
+        }
+    }, [tokenId, pan])
 
+    useEffect(() => {
+        if(address != ""){
+            // console.log("address changed");
+            retrievePersonPan();
+        }
+    },[address])
+
+    useEffect(() => {
+        if(uri !== null && uri !== undefined){
+            setMode(<OtherProfile />) 
+        }
+    },[uri])
+
+    const searchForPerson = async () => {
+        // if toSearch is a valid address
+        if(toSearch === pan || toSearch === address){
+            return;
+        }
+        setMode(<Searching />)
+        // console.log("clicked me", toSearch)
+        if (toSearch.length === 42 && toSearch.includes("0x")) {
+            // ! wallet address provided
+            // console.log("enteredAddr",toSearch, address)
+            setAddress(toSearch)
+        }else if(toSearch.includes(".eth")){
+            // ! ENS name provided
+            // console.log("foundAddress",foundAddress)
+            setAddress(foundAddress);
+        }else{
+            // ! pan is provided
+            // console.log("IN PAN MODE", toSearch)
+            setPan(toSearch); 
+        }
+    }
 
     const navigate = useNavigate();
 
@@ -167,7 +261,7 @@ const OtherBoard = ({
                             <div className="row">
                                 <div className="col-8">
                                     <div className="row credrow">
-                                        {name}
+                                        {name }
                                     </div>
                                     <div className="row credrow yellowtext">
                                         {pan}
@@ -239,7 +333,7 @@ const OtherBoard = ({
                     <button
                         className="btn btn-warning profbtn"
                         onClick={() => {
-                            console.log("btn click");
+                            // console.log("btn click");
                             navigate("/createInvoice");
                         }}
                     >
@@ -249,8 +343,6 @@ const OtherBoard = ({
             </div>
         </>
     }
-
-
     const NotFound = () => {
         return <>
             <div className="row centercol">
@@ -272,21 +364,33 @@ const OtherBoard = ({
         </>
     }
 
-    const [mode, setMode] = useState(<NotFound/>);
+    const [mode, setMode] = useState(<Searching/>);
     // <NotFound/>, <Searching/>, <OtherProfile/>
 
     return (
         <div className="OtherBoard">
             {/* search */}
             <div className="row searchtitle">
-                User Lookup made easy!
+                User Lookup made easy !
+            </div>
+            <div className="row searchtitle">
+                Search using ENS / Address / UserPAN !
             </div>
             <div className="row searchbar">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search by Address / ENS / PAN" aria-label="search field" />
+                    <input type="text" class="form-control" placeholder="Search by Address / ENS / PAN" aria-label="search field" onChange={(event) => {
+                        setToSearch(event.target.value);
+                    }}/>
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2">
-                            &nbsp;&nbsp;<AiOutlineSearch size={30} />&nbsp;&nbsp;
+                            &nbsp;&nbsp;<AiOutlineSearch size={30} onClick={
+                                // ()=>{
+                                //     changeAddress("dkjfdjfoejreri")
+                                // }
+                                searchForPerson
+                            }
+                            className="searchicon"
+                            />&nbsp;&nbsp;
                         </span>
                     </div>
                 </div>
