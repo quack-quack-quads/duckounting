@@ -124,16 +124,18 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         const amt = localAmount;
         const rate = currencyList[currency - 1].rate;
         const ethAmount = amt / rate;
-        ethAmount.toFixed(18);
+        ethAmount = ethAmount.toFixed(10);
         setamount(ethAmount.toString());
     }
 
     const handleConverterChange = (event) => {
         setLocalAmount(event.target.value);
-        const amt = event.target.value;
-        const rate = currencyList[currency - 1].rate;
-        const ethAmount = amt / rate;
-        ethAmount.toFixed(18);
+        var amt = event.target.value;
+
+        var rate = currencyList[currency - 1].rate;
+        var ethAmount = amt / rate;
+        ethAmount = ethAmount.toFixed(10);
+        console.log(ethAmount);
         setamount(ethAmount.toString());
     }
 
