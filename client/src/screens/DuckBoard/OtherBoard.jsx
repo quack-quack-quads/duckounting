@@ -35,14 +35,14 @@ const OtherBoard = ({
     const [duckIndex, setDuckIndex] = useState(0.7);
     const [rating, setRating] = useState("4");
 
-    const changeAddress = (_address)=>{
-        return new Promise((res,rej) => {
+    const changeAddress = (_address) => {
+        return new Promise((res, rej) => {
             setAddress(_address, () => res());
         })
     }
-     
+
     const changePan = (_pan) => {
-        
+
     }
 
     const changeUri = (_uri) => {
@@ -55,7 +55,7 @@ const OtherBoard = ({
         functionName: "getTokenId",
         params: {
             _pan: pan || "0x0000000000000000000000000000000000000000000000000000000000000000",
-    },
+        },
     });
 
     const { runContractFunction: tokenURI } = useWeb3Contract({
@@ -76,7 +76,7 @@ const OtherBoard = ({
         },
     });
 
-    const { runContractFunction:getPersonPAN } = useWeb3Contract({
+    const { runContractFunction: getPersonPAN } = useWeb3Contract({
         abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "getPersonPAN",
@@ -91,9 +91,9 @@ const OtherBoard = ({
         setTokenId(tokenid.toString())
     }
 
-    const retrievePersonPan = async() => {
-        await getPersonPAN().then(async(foundpan) => {
-            setPan(foundpan)    
+    const retrievePersonPan = async () => {
+        await getPersonPAN().then(async (foundpan) => {
+            setPan(foundpan)
             // console.log("foundPan",foundpan)
         }).catch(err => {
             // console.log(err);
@@ -105,14 +105,14 @@ const OtherBoard = ({
     const retrieveDetails = async () => {
         // console.log("pan before getPersonDetails", pan);
         await getPersonDetails().then(person => {
-            setRating(person.rating.toString()); 
+            setRating(person.rating.toString());
             setAddress(person.addr);
         })
-        .catch(err => {
-            // console.log(err);
-            setDefaults();
-            setMode(<NotFound />)
-        })
+            .catch(err => {
+                // console.log(err);
+                setDefaults();
+                setMode(<NotFound />)
+            })
         // console.log(person);
         await getNft();
     };
@@ -145,34 +145,34 @@ const OtherBoard = ({
     };
 
     useEffect(() => {
-        if(pan != ""){
+        if (pan != "") {
             // console.log("pan changed");
             retrieveTokenId();
         }
-    },[pan])
+    }, [pan])
 
     useEffect(() => {
-        if(pan != "" && tokenId != null){
+        if (pan != "" && tokenId != null) {
             retrieveDetails();
         }
     }, [tokenId, pan])
 
     useEffect(() => {
-        if(address != ""){
+        if (address != "") {
             // console.log("address changed");
             retrievePersonPan();
         }
-    },[address])
+    }, [address])
 
     useEffect(() => {
-        if(uri !== null && uri !== undefined){
-            setMode(<OtherProfile />) 
+        if (uri !== null && uri !== undefined) {
+            setMode(<OtherProfile />)
         }
-    },[uri])
+    }, [uri])
 
     const searchForPerson = async () => {
         // if toSearch is a valid address
-        if(toSearch === pan || toSearch === address){
+        if (toSearch === pan || toSearch === address) {
             return;
         }
         setMode(<Searching />)
@@ -181,14 +181,14 @@ const OtherBoard = ({
             // ! wallet address provided
             // console.log("enteredAddr",toSearch, address)
             setAddress(toSearch)
-        }else if(toSearch.includes(".eth")){
+        } else if (toSearch.includes(".eth")) {
             // ! ENS name provided
             // console.log("foundAddress",foundAddress)
             setAddress(foundAddress);
-        }else{
+        } else {
             // ! pan is provided
             // console.log("IN PAN MODE", toSearch)
-            setPan(toSearch); 
+            setPan(toSearch);
         }
     }
 
@@ -261,7 +261,7 @@ const OtherBoard = ({
                             <div className="row">
                                 <div className="col-8">
                                     <div className="row credrow">
-                                        {name }
+                                        {name}
                                     </div>
                                     <div className="row credrow yellowtext">
                                         {pan}
@@ -364,7 +364,7 @@ const OtherBoard = ({
         </>
     }
 
-    const [mode, setMode] = useState(<Searching/>);
+    const [mode, setMode] = useState(<NotFound/>);
     // <NotFound/>, <Searching/>, <OtherProfile/>
 
     return (
@@ -380,7 +380,7 @@ const OtherBoard = ({
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search by Address / ENS / PAN" aria-label="search field" onChange={(event) => {
                         setToSearch(event.target.value);
-                    }}/>
+                    }} />
                     <div class="input-group-append">
                         <span class="input-group-text" id="basic-addon2">
                             &nbsp;&nbsp;<AiOutlineSearch size={30} onClick={
@@ -389,7 +389,7 @@ const OtherBoard = ({
                                 // }
                                 searchForPerson
                             }
-                            className="searchicon"
+                                className="searchicon"
                             />&nbsp;&nbsp;
                         </span>
                     </div>
