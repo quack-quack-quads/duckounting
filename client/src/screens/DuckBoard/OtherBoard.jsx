@@ -272,7 +272,7 @@ const OtherBoard = ({
         </>
     }
 
-    const [mode, setMode] = useState(<NotFound/>);
+    const [mode, setMode] = useState(<OtherProfile />);
     // <NotFound/>, <Searching/>, <OtherProfile/>
 
     return (
