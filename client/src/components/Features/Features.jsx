@@ -1,7 +1,7 @@
 import "./Features.scss";
 import Feature from "./Feature";
-import lcpng from "../../assets/images/litecoin.png";
-import fipng from "../../assets/images/file.png";
+import lcpng from "../../assets/images/litecoinyellow.png";
+import fipng from "../../assets/images/fileyellow.png";
 import smpng from "../../assets/images/speedometer.png";
 import nftpng from "../../assets/images/card.png";
 

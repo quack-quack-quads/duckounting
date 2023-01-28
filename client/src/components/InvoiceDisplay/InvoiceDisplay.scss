@@ -3,6 +3,16 @@ $yellow : #ffc107;
 $grey : #090909;
 .InvoiceDisplay{
 // background: linear-gradient(315deg, rgba(0,0,0,1) 49%, rgba(64,64,64,1) 100%);
+    .dropdown-menu{
+        padding : 1vw;
+        overflow: hidden;
+        background-color: black;
+        border : none;
+        border-radius: none;
+    }
+    #dropdown-basic::after{
+        display : none;
+    }
     background-color: $grey;
     margin : 0vh 5vw 5vh 5vw;
     border-radius: 0;
@@ -82,7 +92,11 @@ $grey : #090909;
         .labelIcon{
             margin-right : 3px;
         }
-        .buyer,.seller{
+        .buyer{
+            width: 45%;
+            background-color: $grey;
+        }
+        .seller{
             width : 45%;
             box-shadow : none;
             background-color: $grey;
