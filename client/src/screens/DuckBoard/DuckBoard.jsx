@@ -49,14 +49,14 @@ const DuckBoard = ({
     functionName: "getPerson",
     params: {
       PAN: window.localStorage.getItem("pan"),
-    }
-  })
+    },
+  });
 
   const retrieveDetails = async () => {
     const tokenid = await getTokenId();
     setTokenId(tokenid);
     const person = await getPersonDetails();
-    console.log(person)
+    console.log(person);
     setRating(person.rating.toString());
   };
 
@@ -73,12 +73,12 @@ const DuckBoard = ({
   };
 
   const ratingmap = {
-    "5" : "Enterprise",
-    "4" : "Exquisite",
-    "3" : "Exquisite",
-    "2" : "Normie",
-    "1" : "Normie",
-  }
+    5: "Enterprise",
+    4: "Exquisite",
+    3: "Exquisite",
+    2: "Normie",
+    1: "Normie",
+  };
   useEffect(() => {
     retrieveDetails();
   }, [invoicePlatformAddress]);
@@ -93,7 +93,7 @@ const DuckBoard = ({
     <Card
       className="nftcard"
       description={"You are rated " + rating + " on the platform"}
-      onClick={() => { }}
+      onClick={() => {}}
       setIsSelected={() => {
         return false;
       }}
@@ -122,34 +122,34 @@ const DuckBoard = ({
     </Card>
   );
 
-  const duckountingIndex = (
-    <Card
-      className="dicard"
-      description="You have a duckountability index of 100%"
-      title="Duckountability Index"
-      onClick={() => { }}
-      setIsSelected={() => {
-        return false;
-      }}
-      tooltipText={
-        <span style={{ width: 200, zIndex: 1000 }}>
-          Your duckountability index is calculated on the basis of how regular you
-          were in paying due amounts on your invoices
-        </span>
-      }
-    >
-      <div>
-        <GaugeChart
-          id="gauge-chart1"
-          nrOfLevels={10}
-          colors={["#000000", "#00FF00"]}
-          percent={duckIndex}
-          textColor={"#000000"}
-          animateDuration={5000}
-        ></GaugeChart>
-      </div>
-    </Card>
-  );
+  // const duckountingIndex = (
+  //   <Card
+  //     className="dicard"
+  //     description="You have a duckountability index of 100%"
+  //     title="Duckountability Index"
+  //     onClick={() => { }}
+  //     setIsSelected={() => {
+  //       return false;
+  //     }}
+  //     tooltipText={
+  //       <span style={{ width: 200, zIndex: 1000 }}>
+  //         Your duckountability index is calculated on the basis of how regular you
+  //         were in paying due amounts on your invoices
+  //       </span>
+  //     }
+  //   >
+  //     <div>
+  //       <GaugeChart
+  //         id="gauge-chart1"
+  //         nrOfLevels={10}
+  //         colors={["#000000", "#00FF00"]}
+  //         percent={duckIndex}
+  //         textColor={"#000000"}
+  //         animateDuration={5000}
+  //       ></GaugeChart>
+  //     </div>
+  //   </Card>
+  // );
 
   return (
     <div className="DuckBoard">
@@ -196,6 +196,8 @@ const DuckBoard = ({
                 navigate("/createInvoice");
               }}
             />
+          </div>
+          <div className="col-md-3 col-lg-4">
             <ProfileCard
               image="servers"
               label="Want to take a look at your past invoices?"
@@ -205,15 +207,16 @@ const DuckBoard = ({
               }}
             />
           </div>
-          <div className="col-md-3 col-lg-4 dicardcol">{duckountingIndex}</div>
-          {/* <div className="col d-none d-md-block d-lg-none"></div> */}
+          <div className="col d-none d-md-block d-lg-none"></div>
           <div className="col-md-5 col-lg-4 nftcardcol">
             <div className="wrapperdiv">
+              <div className="row">{nftwidget}</div>
               <div className="row">
-                {nftwidget}
-              </div>
-              <div className="row">
-                <img src="../assets/images/duck.png" alt="" className="ducklogo" />
+                <img
+                  src="../assets/images/duck.png"
+                  alt=""
+                  className="ducklogo"
+                />
               </div>
             </div>
           </div>
@@ -282,7 +285,7 @@ const DuckBoard = ({
           </div>
         </div>
         <div className="row centercol">{nftwidget}</div>
-        <div className="row centercol">{duckountingIndex}</div>
+        {/* <div className="row centercol">{duckountingIndex}</div> */}
       </div>
       <Footer />
 

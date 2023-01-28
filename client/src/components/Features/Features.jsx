@@ -13,7 +13,7 @@ const Features = () => {
       </h1>
       <div className="d-flex flex-column flex-lg-row">
         <Feature
-          className="align-self-stretch col-12 col-lg-3"
+          className="align-self-stretch col-12 col-lg-4"
           static_img={lcpng}
           img_pos="top"
           title="Ethereum payment gateway"
@@ -22,7 +22,7 @@ const Features = () => {
           payment gateway
         </Feature>
         <Feature
-          className="align-self-stretch col-12 col-lg-3"
+          className="align-self-stretch col-12 col-lg-4"
           static_img={fipng}
           img_pos="bot"
           title="Hassle-free recurring payments"
@@ -30,17 +30,17 @@ const Features = () => {
           Handle payments over installments through our hassle-free recurring
           payment system
         </Feature>
-        <Feature
-          className="align-self-stretch col-12 col-lg-3"
+        {/* <Feature
+          className="align-self-stretch col-12 col-lg-4"
           static_img={smpng}
           img_pos="top"
           title="Get Duckountability index"
         >
           Flaunt your performance as a buyer through our Duckountbility index
           and establish credibility with potential partners
-        </Feature>
+        </Feature> */}
         <Feature
-          className="align-self-stretch col-12 col-lg-3"
+          className="align-self-stretch col-12 col-lg-4"
           static_img={nftpng}
           img_pos="bot"
           title="Get NFTs based on your performance"
