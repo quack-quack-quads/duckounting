@@ -3,19 +3,22 @@ import "./TransactionHistoryCard.scss";
 import buyerArrow from "../../assets/images/arrow-up-left.png";
 import sellerArrow from "../../assets/images/arrow-bottom-right.png";
 import { ethers } from "ethers";
+import { BsFillArrowDownRightCircleFill, BsFillArrowUpLeftCircleFill, BsArrowDownRight, BsArrowUpLeft } from 'react-icons/bs'
 const TransactionHistoryMiniCard = (props) => {
 
   return (
     <Card
-      className={`th-mini-card ${props.selected === "true" ? "selected" : ""}`}
+      className={`th-mini-card ${props.selected === "true" ? "selected" : ""}`} onClick={() => {
+        props.handleCardClick(props);
+      }}
     >
       <div className="row">
         <div className="col-3 arrow-container">
-          { props.role == "buyer" && (
-            <img src={buyerArrow} className="role-arrow" />
+          {props.role == "buyer" && (
+            <BsFillArrowDownRightCircleFill size={40} color="black"/>
           )}
           {props.role == "seller" && (
-            <img src={sellerArrow} className="role-arrow" />
+            <BsFillArrowUpLeftCircleFill size={40} color="black"/>
           )}
         </div>
         <div className="col-9 text-box row row-cols-2">

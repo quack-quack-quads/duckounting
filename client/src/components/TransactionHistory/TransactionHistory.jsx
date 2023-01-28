@@ -297,7 +297,7 @@ const TransactionHistory = ({
                                         { listing.length > 0 ?
                                             listing.map((obj) => {
                                                 return (
-                                                    (window.innerWidth > 772 && !animate ? <TransactionHistoryCard 
+                                                    (window.innerWidth > 992  ? <TransactionHistoryCard 
                                                         role={obj.role}
                                                         invoiceID={obj.invoiceID}
                                                         status={obj.status}
