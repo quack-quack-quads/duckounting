@@ -1,6 +1,6 @@
 $yellow : #ffc107;
 .bkg{
-    background-image: url("../../assets/backgrounds/yb_geo_l.jpg");
+    background-image: url("../../assets/backgrounds/otherbg.jpg");
 }
 .txn-main {
     .transactioncol{
@@ -13,15 +13,16 @@ $yellow : #ffc107;
     height: fit-content;
     padding-bottom: 5vh;
     .title{
-        background-color : black;
+        background: rgb(0,0,0);
+        background: linear-gradient(90deg, rgba(0,0,0,1) 88%, rgba(255,255,255,0) 100%); 
         color : $yellow;
         border-radius: 15px;
         font-size: 26px;
         width: 80%;
         margin : auto;
-        text-align: center;
+        text-align: left;
         font-family: "Poppins";
-        padding : 1.5vh 0.5vw;
+        padding : 2vh 20px;
         font-weight: 600;
         margin-top : 3vh;
         margin-bottom: 5vh;

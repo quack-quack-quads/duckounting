@@ -12,7 +12,10 @@ import Review from '../Review/Review'
 import { abi, contractAddress } from "../../constants/index";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { toast } from 'react-toastify'
-import {ethers} from "ethers";
+import { ethers } from "ethers";
+import { Dropdown } from 'react-bootstrap'
+import ViewUser from '../ViewUser/ViewUser'
+
 const InvoiceDisplay = (props) => {
     const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
     const [show, setShow] = useState(false);
@@ -28,7 +31,7 @@ const InvoiceDisplay = (props) => {
     const delta = 1e-6;
     var transactionWidget;
 
-    const {runContractFunction: pay} = useWeb3Contract({
+    const { runContractFunction: pay } = useWeb3Contract({
         abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "pay",
@@ -43,12 +46,12 @@ const InvoiceDisplay = (props) => {
 
     const getContractDetails = () => {
         try {
-          setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
-          setContractAbi(abi[parseInt(chainIdHex)]);
-        } catch (err) {}
-      };
-    
-    const paynow = async() => {
+            setInvoicePlatformAddress(contractAddress[parseInt(chainIdHex)][0]);
+            setContractAbi(abi[parseInt(chainIdHex)]);
+        } catch (err) { }
+    };
+
+    const paynow = async () => {
         await pay({
             onSuccess: () => {
                 setSuccess(true);
@@ -58,7 +61,7 @@ const InvoiceDisplay = (props) => {
                 setSuccess(false);
                 toast.error("Payment Failed", { position: toast.POSITION.TOP_CENTER });
             },
-        });      
+        });
         if (success) {
             setShowModal(true);
         }
@@ -80,28 +83,28 @@ const InvoiceDisplay = (props) => {
             <>
                 {
                     props.sellerPan !== localStorage.getItem("pan") ?
-                    <>
-                        <div className="pending"
-                            onClick={
-                                paynow
-                            }
-                        >
-                            PAY NOW
-                        </div>
-                        <div className="helpertext">
-                            Some payments are pending.
-                        </div>
-                    </>
+                        <>
+                            <div className="pending"
+                                onClick={
+                                    paynow
+                                }
+                            >
+                                PAY NOW
+                            </div>
+                            <div className="helpertext">
+                                Some payments are pending.
+                            </div>
+                        </>
 
-                    :
-                    <>
-                        <div className="pending">
-                            UNPAID
-                        </div>
-                        <div className="helpertext">
-                            Some payments are pending.
-                        </div>
-                    </>
+                        :
+                        <>
+                            <div className="pending">
+                                UNPAID
+                            </div>
+                            <div className="helpertext">
+                                Some payments are pending.
+                            </div>
+                        </>
                 }
             </>
     }
@@ -142,10 +145,32 @@ const InvoiceDisplay = (props) => {
         </div>
         <div className="row typerow">
             <div className="buyer">
+                <Dropdown>
+                    <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "e-caret-hide">
+                        <span className='buyerlabel'>BUYER PAN</span>
+                        <br />
+                        <span className='buyerinfo'>{props.buyerPan}</span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <ViewUser
+                            name = "Hitla"
+                            pan = "rohitPan"
+                            address = "0x9bAfce2A8dc304546827b7f74cf623b15272C416"
+                            handler = {
+                                ()=>{
+
+                                }
+                            }
+                        />
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+
+            {/* <div className="buyer">
                 <span className='buyerlabel'>BUYER PAN</span>
                 <br />
                 <span className='buyerinfo'>{props.buyerPan}</span>
-            </div>
+            </div> */}
             <div className="seller">
                 <span className='buyerlabel'>SELLER PAN</span>
                 <br />

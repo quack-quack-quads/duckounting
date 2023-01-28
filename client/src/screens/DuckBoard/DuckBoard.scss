@@ -11,50 +11,62 @@ $grey : #090909;
 
 .DuckBoard {
     padding-top: 13vh;
-    overflow-x : hidden;
-    .logout{
+    overflow-x: hidden;
+
+    .logout {
         background-color: white;
-        padding : 10px;
+        padding: 10px;
         border-radius: 100px;
         cursor: pointer;
     }
-    .logout:hover{
+
+    .logout:hover {
         background-color: black;
     }
-    .logoutcol{
+
+    .logoutcol {
         display: flex;
         justify-content: end;
     }
-    .nftimage{
+
+    .nftimage {
         border-radius: 20px;
         height: 330px;
         width: 100%;
         object-fit: cover;
     }
-    .nftcard,   
-    .nftcard:hover{
-        background: rgb(255,255,255);
-        background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 0%, rgba(255,234,173,1) 93%, rgba(255,255,255,1) 100%); 
-        .sc-kDDrLX{
-            color : black;
+
+    .nftcard,
+    .nftcard:hover {
+        background: rgb(255, 255, 255);
+        background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 234, 173, 1) 93%, rgba(255, 255, 255, 1) 100%);
+
+        .sc-kDDrLX {
+            color: black;
             font-family: "Poppins";
         }
-        .xHoFN{
+
+        .xHoFN {
             font-size: larger;
             font-family: "Poppins";
         }
     }
-    .dicard, .dicard:hover{
+
+    .dicard,
+    .dicard:hover {
         background: white !important;
-        border :  3px solid #ffc107;
-        .sc-kDDrLX{
-            color : black;
+        border: 3px solid #ffc107;
+
+        .sc-kDDrLX {
+            color: black;
         }
-        .xHoFN{
+
+        .xHoFN {
             font-size: larger;
 
         }
     }
+
     .largescreens {
         .topbanner {
             height: 40vh;
@@ -66,7 +78,7 @@ $grey : #090909;
                 height: 100vh;
             }
         }
-        
+
 
         .credcol {
             display: flex;
@@ -102,26 +114,30 @@ $grey : #090909;
         .nftcardcol {
             display: flex;
             justify-content: center;
-            padding : 0;
-            .row{
-                padding : 0;
-                margin : 0;
-                width : 100% !important;
+            padding: 0;
+
+            .row {
+                padding: 0;
+                margin: 0;
+                width: 100% !important;
                 z-index: 10;
             }
-            .ducklogo{
+
+            .ducklogo {
                 z-index: 90;
             }
-            .wrapperdiv{
+
+            .wrapperdiv {
                 width: 100%;
-                margin : 0;
-                padding : 0;
-                padding-left : 10px;
+                margin: 0;
+                padding: 0;
+                padding-left: 10px;
             }
+
             .nftcard {
                 min-height: 395px;
                 max-width: 500px;
-                height : 65vh;
+                height: 65vh;
                 width: 90%;
                 background-color: white;
                 margin-top: -200px;
@@ -134,6 +150,7 @@ $grey : #090909;
                 }
             }
         }
+
         .dicardcol {
             display: flex;
             justify-content: center;
@@ -157,15 +174,18 @@ $grey : #090909;
 
     .smallscreens {
         margin-bottom: 3vh;
+
         .topbanner {
             background-image: url(../../assets/backgrounds/otherbg.jpg);
             background-size: cover;
             background-repeat: no-repeat;
         }
-        .logout{
+
+        .logout {
             margin-bottom: 2vh !important;
             margin-left: 5vw;
         }
+
         .credbox {
             background-color: black;
             color: white;
@@ -192,10 +212,13 @@ $grey : #090909;
         }
 
         .nftcard {
-            height: 50vh;
-            width: 60%;
+            min-height: 395px;
+            max-width: 500px;
+            height: 65vh;
+            width: 70%;
             border-radius: 20px;
         }
+
         .dicard {
             height: auto;
             width: 80%;
