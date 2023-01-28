@@ -1,3 +1,4 @@
+$yellow : #ffc107;
 .feature-card {
     background-color: rgb(45, 45, 40);
 }
@@ -10,7 +11,7 @@
     margin-top: 1%;
     margin-bottom: 1%;
     border-radius: 8px;
-    background: #34CCCB;
+    background: $yellow;
     margin-right: 4%;
 }
 
