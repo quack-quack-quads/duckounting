@@ -1,5 +1,5 @@
 $logosize : 120px;
-$yellow : #efd00b;
+$yellow : #ffc107;
 $grey : #090909;
 
 .centercol {
@@ -7,11 +7,53 @@ $grey : #090909;
     justify-content: center;
     align-items: center;
 }
-
+.searchimage{
+    height: 50vh;
+    width: auto;
+}
+.messagerow{
+    padding : 2vh 2vw;
+    font-size: large;
+    color : white;
+    font-family: 'Poppins';
+    font-weight: 400;
+    margin-bottom: 5vh;
+}
 
 .OtherBoard {
     padding-top: 13vh;
     overflow-x: hidden;
+
+    .searchtitle{
+        margin: 0;
+        padding : 2vh 4vw;
+        font-size: x-large;
+        font-family: 'Poppins';
+        font-weight: 600;
+        color : $yellow
+    }
+    .searchbar{
+        margin: 0;
+        padding : 2vh 4vw;
+        .input-group,
+        .input-group:active{
+            padding : 0;
+
+            .form-control,
+            .form-control:active{
+                height: 50px;
+                border-radius: 10px 0 0 10px;
+                box-shadow: none;
+            }
+            .input-group-text{
+                border-radius: 0 10px 10px 0;
+                height: 50px;
+                background-color: $yellow;
+                margin : 0;
+                border : none;
+            }
+        }
+    }
 
     .logout {
         background-color: white;
@@ -78,7 +120,7 @@ $grey : #090909;
     .largescreens {
         .topbanner {
             height: 40vh;
-            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-image: url(../../assets/backgrounds/duckbg.jpg);
             background-size: cover;
             background-repeat: no-repeat;
 
@@ -185,7 +227,7 @@ $grey : #090909;
             margin-bottom: 3vh;
         }
         .topbanner {
-            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-image: url(../../assets/backgrounds/duckbg.jpg);
             background-size: cover;
             background-repeat: no-repeat;
         }
