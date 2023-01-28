@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { AiFillCaretDown } from "react-icons/ai";
 
+
 const Navbar = ({
   account,
   logout,
@@ -17,6 +18,8 @@ const Navbar = ({
   invoicePlatformAddress,
   contractAbi,
 }) => {
+
+
   const [showLogin, setShowLogin] = useState(false);
   const [pan, setPan] = useState("");
   const [name, setName] = useState("");
@@ -109,44 +112,56 @@ const Navbar = ({
     navigate("/duckboard");
   };
 
+
+
   return (
     <div className="Navbar">
       <ToastContainer />
       <div className="row">
         <div className="col-8 navcol1">
-          <div 
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          id="navbarDropdown"
-          className = "navdropdiv"
+          <div
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            id="navbarDropdown"
+            className="navdropdiv"
           >
-          <img
+            <img
               src={Ducklogo}
               className="logodrop"
-              // role="button"
-              // id="navbarDropdown"
-              // data-bs-toggle="dropdown"
-              // aria-haspopup="true"
-              // aria-expanded="false"
+            // role="button"
+            // id="navbarDropdown"
+            // data-bs-toggle="dropdown"
+            // aria-haspopup="true"
+            // aria-expanded="false"
             ></img>
-            <AiFillCaretDown/>
+            <AiFillCaretDown />
           </div>
 
           {/* list of dropdown items */}
 
-          
+
           <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-            
-          <button
+
+            <button
               className="btn btn-warning navbtn"
               onClick={() => {
                 navigate("/duckboard");
               }}
-              disabled = {!account}
+              disabled={!account}
             >
               Duckboard
+            </button>
+
+            <button
+              className="btn btn-warning navbtn"
+              data-bs-toggle="dropdown"
+              onClick={() => {
+                navigate('/otherboard');
+              }}
+            >
+              Search User
             </button>
 
             <button
@@ -154,7 +169,7 @@ const Navbar = ({
               onClick={() => {
                 navigate("/transactionhistory");
               }}
-              disabled = {!account}
+              disabled={!account}
             >
               Transaction History
             </button>
@@ -164,7 +179,7 @@ const Navbar = ({
               onClick={() => {
                 navigate("/createInvoice");
               }}
-              disabled = {!account}
+              disabled={!account}
             >
               Create Invoice
             </button>

@@ -58,8 +58,9 @@ $grey : #090909;
     .largescreens {
         .topbanner {
             height: 40vh;
-            background-image: url(../../assets/backgrounds/gold_fish.jpg);
-            background-size: contain;
+            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
 
             @media(max-width : 767px) {
                 height: 100vh;
@@ -157,8 +158,9 @@ $grey : #090909;
     .smallscreens {
         margin-bottom: 3vh;
         .topbanner {
-            background-image: url(../../assets/backgrounds/gold_fish.jpg);
-            background-size: contain;
+            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
         }
         .logout{
             margin-bottom: 2vh !important;

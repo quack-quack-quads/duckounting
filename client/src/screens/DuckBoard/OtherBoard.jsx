@@ -5,12 +5,14 @@ import { IpfsImage } from "react-ipfs-image";
 import { useWeb3Contract } from "react-moralis";
 import { useEffect, useState } from "react";
 import { parseBase64 } from "../../utils/parseBase64ToJson";
-import { AiOutlineLogout, AiOutlineWallet } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineSearch, AiOutlineWallet } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import GaugeChart from "react-gauge-chart";
-import { ConstructionOutlined } from "@mui/icons-material";
+import { ConstructionOutlined, Foundation } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
-import { Modal, Button } from "react-bootstrap";
+import NotFoundImage from "../../assets/backgrounds/notfound.png"
+import SearchingImage from "../../assets/backgrounds/searching.png"
+
 
 
 
@@ -24,6 +26,7 @@ const OtherBoard = ({
     const name = localStorage.getItem("name");
     const pan = localStorage.getItem("pan");
     const address = "0x9bAfce2A8dc304546827b7f74cf623b15272C416";
+
 
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
@@ -154,9 +157,8 @@ const OtherBoard = ({
         </div>
     }
 
-    return (
-        <div className="OtherBoard">
-            {/* top section in md screen onwards */}
+    const OtherProfile = () => {
+        return <>
             <div className="largescreens d-none d-md-block">
                 <div className="topbanner row">
                     {/* for showing credentials */}
@@ -245,6 +247,52 @@ const OtherBoard = ({
                     </button>
                 </div>
             </div>
+        </>
+    }
+
+
+    const NotFound = () => {
+        return <>
+            <div className="row centercol">
+                <img src={NotFoundImage} alt="" className="searchimage" />
+            </div>
+            <div className="row centercol messagerow">
+                Sorry. No such user found.
+            </div>
+        </>
+    }
+    const Searching = () => {
+        return <>
+            <div className="row centercol">
+                <img src={SearchingImage} alt="" className="searchimage" />
+            </div>
+            <div className="row centercol messagerow">
+                Enter the keywords to lookup user.
+            </div>
+        </>
+    }
+
+    const [mode, setMode] = useState(<NotFound/>);
+    // <NotFound/>, <Searching/>, <OtherProfile/>
+
+    return (
+        <div className="OtherBoard">
+            {/* search */}
+            <div className="row searchtitle">
+                User Lookup made easy!
+            </div>
+            <div className="row searchbar">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search by Address / ENS / PAN" aria-label="search field" />
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">
+                            &nbsp;&nbsp;<AiOutlineSearch size={30} />&nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {mode}
             <Footer />
         </div>
     );
