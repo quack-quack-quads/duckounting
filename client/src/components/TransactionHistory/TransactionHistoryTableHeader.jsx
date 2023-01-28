@@ -176,7 +176,7 @@ const TransactionHistoryTableHeader = (props) => {
           >
             Cash (Offline)
           </button>
-        </div>d
+        </div>
       </div>
     </div>
   );

@@ -39,6 +39,8 @@ $HEADER_SECONDARY: $yellow;
 
 .th-mini-card {
     margin-top: 1%;
+    background: rgb(255,217,101);
+    background: linear-gradient(276deg, rgba(255,217,101,1) 79%, rgba(255,255,255,1) 100%); 
     .role-arrow {
         max-width: 20px;
         height: auto;

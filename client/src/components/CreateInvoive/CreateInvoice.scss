@@ -47,6 +47,9 @@ $yellow : #efd00b;
         .inside-invoice {
             // border: 2px solid yellow;
             padding-top: 0%;
+
+            margin-top: 0 !important;
+            
             .inv-name {
                 color: $yellow;
                 
@@ -57,6 +60,7 @@ $yellow : #efd00b;
                 justify-content: center;
             }
         }
+       
 
         @media only screen and (max-width: 600px) {
             .inside-invoice {
@@ -127,6 +131,7 @@ $yellow : #efd00b;
             margin-left: 0;
             height: 15vh;
             width: 20vw;
+            // border: 2px solid blue;
             @media  only screen and (max-width: 1200px) {
                 height: 0;
                 width: 0;;
@@ -141,9 +146,13 @@ $yellow : #efd00b;
         }
 
         .stamp-row2 {
-            // border: 2px solid yellow;
+            // border: 2px solid greenyellow;
             margin-left: 0;
-            margin-right: 2rem;
+            // margin-right: 2rem;
+            margin-top: 0 !important;
+            // @media only screen and (max-width: 600px) {
+            //     padding-top: 0;
+            // }
         }
 
         .upload-but {

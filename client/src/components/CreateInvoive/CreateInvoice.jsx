@@ -22,6 +22,7 @@ import { UploadFile } from "@mui/icons-material";
 import { SxProps } from "@mui/system";
 import stamp from "../../assets/images/stamp.png"
 import Footer from "../Footer/Footer"
+import axios from "axios";
 
 const darkTheme = createTheme({
     palette: {
@@ -60,6 +61,13 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     const [paidDis, setpaidDis] = useState(false);
     const [unpaidDis, setunpaidDis] = useState(false);
     const [done, setDone] = useState(null);
+
+    /* Variables for currency converter */
+    const [exchangeRate, setExchangeRate] = useState([]);
+    const [currencyList, setCurrencyList] = useState([]);
+    const [currency, setCurrency] = useState(61);
+    const [localAmount, setLocalAmount] = useState("");
+
 
 
     const handleBuyerPanChange = (event) => {
@@ -110,6 +118,25 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         toast.success("Invoice added to blockchain.", { position: toast.POSITION.TOP_CENTER });
     }
 
+    const handleCurrencyChange = (event) => {
+        console.log(event.target.value - 1);
+        setCurrency(event.target.value);
+        const amt = localAmount;
+        const rate = currencyList[currency - 1].rate;
+        const ethAmount = amt / rate;
+        ethAmount.toFixed(18);
+        setamount(ethAmount.toString());
+    }
+
+    const handleConverterChange = (event) => {
+        setLocalAmount(event.target.value);
+        const amt = event.target.value;
+        const rate = currencyList[currency - 1].rate;
+        const ethAmount = amt / rate;
+        ethAmount.toFixed(18);
+        setamount(ethAmount.toString());
+    }
+
 
     // ! contract interaction functions
     const { runContractFunction: addInvoice } = useWeb3Contract({
@@ -133,7 +160,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         if (url !== "") {
             setDone(true);
             addInvoice({
-                onSuccess: handleSuccess, 
+                onSuccess: handleSuccess,
                 onError: (err) => {
                     // console.log(err.message);
                     toast.error(`Ouch! An error occured : ${err}`, { position: toast.POSITION.TOP_CENTER })
@@ -141,6 +168,32 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
             });
         }
     }, [url])
+
+    useEffect(() => {
+        if (exchangeRate.length === 0) {
+            fetch("https://api.coinbase.com/v2/exchange-rates?currency=ETH")
+                .then((res) => {
+                    res.json().then((res1) => {
+                        setExchangeRate(res1.data.rates);
+                        let lis = [];
+                        let count = 1;
+                        for (var key in res1.data.rates) {
+                            var obj = {
+                                name: key,
+                                id: count,
+                                rate: res1.data.rates[key]
+                            }
+                            lis.push(obj);
+                            count++;
+                        }
+                        setCurrencyList(lis);
+                        console.log(lis);
+                    })
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }
+    })
 
     const handleSubmit = async () => {
         if (fileImg === null) {
@@ -170,10 +223,12 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
         }
         const decimals = 18;
         const trans_amount = amountMonthly;
-        console.log(amountMonthly, (ethers.utils.parseEther(amountMonthly)).toString())
+
+        let amt = amountMonthly;
+        amt.toString();
 
         setuint32No(async (prev) => {
-            var new_amt = (ethers.utils.parseEther(amountMonthly)).toString();
+            var new_amt = (ethers.utils.parseEther(amt)).toString();
             setStatus(paymentMode === 2);
             seturl(async (prev2) => {
                 setDone(false);
@@ -368,14 +423,89 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                                         </Grid> : null}
                                     </Grid>
 
+                                    <Grid item xs={12} sm={6} md={3} lg={2}>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label" className="w-100">Currency</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                label="Currency"
+                                                value={currency}
+                                                onChange={handleCurrencyChange}
+                                                fullWidth
+                                                sx={{
+                                                    m: 1,
+                                                    borderColor: 'yellow.main',
+                                                    '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#efd00b'
+                                                    },
+                                                    '& .MuiSvgIcon-root': {
+                                                        color: 'white'
+                                                    },
+                                                    "& .MuiOutlinedInput.Mui-Select": {
+                                                        "& > fieldset": {
+                                                            borderColor: '#FCF55F'
+                                                        }
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#FCF55F',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#8B8000',
+                                                    },
+                                                }}
+                                                className="w-100"
 
+                                            >
+                                                {currencyList.map((item) => {
+                                                    return (
+                                                        <MenuItem value={item.id}>{item.name}</MenuItem>
+                                                    )
+                                                })}
 
-                                    <Grid item xs={12} sm={12} lg={12}>
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6} md={3} lg={3}>
+                                        <FormControl fullWidth sx={{ m: 1 }}>
+                                            {/* {console.log(currencyList[currency-1], currency)} */}
+                                            <InputLabel htmlFor="outlined-adornment-amount">Amount in {currencyList.length === 0 ? "INR" : currencyList[currency - 1].name}</InputLabel>
+                                            <OutlinedInput
+                                                error={checkAmount(amountMonthly)}
+                                                id="outlined-adornment-amount"
+                                                startAdornment={<InputAdornment position="start">Ξ</InputAdornment>}
+                                                label={`Amount in ${currencyList.length === 0 ? "INR" : currencyList[currency - 1].name}`}
+                                                onChange={handleConverterChange}
+                                                sx={{
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#FCF55F',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#8B8000',
+                                                    },
+                                                    '.MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: '#efd00b ',
+                                                    },
+
+                                                }}
+
+                                            />
+                                            {checkAmount(amountMonthly) && (
+                                                <FormHelperText error id="accountId-error">
+                                                    Please enter numbers only
+                                                </FormHelperText>
+                                            )}
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={12} md={6} lg={6}>
                                         <FormControl fullWidth sx={{ m: 1 }}>
                                             <InputLabel htmlFor="outlined-adornment-amount">Amount in ETH</InputLabel>
                                             <OutlinedInput
                                                 error={checkAmount(amountMonthly)}
                                                 id="outlined-adornment-amount"
+                                                value={amountMonthly}
                                                 startAdornment={<InputAdornment position="start">Ξ</InputAdornment>}
                                                 label="Amount in ETH"
                                                 onChange={handleAmountChange}
@@ -491,7 +621,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                                         </FormControl>
                                     </Grid>
 
-                                   
+
 
                                     <Grid item xs={12} sm={6} lg={6} marginLeft={2} marginTop={1}>
                                         <FormControl >
