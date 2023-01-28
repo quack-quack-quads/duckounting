@@ -1,0 +1,237 @@
+$logosize : 120px;
+$yellow : #efd00b;
+$grey : #090909;
+
+.centercol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.OtherBoard {
+    padding-top: 13vh;
+    overflow-x: hidden;
+
+    .logout {
+        background-color: white;
+        padding: 10px;
+        border-radius: 100px;
+        cursor: pointer;
+    }
+
+    .logout:hover {
+        background-color: black;
+    }
+
+    .logoutcol {
+        display: flex;
+        justify-content: end;
+    }
+
+    .nftimage {
+        border-radius: 20px;
+        height: 330px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .nftcard,
+    .nftcard:hover {
+        background: rgb(255, 255, 255);
+        background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 234, 173, 1) 93%, rgba(255, 255, 255, 1) 100%);
+
+        .sc-kDDrLX {
+            color: black;
+            font-family: "Poppins";
+        }
+
+        .xHoFN {
+            font-size: larger;
+            font-family: "Poppins";
+        }
+    }
+
+    .addresstitle{
+       margin-bottom: 1.5vh;
+       color : #ffc107;
+       @media(max-width : 771px) {
+            margin-top: 3vh;
+       }
+    }
+    .copybtn{
+        margin-top: 1.5vh;
+        .btn{
+            width : 80px;
+        }
+    }
+    .walletaddress{
+        .addtext{
+            width: 90%;
+            font-size: medium;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .largescreens {
+        .topbanner {
+            height: 40vh;
+            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+
+            @media(max-width : 767px) {
+                height: 100vh;
+            }
+        }
+
+
+        .credcol {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            padding: 10px 30px;
+
+            .credbox {
+                background-color: black;
+                color: white;
+                width: 100%;
+                // text-align: center;
+                margin-bottom: 3vh;
+                padding: 10px 30px;
+                border-radius: 10px;
+
+                @media(max-width : 767px) {
+                    margin: 0;
+                    margin-top: 3vh;
+                }
+            }
+
+            .credrow {
+                font-size: 17px;
+                font-family: 'Poppins';
+            }
+
+            .yellowtext {
+                color: $yellow;
+            }
+        }
+
+        .nftcardcol {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+
+            .row {
+                padding: 0;
+                margin: 0;
+                width: 100% !important;
+                z-index: 10;
+            }
+
+            .ducklogo {
+                z-index: 90;
+            }
+
+            .wrapperdiv {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                padding-left: 10px;
+            }
+
+            .nftcard {
+                min-height: 395px;
+                max-width: 500px;
+                height: 65vh;
+                width: 90%;
+                background-color: white;
+                margin-top: -200px;
+                border-radius: 20px;
+                z-index: 5;
+
+                @media(max-width: 767px) {
+                    width: 80%;
+                    background-color: white !important;
+                }
+            }
+        }
+
+        .dicardcol {
+            display: flex;
+            justify-content: center;
+
+            .dicard {
+                margin-top: 19px;
+                margin-bottom: 19px;
+                height: auto;
+                width: 100%;
+                background-color: white;
+                border-radius: 20px;
+                z-index: 5;
+
+                @media(max-width: 767px) {
+                    width: 80%;
+                    background-color: white !important;
+                }
+            }
+        }
+    }
+
+    .smallscreens {
+        .walletdeets{
+            margin-bottom: 3vh;
+        }
+        .topbanner {
+            background-image: url(../../assets/backgrounds/otherbg.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .logout {
+            margin-bottom: 2vh !important;
+            margin-left: 5vw;
+        }
+
+        .credbox {
+            background-color: black;
+            color: white;
+            width: 90%;
+            padding: 10px 30px;
+            border-radius: 10px;
+            margin: 6% 0;
+        }
+
+        .credrow {
+            font-size: 17px;
+            font-family: 'Poppins';
+        }
+
+        .yellowtext {
+            color: $yellow;
+        }
+
+        .profbtn {
+            margin: 3vh 0;
+            font-size: small;
+            font-weight: 600;
+            width: 70%;
+        }
+
+        .nftcard {
+            height: 50vh;
+            width: 60%;
+            border-radius: 20px;
+        }
+
+        .dicard {
+            height: auto;
+            width: 80%;
+            border-radius: 20px;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+    }
+}
