@@ -76,8 +76,9 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
         // mint the NFT for him
         s_tokenCounter++;
         tokenIdToPan[s_tokenCounter] = _pan;
-        _safeMint(msg.sender, s_tokenCounter);
         panToTokenId[_pan] = s_tokenCounter;
+        addrToPan[msg.sender] = _pan;
+        _safeMint(msg.sender, s_tokenCounter);
         emit RegisterPerson(_pan);
     }
 
