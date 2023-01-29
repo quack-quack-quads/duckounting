@@ -6,7 +6,19 @@ require("solidity-coverage");
 require("hardhat-contract-sizer")
 require("dotenv").config()
 module.exports = {
-  solidity: "0.8.17",
+  solidity: {
+    compilers: [
+          {
+              version: "0.8.9",
+              settings: {
+                  optimizer: {
+                    enabled: true,
+                    runs: 200,
+                  }
+              }
+          },
+    ]
+  },
   networks: {
     hardhat: {
       chainId: 31337,
