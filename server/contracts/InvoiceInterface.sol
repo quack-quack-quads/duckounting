@@ -19,6 +19,7 @@ interface InvoiceInterface {
         BUYER
     }
     struct Person {
+        string name;
         address addr;
         uint8 rating;
         uint16 percentSuccess;

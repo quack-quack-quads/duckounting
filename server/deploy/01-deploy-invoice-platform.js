@@ -30,7 +30,7 @@ module.exports = async({getNamedAccounts, deployments}) => {
         from: deployer,
         args: args,
         log : true,
-        waitConfirmations: 1,
+        waitConfirmations: 5,
     })
 
     // verify contracts on etherscan

@@ -23,12 +23,12 @@ const OtherBoard = ({
     invoicePlatformAddress,
     contractAbi,
 }) => {
-    const [name, setName] = useState("Seller");
+    const [name, setName] = useState("");
+    const [pan, setPan] = useState("");
     const [toSearch, setToSearch] = useState("");
 
     const { address: foundAddress } = useEnsName(toSearch);
     const [address, setAddress] = useState("");
-    const [pan, setPan] = useState("");
 
     const [tokenId, setTokenId] = useState(null);
     const [uri, setUri] = useState(null);
@@ -107,6 +107,7 @@ const OtherBoard = ({
         await getPersonDetails().then(person => {
             setRating(person.rating.toString());
             setAddress(person.addr);
+            setName(person.name);
         })
             .catch(err => {
                 // console.log(err);
