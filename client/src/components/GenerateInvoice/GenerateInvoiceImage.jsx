@@ -4,7 +4,7 @@ import "./GenerateInvoiceImage.scss";
 
 const GenerateInvoiceHtml = forwardRef((props, ref) => {
   return (
-    <div ref={ref}>
+    <div ref={ref} className="invoice-img">
       <div className="header-cont">
         <h1 className="main-header">INVOICE</h1>
         <div className="invoice-id">
@@ -59,34 +59,34 @@ const GenerateInvoiceHtml = forwardRef((props, ref) => {
   );
 });
 
-const GenerateInvoiceImage = (props) => {
-  return (
-    <div class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Generate Invoice Image</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <GenerateInvoiceHtml ref={ref} props={props} />
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">
-              Generate Image
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+// const GenerateInvoiceImage = (props) => {
+// return (
+//   <div class="modal" tabindex="-1" role="dialog">
+//     <div class="modal-dialog" role="document">
+//       <div class="modal-content">
+//         <div class="modal-header">
+//           <h5 class="modal-title">Generate Invoice Image</h5>
+//           <button
+//             type="button"
+//             class="close"
+//             data-dismiss="modal"
+//             aria-label="Close"
+//           >
+//             <span aria-hidden="true">&times;</span>
+//           </button>
+//         </div>
+//         <div class="modal-body">
+//           <GenerateInvoiceHtml ref={ref} props={props} />
+//         </div>
+//         <div class="modal-footer">
+//           <button type="button" class="btn btn-primary">
+//             Generate Image
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// );
+// };
 
-export default GenerateInvoiceImage;
+export default GenerateInvoiceHtml;

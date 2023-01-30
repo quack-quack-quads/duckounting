@@ -69,6 +69,8 @@
   }
   .footer {
     margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
     margin-top: 100px;
     background-color: black;
     padding-top: 30px;
@@ -80,4 +82,9 @@
   }
   .logo {
     font-weight: bold;
+  }
+  .invoice-img {
+    background-color: white;
+    color: black;
+    padding: 5px;
   }
