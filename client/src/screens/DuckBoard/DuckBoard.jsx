@@ -93,12 +93,12 @@ const DuckBoard = ({
   const nftwidget = (
     <Card
       className="nftcard"
-      description={uri ? "You are rated " + rating + " on the platform": ""}
-      onClick={() => {}}
+      description={uri ? "You are rated " + rating + " on the platform" : ""}
+      onClick={() => { }}
       setIsSelected={() => {
         return false;
       }}
-      title={uri ? ratingmap[rating] + " Duck": ""}
+      title={uri ? ratingmap[rating] + " Duck" : ""}
       tooltipText={
         <span style={{ width: 60 }}>
           "The users who sign/reject the contracts you send them rate you out of

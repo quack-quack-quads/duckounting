@@ -944,9 +944,6 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
           </div>
         </div>
       </div>
-      <Button variant="primary" >
-        Auto-generate image
-      </Button>
     </>
   );
 };
