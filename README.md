@@ -83,7 +83,9 @@ an invoice or by view your past invoices.
 
 This is the tool you’ll be using to create invoices and deploy them on the blockchain. Just key 
 in the relevant details and you are good to go. The invoice amount can be entered in any 
-denomination you feel like – the platform converts it to ETH. You can upload proof 
+denomination you feel like – the platform converts it to ETH. You can choose to upload an 
+appropriate proof of the transaction or auto-generate an invoice snapshot. 
+
 
 ![Create Invoice](https://github.com/quack-quack-quads/duckounting/blob/main/app-snapshots/createinv.png)
 
