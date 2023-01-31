@@ -15,8 +15,6 @@ import SearchingImage from "../../assets/backgrounds/searching.png"
 import { useEnsName } from 'react-moralis'
 
 
-
-
 const OtherBoard = ({
     account,
     logout,
@@ -289,7 +287,12 @@ const OtherBoard = ({
                             label={"Want to send " + name.split(" ")[0] + " an invoice?"}
                             button="CREATE INVOICE"
                             handler={() => {
-                                navigate("/createInvoice");
+                                navigate("/createInvoice",
+                                {
+                                    state : {
+                                        pan : pan
+                                    }
+                                });
                             }}
                         />
                     </div>

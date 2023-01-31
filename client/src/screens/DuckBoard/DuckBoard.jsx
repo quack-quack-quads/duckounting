@@ -57,7 +57,7 @@ const DuckBoard = ({
     const tokenid = await getTokenId();
     setTokenId(tokenid);
     const person = await getPersonDetails();
-    console.log(person);
+    // console.log(person);
     setRating(person.rating.toString());
   };
 
@@ -272,7 +272,7 @@ const DuckBoard = ({
             <button
               className="btn btn-warning profbtn"
               onClick={() => {
-                console.log("btn click");
+                // console.log("btn click");
                 navigate("/createInvoice");
               }}
             >

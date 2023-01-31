@@ -1,6 +1,6 @@
 import { useWeb3Contract, useMoralis } from "react-moralis";
 import { ethers, BigNumber } from "ethers";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import "./CreateInvoice.scss";
 import { sendFileToIPFS } from "../../utils/uploadFileToIPFS";
 import { TiTickOutline } from "react-icons/ti";
@@ -44,6 +44,7 @@ import Footer from "../Footer/Footer";
 import axios from "axios";
 import GenerateInvoiceHtml from "../GenerateInvoice/GenerateInvoiceImage";
 import { useRef } from "react";
+import { useLocation } from "react-router";
 
 const darkTheme = createTheme({
   palette: {
@@ -77,6 +78,8 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   const [url, seturl] = useState("");
   const [uint32No, setuint32No] = useState(0);
 
+  const [loadOnce, setLoadOnce] = useState(false);
+
   const [paidDis, setpaidDis] = useState(true);
   const [unpaidDis, setunpaidDis] = useState(true);
   const [done, setDone] = useState(null);
@@ -90,7 +93,16 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   /*Variables for auto invoice image button */
   const [picMode, setPic] = useState(0);
 
-  console.log(date);
+  // console.log(date);
+
+  const location  = useLocation();
+  useEffect(()=>{
+    // console.log("state", location.state);
+    if(!loadOnce && location.state != null && location.state != undefined){
+      setbuyerPan(location.state.pan);
+      setLoadOnce(true);
+    }
+  }, []);
 
   const handlePicMode = (event) => {
     setPic(event.target.value);
@@ -145,7 +157,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   };
 
   const handleCurrencyChange = (event) => {
-    console.log(event.target.value - 1);
+    // console.log(event.target.value - 1);
     setCurrency(event.target.value);
     const amt = localAmount;
     const rate = currencyList[currency - 1].rate;
@@ -161,7 +173,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     var rate = currencyList[currency - 1].rate;
     var ethAmount = amt / rate;
     ethAmount = ethAmount.toFixed(10);
-    console.log(ethAmount);
+    // console.log(ethAmount);
     setamount(ethAmount.toString());
   };
 
@@ -193,7 +205,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
 
   }
 
-  console.log(formatDate(date))
+  // console.log(formatDate(date))
   // ! contract interaction functions
   const { runContractFunction: addInvoice } = useWeb3Contract({
     abi: contractAbi,
@@ -244,7 +256,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
               count++;
             }
             setCurrencyList(lis);
-            console.log(lis);
+            // console.log(lis);
           });
         })
         .catch((err) => {
@@ -299,14 +311,14 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
       setStatus(paymentMode === 2);
       seturl(async (prev2) => {
         setDone(false);
-        console.log(done);
+        // console.log(done);
         var new_url = sendFileToIPFS(fileImg);
         await toast.promise(new_url, {
           pending: "Uploading image to IPFS ...",
           success: "Image uploaded to IPFS",
           error: "Error uploading image to IPFS",
         });
-        console.log("this is url", new_url);
+        // console.log("this is url", new_url);
         if (new_url === null) {
           setDone(null);
           return "";
@@ -315,7 +327,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
       });
       return new_amt;
     });
-    console.log(done);
+    // console.log(done);
     if (done !== null) {
       const resolveafterset = new Promise((resolve, reject) => {
         if (done === true) {
@@ -324,7 +336,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
           reject();
         }
       });
-      console.log("called me!");
+      // console.log("called me!");
     }
   };
 

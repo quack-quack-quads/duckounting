@@ -105,7 +105,7 @@ const TransactionHistory = ({
         await getInvoicesBuyer()
             .then(res => {
                 if (res !== undefined) {
-                    console.log("fetched this", res);
+                    // console.log("fetched this", res);
                     let newList = []
                     for (var i = 0; i < res.length; i++) {
                         let tmpObj = {}
@@ -237,7 +237,7 @@ const TransactionHistory = ({
     }, [sortBy, filterState, search]);
 
     useEffect(() => {
-        console.log(fetchDone)
+        // console.log(fetchDone)
         if (listing.length !== 0) {
             setFetchDone(true);
         }
@@ -249,12 +249,10 @@ const TransactionHistory = ({
     const toggleTable = () => {
         setCollapse(!collapse);
         setShow(!show);
-        console.log("btn click")
     }
 
     const handleCardClick = (props) => {
         // setAnimate(true);    
-        console.log("card click", props)
         setToDisplayProps(props);
         setShow(true);
         setCollapse(true);
@@ -293,7 +291,7 @@ const TransactionHistory = ({
                             </div>
 
                             <div className="col-12 col-md-6 transactioncol d-flex justify-content-center">
-                                {console.log(fetchDone)}
+                                {/* {console.log(fetchDone)} */}
                                 {!fetchDone ? <div className="spinner-border text-warning spin" role="status">
                                     <span className="sr-only"></span>
                                 </div> :
