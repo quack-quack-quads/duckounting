@@ -42,6 +42,7 @@
     "sass": "^1.57.1",
     "web-vitals": "^2.1.0",
     "web3uikit": "^1.0.4",
+    "where": "^0.4.1",
     "yarn": "^1.22.19"
   },
   "scripts": {
