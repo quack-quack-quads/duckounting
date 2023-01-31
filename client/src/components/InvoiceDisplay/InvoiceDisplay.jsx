@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import { ethers } from "ethers";
 import { Dropdown } from 'react-bootstrap'
 import ViewUser from '../ViewUser/ViewUser'
+import { useNavigate } from 'react-router-dom'
 
 const InvoiceDisplay = (props) => {
     const values = [true, 'sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'];
@@ -114,6 +115,7 @@ const InvoiceDisplay = (props) => {
         getContractDetails();
     }, [chainIdHex]);
 
+    const navigate = useNavigate();
 
     return <div className="InvoiceDisplay">
         <div className="row typerow">
@@ -146,19 +148,29 @@ const InvoiceDisplay = (props) => {
         <div className="row typerow">
             <div className="buyer">
                 <Dropdown>
-                    <Dropdown.Toggle variant="dark" id="dropdown-basic" className = "e-caret-hide">
+                    <Dropdown.Toggle variant="dark" id="dropdown-basic" className="e-caret-hide">
                         <span className='buyerlabel'>BUYER PAN</span>
                         <br />
                         <span className='buyerinfo'>{props.buyerPan}</span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <ViewUser
-                            name = "Hitla"
-                            pan = "rohitPan"
-                            address = "0x9bAfce2A8dc304546827b7f74cf623b15272C416"
-                            handler = {
-                                ()=>{
+                            pan={props.buyerPan}
+                            handler={
+                                () => {
+                                    if (props.buyerPan === localStorage.getItem("pan")) {
+                                        navigate("/duckboard");
+                                    } else {
+                                        navigate(
+                                            "/otherboard",
+                                            {
+                                                state : {
+                                                    pan: props.buyerPan
+                                                }
+                                            }
 
+                                        );
+                                    }
                                 }
                             }
                         />
@@ -172,9 +184,37 @@ const InvoiceDisplay = (props) => {
                 <span className='buyerinfo'>{props.buyerPan}</span>
             </div> */}
             <div className="seller">
-                <span className='buyerlabel'>SELLER PAN</span>
-                <br />
-                <span className='buyerinfo'>{props.sellerPan}</span>
+                <Dropdown>
+                    <Dropdown.Toggle variant="dark" id="dropdown-basic" className="e-caret-hide">
+                        <span className='buyerlabel'>SELLER PAN</span>
+                        <br />
+                        <span className='buyerinfo'>
+                            {props.sellerPan}
+                        </span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <ViewUser
+                            pan={props.sellerPan}
+                            handler={
+                                () => {
+                                    if (props.sellerPan === localStorage.getItem("pan")) {
+                                        navigate("/duckboard");
+                                    } else {
+                                        navigate(
+                                            "/otherboard",
+                                            {
+                                                state: {
+                                                    pan: props.sellerPan
+                                                }
+                                            }
+
+                                        );
+                                    }
+                                }
+                            }
+                        />
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
             <div className="typerow">
                 <div className="amt">

@@ -6,7 +6,7 @@ import { useWeb3Contract } from "react-moralis";
 import { useEffect, useState } from "react";
 import { parseBase64 } from "../../utils/parseBase64ToJson";
 import { AiOutlineLogout, AiOutlineSearch, AiOutlineWallet } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import GaugeChart from "react-gauge-chart";
 import { ConstructionOutlined, Foundation } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
@@ -23,6 +23,10 @@ const OtherBoard = ({
     invoicePlatformAddress,
     contractAbi,
 }) => {
+    const location = useLocation();
+    const preFilledInfo = location.state.pan;
+    console.log(preFilledInfo);
+
     const name = localStorage.getItem("name");
     const pan = localStorage.getItem("pan");
     const address = "0x9bAfce2A8dc304546827b7f74cf623b15272C416";
