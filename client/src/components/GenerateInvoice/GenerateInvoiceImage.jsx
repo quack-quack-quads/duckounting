@@ -1,14 +1,14 @@
 import React from "react";
 import { forwardRef } from "react";
-import "./GenerateInvoiceImage.scss";
+import styles from "./GenerateInvoiceImage.module.scss";
 
 const GenerateInvoiceHtml = forwardRef((props, ref) => {
   return (
-    <div ref={ref} className="invoice-img">
-      <div className="header-cont">
-        <h1 className="main-header">INVOICE</h1>
-        <div className="invoice-id">
-          <h4 className="id-head">INVOICE #</h4>
+    <div ref={ref} className={styles['invoice-img']}>
+      <div className={styles['header-cont']}>
+        <h1 className={styles['main-header']}>INVOICE</h1>
+        <div className={styles['invoice-id']}>
+          <h4 className={styles['id-head']}>INVOICE #</h4>
           <p className="id-content">{props.invoiceID}</p>
         </div>
       </div>

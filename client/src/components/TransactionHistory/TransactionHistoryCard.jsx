@@ -2,9 +2,9 @@ import { Card } from "react-bootstrap";
 import buyerArrow from "../../assets/images/arrow-up-left.png";
 import sellerArrow from "../../assets/images/arrow-bottom-right.png";
 import "./TransactionHistoryCard.scss";
-import {BsFillArrowDownRightCircleFill, BsFillArrowUpLeftCircleFill, BsArrowDownRight, BsArrowUpLeft} from 'react-icons/bs'
+import { BsFillArrowDownRightCircleFill, BsFillArrowUpLeftCircleFill, BsArrowDownRight, BsArrowUpLeft } from 'react-icons/bs'
 const TransactionHistoryCard = (props) => {
-  
+
   return (
     <Card className="th-card" onClick={() => {
       props.handleCardClick(props);
@@ -12,10 +12,10 @@ const TransactionHistoryCard = (props) => {
       <div className="row">
         <div className="col-2 arrow-container">
           {props.role == "buyer" && (
-            <BsFillArrowDownRightCircleFill size={40}/>
+            <BsFillArrowDownRightCircleFill size={40} />
           )}
           {props.role == "seller" && (
-            <BsFillArrowUpLeftCircleFill size={40}/>
+            <BsFillArrowUpLeftCircleFill size={40} />
           )}
         </div>
         <div className="col-10 row row-cols-4 text-box">
