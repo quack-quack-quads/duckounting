@@ -164,7 +164,7 @@ const InvoiceDisplay = (props) => {
                                         navigate(
                                             "/otherboard",
                                             {
-                                                state : {
+                                                state: {
                                                     pan: props.buyerPan
                                                 }
                                             }
@@ -220,7 +220,7 @@ const InvoiceDisplay = (props) => {
                 <div className="amt">
                     {props.amt}
                     <br />
-                    <span className='amtlabel'>INR per month</span>
+                    <span className='amtlabel'>ETH per month</span>
                 </div>
                 <div className="number">
                     {props.months}
@@ -232,7 +232,7 @@ const InvoiceDisplay = (props) => {
             <div className="row">
                 <div className="total">
                     {amtDue} &nbsp;
-                    <span className='due'>INR DUE</span>
+                    <span className='due'>ETH DUE</span>
                 </div>
             </div>
             <div className="typerow">

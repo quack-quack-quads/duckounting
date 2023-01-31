@@ -263,8 +263,10 @@ $grey : #090909;
         }
 
         .nftcard {
-            height: 50vh;
-            width: 60%;
+            min-height: 395px;
+            max-width: 500px;
+            height: 65vh;
+            width: 70%;
             border-radius: 20px;
         }
 
