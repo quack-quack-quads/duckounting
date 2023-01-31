@@ -77,8 +77,8 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   const [url, seturl] = useState("");
   const [uint32No, setuint32No] = useState(0);
 
-  const [paidDis, setpaidDis] = useState(false);
-  const [unpaidDis, setunpaidDis] = useState(false);
+  const [paidDis, setpaidDis] = useState(true);
+  const [unpaidDis, setunpaidDis] = useState(true);
   const [done, setDone] = useState(null);
 
   /* Variables for currency converter */
@@ -86,6 +86,15 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   const [currencyList, setCurrencyList] = useState([]);
   const [currency, setCurrency] = useState(61);
   const [localAmount, setLocalAmount] = useState("");
+
+  /*Variables for auto invoice image button */
+  const [picMode, setPic] = useState(0);
+
+  console.log(date);
+
+  const handlePicMode = (event) => {
+    setPic(event.target.value);
+  }
 
   const handleBuyerPanChange = (event) => {
     setbuyerPan(event.target.value);
@@ -156,6 +165,35 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
     setamount(ethAmount.toString());
   };
 
+  const formatDate = () => {
+    if (date == null) return;
+    var dt = date;
+    var parts = dt.split(" ");
+
+    const months = new Map([
+      ["Jan", 1],
+      ["Feb", 2],
+      ["Mar", 3],
+      ["Apr", 4],
+      ["May", 5],
+      ["Jun", 6],
+      ["Jul", 7],
+      ["Aug", 8],
+      ["Sep", 9],
+      ["Oct", 10],
+      ["Nov", 11],
+      ["Dec", 12],
+
+    ])
+
+    var st = parts[1].toString() + '/' + (months.get(parts[0])) + "/" + parts[2]
+
+
+    return st;
+
+  }
+
+  console.log(formatDate(date))
   // ! contract interaction functions
   const { runContractFunction: addInvoice } = useWeb3Contract({
     abi: contractAbi,
@@ -313,6 +351,34 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   const [showAGI, setShowAGI] = useState(false);
 
   const handleShow = () => {
+
+    if (paymentMode === null) {
+      toast.error("Please enter the payment mode!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
+    if (sellerPan.length === 0) {
+      toast.error("Please enter the Seller Pan!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
+    if (buyerPan.length === 0) {
+      toast.error("Please enter the Buyer Pan!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
+
+    if (date === null) {
+      toast.error("Please enter the date!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
+    }
     setShowAGI(true);
   };
 
@@ -325,7 +391,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
   const downloadImage = async () => {
     const dataUrl = await toPng(domEl.current, { backgroundColor: "white" });
     const link = document.createElement("a");
-    link.download = "InvoiceID" + ".png";
+    link.download = "Invoice" + ".png";
     link.href = dataUrl;
     link.click();
     setShowAGI(false);
@@ -341,15 +407,13 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
           <Modal.Body>
             <GenerateInvoiceHtml
               ref={domEl}
-              invoiceID="INVOICE123"
-              date="30/01/2023"
-              sellerName="DUCKY DUCKINGWORTH"
-              sellerPan="DUCKS6969D"
-              buyerName="RUSTY PEACOCK"
-              buyerPan="12345ASBCS"
-              amount="₹50,000"
-              status="PAID"
-              monthsLeft="4"
+              date={formatDate(date)}
+              sellerName={name}
+              sellerPan={sellerPan}
+              buyerPan={buyerPan}
+              amount={amountMonthly}
+              status={paymentMode == 2 ? "PAID" : "UNPAID"}
+              monthsLeft={monthsToPay}
             />
           </Modal.Body>
           {/* <Modal.Footer className>
@@ -495,6 +559,8 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                       </FormControl>
                     </Grid>
 
+
+
                     <Grid
                       item
                       className="upl-but-col d-flex"
@@ -515,7 +581,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                           endIcon={<UploadFile />}
                         >
                           <label htmlFor="upload">
-                            {fileImg === null ? "Upload Pic" : "Uploaded!"}
+                            {fileImg === null ? "Upload" : "Uploaded!"}
                             <Input
                               type="file"
                               id="upload"
@@ -607,11 +673,10 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                           startAdornment={
                             <InputAdornment position="start">Ξ</InputAdornment>
                           }
-                          label={`Amount in ${
-                            currencyList.length === 0
-                              ? "INR"
-                              : currencyList[currency - 1].name
-                          }`}
+                          label={`Amount in ${currencyList.length === 0
+                            ? "INR"
+                            : currencyList[currency - 1].name
+                            }`}
                           onChange={handleConverterChange}
                           sx={{
                             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -752,9 +817,9 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                             }}
                             sx={{
                               "&.Mui-focused .MuiOutlinedInput-notchedOutline":
-                                {
-                                  borderColor: "#FCF55F",
-                                },
+                              {
+                                borderColor: "#FCF55F",
+                              },
                               "&:hover .MuiOutlinedInput-notchedOutline": {
                                 borderColor: "#8B8000",
                               },
@@ -770,14 +835,19 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                         </LocalizationProvider>
                       </FormControl>
                     </Grid>
+                    <Grid md={8}>
+
+                    </Grid>
 
                     <Grid
                       item
                       xs={12}
-                      sm={6}
-                      lg={6}
+                      sm={12}
+                      md={12}
+                      lg={12}
                       marginLeft={2}
                       marginTop={1}
+                      className="check-status"
                     >
                       <FormControl>
                         <FormLabel id="demo-radio-buttons-group-label">
@@ -819,7 +889,27 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                           />
                         </RadioGroup>
                       </FormControl>
+
+
                     </Grid>
+
+                    <Grid sm={12} md={5} xs={12} lg={4} marginLeft={{ xs: 3 }} className="check-auto">
+                      <FormControl  >
+                        <Button
+                          variant="outlined"
+                          className="invoice-form upl-but"
+                          size="large"
+                          onClick={handleShow}
+                        >
+
+                          Auto Generate Image
+
+
+                        </Button>
+                      </FormControl>
+                    </Grid>
+
+
 
                     <Grid item xs={12} sm={12} lg={12}>
                       <div className="row">
@@ -834,6 +924,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
                         </Button>
                       </div>
                     </Grid>
+
                   </Grid>
                 </Box>
               </ThemeProvider>
@@ -841,7 +932,7 @@ const CreateInvoice = ({ contractAbi, invoicePlatformAddress }) => {
           </div>
         </div>
       </div>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" >
         Auto-generate image
       </Button>
     </>

@@ -3,6 +3,9 @@
     flex-direction: row;
     justify-content: space-between;
     margin: 5px;
+    p {
+      font-size: 1rem;
+    }
   }
   .main-header {
     background-color: black;
@@ -27,7 +30,7 @@
   .date {
     margin-right: 20px;
     display: inline-block;
-    border-top: 1px solid black;
+    // border-top: 1px solid black;
     /* border-bottom: 1px solid black; */
     padding-left: 30px;
     padding-top: 5px;

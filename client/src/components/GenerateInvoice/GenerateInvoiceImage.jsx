@@ -7,10 +7,10 @@ const GenerateInvoiceHtml = forwardRef((props, ref) => {
     <div ref={ref} className={styles["invoice-img"]}>
       <div className={styles["header-cont"]}>
         <h1 className={styles["main-header"]}>INVOICE</h1>
-        <div className={styles["invoice-id"]}>
+        {/* <div className={styles["invoice-id"]}>
           <h4 className={styles["id-head"]}>INVOICE #</h4>
           <p className={styles["id-content"]}>{props.invoiceID}</p>
-        </div>
+        </div> */}
       </div>
       <div className={styles["date-cont"]}>
         <h3>DATE:</h3>
@@ -29,10 +29,10 @@ const GenerateInvoiceHtml = forwardRef((props, ref) => {
       </div>
       <div className={styles["role-details"]}>
         <h2 className={styles["role-head"]}>BILLING TO:</h2>
-        <div className={styles["flex-row"]}>
+        {/* <div className={styles["flex-row"]}>
           <h3 className={styles["role-n"]}>NAME:</h3>
           <p className={styles["role-nf"]}>{props.buyerName}</p>
-        </div>
+        </div> */}
         <div className={styles["flex-row"]}>
           <h3 className={styles["role-n"]}>PAN:</h3>
           <p className={styles["role-nf"]}>{props.buyerPan}</p>

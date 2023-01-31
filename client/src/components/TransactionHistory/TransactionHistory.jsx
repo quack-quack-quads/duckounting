@@ -15,6 +15,7 @@ const TransactionHistory = ({
     invoicePlatformAddress
 }) => {
     const [listing_orig, setListing_orig] = useState([]);
+    const [fetchDone, setFetchDone] = useState(false);
     const [listing, setListing] = useState([]);
     const [toDisplayProps, setToDisplayProps] = useState({});
 
@@ -34,7 +35,7 @@ const TransactionHistory = ({
         return `${ethers.utils.formatEther(val)} ETH`;
     }
     const giveStatus = (status) => {
-        return (status == true ? "paid": "pending")
+        return (status == true ? "paid" : "pending")
     }
     const giveRole = (sellerpan) => {
         if (sellerpan === localStorage.getItem("pan")) {
@@ -45,15 +46,15 @@ const TransactionHistory = ({
     }
     const giveMode = (mode) => {
         if (mode == 0) {
-        return "ETH";
+            return "ETH";
         } else if (mode == 1) {
-        return "Recurring";
-        } else{
-        return "Cash";
+            return "Recurring";
+        } else {
+            return "Cash";
         }
     }
 
-    const {runContractFunction: getInvoicesSeller} = useWeb3Contract({
+    const { runContractFunction: getInvoicesSeller } = useWeb3Contract({
         abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "getInvoices",
@@ -63,7 +64,7 @@ const TransactionHistory = ({
         }
     })
 
-    const {runContractFunction: getInvoicesBuyer} = useWeb3Contract({
+    const { runContractFunction: getInvoicesBuyer } = useWeb3Contract({
         abi: contractAbi,
         contractAddress: invoicePlatformAddress,
         functionName: "getInvoices",
@@ -75,66 +76,64 @@ const TransactionHistory = ({
 
     const fetchInvoices = async () => {
         await getInvoicesSeller()
-        .then(res => {
-            if(res !== undefined)
-            {
-                // console.log("fetched this", res);
-                let newList = []
-                for (var i = 0; i < res.length; i++) {
-                    let tmpObj = {}
-                    tmpObj["role"] = giveRole(res[i].sellerPAN);
-                    tmpObj["invoiceID"] = (res[i].id).toString();
-                    tmpObj["status"] = giveStatus(res[i].status);
-                    tmpObj["sellerPAN"] = res[i].sellerPAN;
-                    tmpObj["partnerPAN"] = res[i].buyerPAN;
-                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
-                    tmpObj["date"] = res[i].date;
-                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
-                    // ! new props
-                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
-                    tmpObj["walletAddress"] = res[i].sellerAddress;
-                    tmpObj["proof"] = res[i].url;
-                    newList.push(tmpObj);
+            .then(res => {
+                if (res !== undefined) {
+                    // console.log("fetched this", res);
+                    let newList = []
+                    for (var i = 0; i < res.length; i++) {
+                        let tmpObj = {}
+                        tmpObj["role"] = giveRole(res[i].sellerPAN);
+                        tmpObj["invoiceID"] = (res[i].id).toString();
+                        tmpObj["status"] = giveStatus(res[i].status);
+                        tmpObj["sellerPAN"] = res[i].sellerPAN;
+                        tmpObj["partnerPAN"] = res[i].buyerPAN;
+                        tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
+                        tmpObj["date"] = res[i].date;
+                        tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                        // ! new props
+                        tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
+                        tmpObj["walletAddress"] = res[i].sellerAddress;
+                        tmpObj["proof"] = res[i].url;
+                        newList.push(tmpObj);
+                    }
+                    setListing_orig(newList);
+                    setListing(newList);
                 }
-                setListing_orig(newList);
-                setListing(newList);
-            }
-        })
-        .catch(err => {console.log(`Error: ${err}`)})
+            })
+            .catch(err => { console.log(`Error: ${err}`) })
 
         await getInvoicesBuyer()
-        .then(res => {
-            if(res !== undefined)
-            {
-                console.log("fetched this", res);
-                let newList = []
-                for (var i = 0; i < res.length; i++) {
-                    let tmpObj = {}
-                    tmpObj["role"] = giveRole(res[i].sellerPAN);
-                    tmpObj["invoiceID"] = (res[i].id).toString();
-                    tmpObj["status"] = giveStatus(res[i].status);
-                    tmpObj["sellerPAN"] = res[i].sellerPAN;
-                    tmpObj["partnerPAN"] = res[i].buyerPAN;
-                    tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
-                    tmpObj["date"] = res[i].date;
-                    tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
-                    // ! new props
-                    tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
-                    tmpObj["walletAddress"] = res[i].sellerAddress;
-                    tmpObj["proof"] = res[i].url;
-                    newList.push(tmpObj);
+            .then(res => {
+                if (res !== undefined) {
+                    console.log("fetched this", res);
+                    let newList = []
+                    for (var i = 0; i < res.length; i++) {
+                        let tmpObj = {}
+                        tmpObj["role"] = giveRole(res[i].sellerPAN);
+                        tmpObj["invoiceID"] = (res[i].id).toString();
+                        tmpObj["status"] = giveStatus(res[i].status);
+                        tmpObj["sellerPAN"] = res[i].sellerPAN;
+                        tmpObj["partnerPAN"] = res[i].buyerPAN;
+                        tmpObj["amount"] = giveEthVal((res[i].amountMonthly).toString());
+                        tmpObj["date"] = res[i].date;
+                        tmpObj["mode"] = giveMode((res[i].paymentMode).toString());
+                        // ! new props
+                        tmpObj["monthsToPay"] = (res[i].monthsToPay).toString();
+                        tmpObj["walletAddress"] = res[i].sellerAddress;
+                        tmpObj["proof"] = res[i].url;
+                        newList.push(tmpObj);
+                    }
+                    setListing_orig(prevArr => [...prevArr, ...newList]);
+                    setListing(prevArr => [...prevArr, ...newList]);
                 }
-                setListing_orig(prevArr => [...prevArr, ...newList]);
-                setListing(prevArr => [...prevArr, ...newList]);
-            }
-        })
-        .catch(err => {console.log(`Error: ${err}`)})   
+            })
+            .catch(err => { console.log(`Error: ${err}`) })
     }
 
     useEffect(() => {
         // fetch the data from the blockchain
-        fetchInvoices();  
-    },[contractAbi, invoicePlatformAddress])
+        fetchInvoices();
+    }, [contractAbi, invoicePlatformAddress])
 
     useEffect(() => {
         var listing_dup = listing_orig;
@@ -237,6 +236,16 @@ const TransactionHistory = ({
 
     }, [sortBy, filterState, search]);
 
+    useEffect(() => {
+        console.log(fetchDone)
+        if (listing.length !== 0) {
+            setFetchDone(true);
+        }
+        else {
+            setFetchDone(false);
+        }
+    }, [listing])
+
     const toggleTable = () => {
         setCollapse(!collapse);
         setShow(!show);
@@ -245,7 +254,7 @@ const TransactionHistory = ({
 
     const handleCardClick = (props) => {
         // setAnimate(true);    
-        console.log("card click",props)
+        console.log("card click", props)
         setToDisplayProps(props);
         setShow(true);
         setCollapse(true);
@@ -283,48 +292,57 @@ const TransactionHistory = ({
                                 <TransactionHistoryTableHeader className="header-content-inside" sort={setSortBy} filter={setFilterState} search={setSearch} />
                             </div>
 
-                            <div className="col-12 col-md-6 transactioncol">
-                                <div className="row body">
-                                    <div className="txn-card scrolloverflow">
-                                        { listing.length > 0 ?
-                                            listing.map((obj) => {
-                                                return (
-                                                    (window.innerWidth > 992  ? <TransactionHistoryCard 
-                                                        role={obj.role}
-                                                        invoiceID={obj.invoiceID}
-                                                        status={obj.status}
-                                                        partnerPAN={obj.partnerPAN}
-                                                        amount={obj.amount}
-                                                        date={obj.date}
-                                                        mode={obj.mode}
-                                                        sellerPAN={obj.sellerPAN}
-                                                        handleCardClick={handleCardClick}
-                                                        // ! new fields
-                                                        monthsToPay={obj.monthsToPay}
-                                                        walletAddress={obj.walletAddress}
-                                                        proof={obj.proof}
-                                                    /> :
-                                                        <TransactionHistoryMiniCard 
-                                                            role={obj.role}
-                                                            invoiceID={obj.invoiceID}
-                                                            status={obj.status}
-                                                            partnerPAN={obj.partnerPAN}
-                                                            amount={obj.amount}
-                                                            date={obj.date}
-                                                            mode={obj.mode}
-                                                            handleCardClick = {handleCardClick}
-                                                            // ! new fields
-                                                            monthsToPay={obj.monthsToPay}
-                                                            walletAddress={obj.walletAddress}
-                                                            proof={obj.proof}
-                                                        />)
-                                                )
-                                            })
-                                            :
-                                            ""
-                                        }
+                            <div className="col-12 col-md-6 transactioncol d-flex justify-content-center">
+                                {console.log(fetchDone)}
+                                {!fetchDone ? <div className="spinner-border text-warning spin" role="status">
+                                    <span className="sr-only"></span>
+                                </div> :
+                                    <div className="row body">
+                                        <div className="txn-card scrolloverflow check-spin ">
+
+                                            {listing.length > 0 ?
+                                         listing.map((obj) => {
+                                             return (
+                                                 (window.innerWidth > 992 ? <TransactionHistoryCard
+                                                     role={obj.role}
+                                                     invoiceID={obj.invoiceID}
+                                                     status={obj.status}
+                                                     partnerPAN={obj.partnerPAN}
+                                                     amount={obj.amount}
+                                                     date={obj.date}
+                                                     mode={obj.mode}
+                                                     sellerPAN={obj.sellerPAN}
+                                                     handleCardClick={handleCardClick}
+                                                     // ! new fields
+                                                     monthsToPay={obj.monthsToPay}
+                                                     walletAddress={obj.walletAddress}
+                                                     proof={obj.proof}
+                                                 /> :
+                                                     <TransactionHistoryMiniCard
+                                                         role={obj.role}
+                                                         invoiceID={obj.invoiceID}
+                                                         status={obj.status}
+                                                         partnerPAN={obj.partnerPAN}
+                                                         amount={obj.amount}
+                                                         date={obj.date}
+                                                         mode={obj.mode}
+                                                         handleCardClick={handleCardClick}
+                                                         sellerPAN={obj.sellerPAN}
+                                                         // ! new fields
+                                                         monthsToPay={obj.monthsToPay}
+                                                         walletAddress={obj.walletAddress}
+                                                         proof={obj.proof}
+                                                     />)
+                                             )
+                                         })
+                                         :
+                                         null
+                                     }
+                                        </div>
                                     </div>
-                                </div>
+                                }
+
+
                             </div>
                         </div>
                 }
