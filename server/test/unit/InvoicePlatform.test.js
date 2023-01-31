@@ -44,6 +44,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
             // first register person with PAN
             args = [
+                "Rohit Shah", // name
                 "sellerPAN", // PAN
             ]
             await invoicePlatform.registerPerson(...args);
@@ -97,6 +98,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should emit event AddInvoice", async () => {
             // first register
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN", // PAN
             ]
             await invoicePlatform.registerPerson(...args);
@@ -121,6 +123,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should pay an invoice for a recurring invoice", async () => {
             // first register
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN", // PAN
             ]
             await invoicePlatform.registerPerson(...args);
@@ -222,6 +225,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should pay an invoice for a onetime invoice", async() => {
             // first register 
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN"
             ]
             await invoicePlatform.registerPerson(...args);
@@ -275,6 +279,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should confirm an invoice for a offline cash invoice", async () => {
             // first register 
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN"
             ]
             await invoicePlatform.registerPerson(...args);
@@ -324,6 +329,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should pay and funds received at seller", async() => {
             // first register 
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN"
             ]
             await invoicePlatform.registerPerson(...args);
@@ -361,6 +367,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should emit Paid event",async () => {
             // first register 
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN"
             ]
             await invoicePlatform.registerPerson(...args);
@@ -397,6 +404,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
     describe('registerPerson', () => {
         it("should register a person", async() => {
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN", // pan
             ]
             await invoicePlatform.registerPerson(...args);
@@ -406,9 +414,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal(person.percentSuccess, 100, "percentSuccess should be 100")
             assert.equal(person.rating, 5, "rating should be 5")
             assert.equal(person.addr, deployerAddress, "addr should be deployerAddress")
+            assert.equal(person.name, "Rohit Shah", "name should be Rohit Shah")
         })
         it("should not register a person if already registered", async() => {
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN", // pan
             ]
             await invoicePlatform.registerPerson(...args);
@@ -418,13 +428,13 @@ const { developmentChains } = require("../../helper-hardhat-config")
         })
         it("should emit RegisterPerson event", async() => {
             let args = [
+                "Rohit Shah", // name
                 "sellerPAN", // pan
             ]
             const registerPersonTx = await invoicePlatform.registerPerson(...args);
             const registerPersonReceipt = await registerPersonTx.wait();
             expect (registerPersonReceipt.events[1].event).to.equal("RegisterPerson")
-            expect (registerPersonReceipt.events[1].args.pan).to.equal("sellerPAN")
-            
+            expect (registerPersonReceipt.events[1].args.pan).to.equal("sellerPAN")            
         })
     })
 
@@ -439,6 +449,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
             // register that seller
             args = [
+                "Rohit Shah", // name
                 "sellerPAN", // pan
             ]
             await invoicePlatform.registerPerson(...args);
@@ -455,6 +466,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
         it("should emit AddRating event", async() => {
             // register that seller
             args = [
+                "Rohit Shah", // name
                 "sellerPAN", // pan
             ]
             await invoicePlatform.registerPerson(...args);
@@ -499,7 +511,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
     describe("mintNft", () => {
         it("should mint an NFT when a person registers", async() => {
-            await invoicePlatform.registerPerson("sellerPAN");
+            await invoicePlatform.registerPerson("Rohit Shah","sellerPAN");
             let tokendatabase64 = await invoicePlatform.tokenURI(1); 
             let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();
             token = JSON.parse(token);
@@ -513,7 +525,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
             assert.equal((token.attributes.at(0)).value, "5", "rating should be 5")
         })
         it("should change it's imageURI when rating is changed", async() => {
-            await invoicePlatform.registerPerson("sellerPAN");
+            await invoicePlatform.registerPerson("Rohit Shah","sellerPAN");
             // initial rating is 5
             let tokendatabase64 = await invoicePlatform.tokenURI(1);
             let token = Buffer.from(tokendatabase64.split(",")[1], 'base64').toString();

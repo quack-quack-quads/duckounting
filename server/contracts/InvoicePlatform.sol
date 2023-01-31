@@ -63,11 +63,12 @@ contract InvoicePlatform is InvoiceNFT, InvoicePlatformHelper, ReentrancyGuard {
             );
     }
 
-    function registerPerson(string memory _pan) public {
+    function registerPerson(string memory _name, string memory _pan) public {
         if (persons[_pan].addr != address(0)) {
             revert PersonAlreadyExists();
         }
         persons[_pan] = Person({
+            name: _name,
             addr: msg.sender,
             rating: 5,
             percentSuccess: 100

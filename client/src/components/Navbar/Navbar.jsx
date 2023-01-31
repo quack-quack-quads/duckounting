@@ -40,6 +40,8 @@ const Navbar = ({
 
   const handleSuccess = () => {
     console.log("success");
+    localStorage.setItem("pan", pan);
+    localStorage.setItem("name", name);
     toast.success("Sucessfully Registered!", {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -77,8 +79,6 @@ const Navbar = ({
 
   const submitHandler = async () => {
     console.log("submitHandler");
-    localStorage.setItem("pan", pan);
-    localStorage.setItem("name", name);
     hideLogin();
     console.log(invoicePlatformAddress, pan, name, contractAbi);
     await registerPerson({

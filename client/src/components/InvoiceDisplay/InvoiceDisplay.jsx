@@ -269,7 +269,7 @@ const InvoiceDisplay = (props) => {
                 </div>
             </Modal.Body>
         </Modal>
-        {success === true ? <Review sellerPan={"rohitPan"} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}
+        {success === true ? <Review sellerPan={props.sellerPan} contractAbi={contractAbi} invoicePlatformAddress={invoicePlatformAddress}
             showModal={showModal} setshowModal={setShowModal} /> : null}
     </div>
 }

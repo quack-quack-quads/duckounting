@@ -1,0 +1,90 @@
+.header-cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px;
+  }
+  .main-header {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    display: inline-block;
+    letter-spacing: 5px;
+  }
+  .id-head {
+    border-right: 40px solid black;
+    padding-right: 10px;
+    margin-bottom: 0;
+  }
+  .id-content {
+    padding-right: 10px;
+    margin-bottom: 0;
+    border-right: 40px solid black;
+    margin-top: 0;
+  }
+  .date {
+    margin-right: 20px;
+    display: inline-block;
+    border-top: 1px solid black;
+    /* border-bottom: 1px solid black; */
+    padding-left: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .date-cont {
+    margin-top: 10px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .role-details {
+    margin-left: 10px;
+  }
+  .role-head {
+    letter-spacing: 2px;
+    border-bottom: 1px solid black;
+  }
+  .flex-row {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+  .role-n {
+    width: 300px;
+  }
+  .amt-cont {
+    margin-top: 10px;
+    padding-top: 8px;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid black;
+    margin-left: 10px;
+  }
+  .status-cont {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+  }
+  .footer {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    margin-top: 100px;
+    background-color: black;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: white;
+  }
+  .footer-text {
+    text-align: center;
+  }
+  .logo {
+    font-weight: bold;
+  }
+  .invoice-img {
+    background-color: white;
+    color: black;
+    padding: 5px;
+  }

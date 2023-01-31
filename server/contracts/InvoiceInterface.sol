@@ -2,12 +2,6 @@
 pragma solidity ^0.8.7;
 
 interface InvoiceInterface {
-    struct Person {
-        address addr;
-        uint8 rating;
-        uint16 percentSuccess;
-    }
-
     struct Invoice {
         uint8 paymentMode;
         uint256 amountMonthly;
@@ -23,6 +17,12 @@ interface InvoiceInterface {
     enum PersonType {
         SELLER,
         BUYER
+    }
+    struct Person {
+        string name;
+        address addr;
+        uint8 rating;
+        uint16 percentSuccess;
     }
     enum PaymentMode {
         ONETIME_ETH,

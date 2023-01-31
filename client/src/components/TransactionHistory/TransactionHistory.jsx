@@ -249,14 +249,6 @@ const TransactionHistory = ({
         setToDisplayProps(props);
         setShow(true);
         setCollapse(true);
-        // if (window.innerWidth >= 992) {
-        //     console.log("curr")
-        //     gsap.fromTo(txn_card_ref.current, { scale: 1.4 }, { scale: 1 });
-        //     gsap.from(txn_card_ref.current, { x: 200 })
-        //     gsap.from(invoice_ref.current, { x: -200 });
-        //     gsap.fromTo(invoice_ref.current, { scale: 0 }, { scale: 1 });
-        // }
-
     }
 
 
